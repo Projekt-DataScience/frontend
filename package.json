@@ -9,9 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "pinia": "^2.0.23",
     "vue": "^3.2.41",
     "vue-router": "4",
-    "vuex": "^4.0.2"
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
