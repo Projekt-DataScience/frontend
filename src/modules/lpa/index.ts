@@ -1,5 +1,5 @@
-import router from "./router";
+import {lpaRoutes} from "./router/index";
 
 export default {
-  router
+  lpaRoutes
 };

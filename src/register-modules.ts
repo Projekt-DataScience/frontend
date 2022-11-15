@@ -1,7 +1,7 @@
 import router from "./router";
 
-const registerModule = (module:any) => {
-  router.addRoute(module);
+const registerModule = (module:any[]) => {
+  //
 };
 
 export const registerModules = (modules: any) => {

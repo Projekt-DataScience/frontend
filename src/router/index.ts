@@ -1,18 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '/src/views/Home.vue'
+import { adminRoutes } from "./admin";
+import { dashboardRoutes } from "./dashboard";
+import { lpaRoutes} from "../modules/lpa/router/index"
 
-const routes = [
-    {
-        path: '/',
-        name: 'Home',
-        component: Home,
-    },
-    {
-        path: '/test',
-        name: 'Test',
-        component: Home,
-    },
-]
+const routes: any[] = [
+    // {
+    //   path: "/:catchAll(.*)",
+    //   redirect: "/",
+    // },
+    ...dashboardRoutes,
+    ...adminRoutes,
+    ...lpaRoutes
+  ];
+
 const router = createRouter({
     history: createWebHistory(),
     routes,
