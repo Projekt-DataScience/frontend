@@ -4,9 +4,11 @@
 
 <script lang="ts">
 import { defineComponent} from "vue";
+import Test from './Test.vue'
+import router from '../router/index';
 
 export default defineComponent({
-  name: "ProjectsDashboard",
+  name: "Home",
   components: {
     
   },
@@ -16,11 +18,13 @@ export default defineComponent({
     };
   },
   mounted() {
-    this.$router.addRoute({
+    router.addRoute({
         name: "dynamic",
         path: "/dynamic",
-        component: () => import("../modules/lpa/views/Home.vue")
-    })
+        component: () => import("/src/views/Test.vue")
+    });
+    //router.replace(router.currentRoute.value.fullPath);
+    //this.$router.push('/dynamic');
   },
 }); 
 </script>

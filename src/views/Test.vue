@@ -1,12 +1,12 @@
 <template>
-    <h1>Home aus lpa</h1>
+    <h1>Home Test!!</h1>
 </template>
 
 <script lang="ts">
 import { defineComponent} from "vue";
 
 export default defineComponent({
-  name: "Home",
+  name: "Test",
   components: {
     
   },

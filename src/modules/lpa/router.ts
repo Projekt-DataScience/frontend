@@ -7,6 +7,7 @@ const moduleRoute = {
   children: [
     {
       path: "/",
+      name: "Home",
       component: Home
     }
   ]
