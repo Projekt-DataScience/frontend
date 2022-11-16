@@ -1,12 +1,11 @@
 <template>
-    <h1>Home Test!!</h1>
+    LPA Fragen
 </template>
 
 <script lang="ts">
 import { defineComponent} from "vue";
-
 export default defineComponent({
-  name: "Test",
+  name: "LPAQuestions",
   components: {
     
   },

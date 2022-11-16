@@ -1,11 +1,11 @@
 <template>
-    LPA Home
+    LPA Historie
 </template>
 
 <script lang="ts">
 import { defineComponent} from "vue";
 export default defineComponent({
-  name: "LPAHome",
+  name: "LPAHistory",
   components: {
     
   },
