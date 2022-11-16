@@ -5,15 +5,14 @@ import router from './router/index'
 import { createPinia } from "pinia";
 
 /* Register Modules
-import layeredProcessAuditModule from "./modules/lpa/index";
-
 import { registerModules } from "./register-modules";
+import lpaModule from "./modules/lpa/index";
 
 registerModules({
-  lpa: layeredProcessAuditModule,
+  lpa: lpaModule,
 }); */
 
-createApp(App)
-  .use(createPinia())
-  .use(router)
-  .mount('#app')
+const app = createApp(App);
+app.use(createPinia())
+app.use(router)
+app.mount('#app');

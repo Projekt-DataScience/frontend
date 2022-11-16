@@ -1,5 +1,3 @@
-import router from "./router";
-
 const registerModule = (module:any[]) => {
   //
 };

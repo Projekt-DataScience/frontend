@@ -1,4 +1,4 @@
-import Dashboard from '../views/Dashboard.vue'
+import Dashboard from '../views/MainDashboard.vue'
 
 export const mainRoutes = [
     {
