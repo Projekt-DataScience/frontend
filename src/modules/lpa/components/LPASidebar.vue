@@ -4,7 +4,7 @@
     <div
       class="
         hidden
-        md:fixed md:inset-y-0 md:flex md:w-96 md:flex-col
+        md:fixed md:inset-y-0 md:flex md:w-80 md:flex-col
         bg-gray-100
       "
     >
