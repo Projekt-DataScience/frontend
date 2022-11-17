@@ -17,9 +17,18 @@
         "
       >
         <!-- App Sidebar Header -->
-        <AppSidebarHeader brandingName="MyCompany" moduleName="Layered Process Audit" iconPath="src/assets/Icons/LPAIcon.svg" @toggleSidebar="toggleSidebar()"></AppSidebarHeader>
+        <AppSidebarHeader brandingName="MyCompany" moduleName="Layered Process Audit" @toggleSidebar="toggleSidebar()" @toggleSidebarHeader="toggleSidebarHeader()"></AppSidebarHeader>
+        <!-- App Sidebar Header when toggleSidebarHeader event is true-->
+        <div v-if="sidebarHeaderIsActive" class="border-b-2 border-gray-200">
+          Test
+        </div>
         <div class="flex">
-          <div class="flex-initial w-full p-6"></div>
+          <div class="flex-initial w-full p-3">
+            <AppNavigationItem :isActive="testActive"></AppNavigationItem>
+            <AppNavigationItem :isActive="test2Active"></AppNavigationItem>
+            <AppNavigationItem :isActive="test2Active"></AppNavigationItem>
+            <AppNavigationItem :isActive="test2Active"></AppNavigationItem>
+          </div>
         </div>
       </div>
     </div>
@@ -29,21 +38,38 @@
 <script lang="ts">
     import { ref, defineComponent } from "vue";
     import AppSidebarHeader from "../../../components/AppSidebarHeader.vue"
+    import AppNavigationItem from "../../../components/AppNavigationItem.vue";
 
     export default defineComponent({
         name: "LPASidebar",
         components: {
-            AppSidebarHeader
+            AppSidebarHeader,
+            AppNavigationItem
         },
         data(){
           return {
-            sidebarIsActive: true
+            sidebarIsActive: true,
+            sidebarHeaderIsActive: false,
+            testActive: true,
+            test2Active: false
           }
         },
         methods: {
           toggleSidebar(){
-            console.log("toggleSidebar")
+            if(this.sidebarIsActive === true){
+              this.sidebarIsActive = false;
+              this.sidebarHeaderIsActive = false;
+            }else{
+              this.sidebarIsActive = true;
+            }
           },
+          toggleSidebarHeader(){
+            if(this.sidebarHeaderIsActive === false && this.sidebarIsActive ===true){
+              this.sidebarHeaderIsActive = true;
+            }else if(this.sidebarHeaderIsActive === true){
+              this.sidebarHeaderIsActive = false;
+            }
+          }
         }
     });
 </script>

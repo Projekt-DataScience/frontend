@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <div class="grid grid-cols-10 h-16 border-b-2 border-gray-200">
       <div class="col-span-8">
         <button class="h-16 flex" @click="$emit('toggleSidebarHeader')">
@@ -59,9 +59,10 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import LPAIcon from "./iconElements/LPAIcon.vue";
-import AppArrowsTopBottom from "./iconElements/AppArrowsTopBottom.vue";
-import AppArrowsLeft from "./iconElements/AppArrowsLeft.vue";
+import LPAIcon from "../assets/Icons/LPAIcon.vue";
+import AppArrowsTopBottom from "../assets/Icons/AppArrowsTopBottom.vue";
+import AppArrowsLeft from "../assets/Icons/AppArrowsLeft.vue";
+import {truncateStringMixin} from "../mixins/truncateStringMixin"
 
 export default defineComponent({
   name: "LPASidebarHeader",
@@ -74,6 +75,9 @@ export default defineComponent({
     toggleSidebar: null,
     toggleSidebarHeader: null
   },
+  mixins: [
+    truncateStringMixin
+  ],
   props: {
     brandingName: {
       type: String,
@@ -83,24 +87,11 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    iconPath: {
-      type: String,
-      required: true,
-    },
   },
   data() {
     return {
       isActive: false,
     };
-  },
-  methods: {
-    truncateString(str: String, n: number) {
-      if (str.length > n) {
-        return str.substring(0, n) + "...";
-      } else {
-        return str;
-      }
-    },
   },
 });
 </script>
