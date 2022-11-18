@@ -1,5 +1,5 @@
 <template>
-    <h1>Home!!</h1>
+    <router-link :to="{name : 'LPADashboard'}">LPA Anwendung</router-link>
 </template>
 
 <script lang="ts">

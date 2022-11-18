@@ -1,5 +1,5 @@
 <template>
-    <LPASidebar></LPASidebar>
+    <LPASidebar currentPage="LPADashboard"></LPASidebar>
 </template>
 
 <script lang="ts">

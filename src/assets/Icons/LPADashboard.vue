@@ -1,0 +1,47 @@
+<template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="27"
+    height="27"
+    viewBox="0 0 27 27"
+  >
+    <g id="LPADashboard" transform="translate(-11563 199)">
+      <g
+        id="Rechteck_313"
+        data-name="Rechteck 313"
+        transform="translate(11563 -199)"
+        class="fill-none stroke-current stroke-2"
+      >
+        <rect width="12" height="14" rx="3" stroke="none" />
+        <rect x="1" y="1" width="10" height="12" rx="2" fill="none" />
+      </g>
+      <g
+        id="Rechteck_314"
+        data-name="Rechteck 314"
+        transform="translate(11563 -182)"
+        class="fill-none stroke-current stroke-2"
+      >
+        <rect width="12" height="10" rx="3" stroke="none" />
+        <rect x="1" y="1" width="10" height="8" rx="2" fill="none" />
+      </g>
+      <g
+        id="Rechteck_315"
+        data-name="Rechteck 315"
+        transform="translate(11578 -186)"
+        class="fill-none stroke-current stroke-2"
+      >
+        <rect width="12" height="14" rx="3" stroke="none" />
+        <rect x="1" y="1" width="10" height="12" rx="2" fill="none" />
+      </g>
+      <g
+        id="Rechteck_316"
+        data-name="Rechteck 316"
+        transform="translate(11578 -199)"
+        class="fill-none stroke-current stroke-2"
+      >
+        <rect width="12" height="10" rx="3" stroke="none" />
+        <rect x="1" y="1" width="10" height="8" rx="2" fill="none" />
+      </g>
+    </g>
+  </svg>
+</template>
