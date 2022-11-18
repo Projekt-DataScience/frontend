@@ -1,7 +1,6 @@
 <template>
   <div class="mb-1">
-    <router-link :to="{ name: routerName }">
-      <div class="flex rounded-md text-gray-400">
+      <div class="flex bg-cl-active rounded-md text-cl-black">
         <div class="flex-none">
           <div class="inline-grid py-3 pl-3.5 pr-4">
             <div class="">
@@ -17,26 +16,24 @@
           </div>
         </div>
       </div>
-    </router-link>
   </div>
 </template>
-
-<script lang="ts">
+  
+  <script lang="ts">
 import { ref, defineComponent } from "vue";
+import LPADashboard from "../assets/Icons/LPADashboard.vue";
 
 export default defineComponent({
   name: "AppNavigationItem",
-  components: {},
+  components: {
+    LPADashboard,
+  },
   emits: {
     toggleSidebar: null,
     toggleSidebarHeader: null,
   },
   props: {
     itemName: {
-      type: String,
-      required: true,
-    },
-    routerName: {
       type: String,
       required: true,
     },

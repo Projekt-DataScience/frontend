@@ -1,0 +1,35 @@
+<template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="30.595"
+    height="27.034"
+    viewBox="0 0 30.595 27.034"
+  >
+    <g id="LPAHistoryArrowIcon" transform="translate(0.374)">
+      <path
+        id="Pfad_311"
+        data-name="Pfad 311"
+        d="M4.188,13.517a12.512,12.512,0,1,1,1.835,6.528"
+        class="fill-none stroke-current stroke-2"
+        stroke-linecap="round"
+        stroke-miterlimit="10"
+      />
+      <path
+        id="Pfad_312"
+        data-name="Pfad 312"
+        d="M1,8.258l3.188,5.259L9.653,10.01"
+        class="fill-none stroke-current stroke-2"
+        stroke-linecap="round"
+        stroke-miterlimit="10"
+      />
+      <path
+        id="Pfad_313"
+        data-name="Pfad 313"
+        d="M16.67,5.91v7.607l4.622,4.622"
+        class="fill-none stroke-current stroke-2"
+        stroke-linecap="round"
+        stroke-miterlimit="10"
+      />
+    </g>
+  </svg>
+</template>
