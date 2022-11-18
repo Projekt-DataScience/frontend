@@ -27,7 +27,9 @@
     <div class="grid grid-cols-1 border-b-2 border-gray-200 p-3">
       <div class="flex items-center">
         <div class="bg-primary-blue rounded-md inline-grid">
-          <LPAIcon class="text-white w-full h-full p-2"></LPAIcon>
+          <div class="text-white w-full h-full p-2">
+            <slot></slot>
+          </div>
         </div>
         <div class="ml-2">
           <div class="grid">
@@ -50,7 +52,6 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import LPAIcon from "../assets/Icons/LPAIcon.vue";
 import AppArrowsTopBottom from "../assets/Icons/AppArrowsTopBottom.vue";
 import AppArrowsLeft from "../assets/Icons/AppArrowsLeft.vue";
 import AppHomeIcon from "../assets/Icons/AppHomeIcon.vue";
@@ -59,7 +60,6 @@ import { truncateStringMixin } from "../mixins/truncateStringMixin";
 export default defineComponent({
   name: "LPASidebarHeader",
   components: {
-    LPAIcon,
     AppArrowsTopBottom,
     AppArrowsLeft,
     AppHomeIcon,

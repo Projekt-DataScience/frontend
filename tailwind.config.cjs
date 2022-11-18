@@ -5,11 +5,14 @@ module.exports = {
     extend: {
       colors: {
         'primary-blue': "#2697FF",
-        'custom-gray-100': "#F8F8F8",
+        'cl-bg-gray': "#F8F8F8",
         'custom-gray-200': "#E7E9EB",
         'cl': "#242B39",
         'cl-active' : '#E7E9EB'
       },
+      spacing: {
+        '18': '66px',
+      }
     },
     fontFamily: {
       'sans': ['Montserrat', 'sans-serif'],
