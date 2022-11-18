@@ -4,7 +4,7 @@
         <div class="flex-none">
           <div class="inline-grid py-3 pl-3.5 pr-4">
             <div class="">
-              <slot class="w-full h-full"></slot>
+              <slot class="w-5! h-5!"></slot>
             </div>
           </div>
         </div>
