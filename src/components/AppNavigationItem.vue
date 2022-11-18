@@ -4,14 +4,12 @@
       <div class="flex rounded-md text-gray-400">
         <div class="flex-none">
           <div class="inline-grid py-3 pl-3.5 pr-4">
-            <div class="">
-              <slot class="w-full h-full"></slot>
-            </div>
+              <slot></slot>
           </div>
         </div>
         <div class="flex-inherit table ml-2">
           <div class="table-cell align-middle text-left">
-            <div class="text-sm font-bold whitespace-nowrap">
+            <div class="text-sm font-semibold whitespace-nowrap">
               {{ itemName }}
             </div>
           </div>
