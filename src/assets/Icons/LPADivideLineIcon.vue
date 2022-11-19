@@ -1,13 +1,10 @@
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
+    width="2"
+    height="24"
     viewBox="0 0 2 24"
   >
-    <line
-      id="LPADivideLineIcon"
-      y2="24"
-      transform="translate(1)"
-      class="fill-none stroke-current stroke-2"
-    />
+    <rect id="LPADivideLine" class="fill-current" width="2" height="24"/>
   </svg>
 </template>
