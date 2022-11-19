@@ -26,69 +26,16 @@
         <div class="col-span-2">
           <AppContainer containerName="Offene Audits">
             <template #content>
-              Noch kein Inhalt
+              <LPAAuditList :listItems="openAudits"></LPAAuditList>
             </template>
           </AppContainer>
         </div>
         <div class="col-span-2">
-          <div class="w-full rounded-xl border-2 border-gray-200">
-            <div class="border-b-2 border-gray-200 px-6 py-4">
-              <div class="text-md font-semibold">Offene Audits</div>
-            </div>
-            <div class="px-6 py-4 grid grid-cols-1">
-              <div class="grid grid-cols-10 border-b-2 border-gray-200 mb-4 pb-4 font-medium">
-                <div class="col-span-8">
-                  <div class="text-md">
-                    Spontanter Audit in der C-Gruppe
-                  </div>
-                  <div class="flex items-center text-gray-400 pt-1">
-                    <div>Layer 1</div>
-                    <div class="px-4">
-                      <LPADivideLineIcon
-                        class="h-4 text-primary-blue"
-                      ></LPADivideLineIcon>
-                    </div>
-                    <div>Fälligkeit: 19.11.2022</div>
-                    <div class="px-4">
-                      <LPADivideLineIcon
-                        class="h-4 text-primary-blue"
-                      ></LPADivideLineIcon>
-                    </div>
-                    <div>5 Fragen</div>
-                  </div>
-                </div>
-                <div class="col-span-2 flex items-center justify-end">Text</div>
-              </div>
-              <div class="grid grid-cols-10">
-                <div class="col-span-8 font-medium">
-                  <div class="text-md">
-                    Spontanter Audit in der C-Gruppe
-                  </div>
-                  <div class="flex items-center text-gray-400 pt-1">
-                    <div>Layer 1</div>
-                    <div class="px-4">
-                      <LPADivideLineIcon
-                        class="h-4 text-primary-blue"
-                      ></LPADivideLineIcon>
-                    </div>
-                    <div>Fälligkeit: 19.11.2022</div>
-                    <div class="px-4">
-                      <LPADivideLineIcon
-                        class="h-4 text-primary-blue"
-                      ></LPADivideLineIcon>
-                    </div>
-                    <div>5 Fragen</div>
-                  </div>
-                </div>
-                <div class="col-span-2">Text</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-span-2">
-          <div class="h-96 w-full rounded-xl border-2 border-gray-200 p-6">
-            Geplante Audits
-          </div>
+          <AppContainer containerName="Geplante Audits">
+            <template #content>
+              <LPAAuditList :listItems="plannedAudits"></LPAAuditList>
+            </template>
+          </AppContainer>
         </div>
       </div>
     </template>
@@ -102,7 +49,7 @@ import LPAPageLayout from "../components/LPAPageLayout.vue";
 import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
 import LPADivideLineIcon from "../../../assets/Icons/LPADivideLineIcon.vue";
 import AppContainer from "../../../components/AppContainer.vue";
-import LPAItemList from "../components/LPAItemList.vue";
+import LPAAuditList from "../components/LPAAuditList.vue";
 
 export default defineComponent({
   name: "LPADashboard",
@@ -112,10 +59,141 @@ export default defineComponent({
     AppSearchAndFilterBar,
     LPADivideLineIcon,
     AppContainer,
-    LPAItemList
+    LPAAuditList
   },
   data() {
-    return {};
+    return {
+      openAudits: [
+        {
+          id: 0,
+          name: "Spontanter Audit in der C-Gruppe",
+          listItems: [
+            {
+              id: 0,
+              type: "normal",
+              name: "Layer 1"
+            },
+            {
+              id: 1,
+              type: "normal",
+              name: "Fälligkeit: 22.11.2022"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "5 Fragen"
+            },
+          ]
+        },
+        {
+          id: 1,
+          name: "Spontanter Audit in der C-Gruppe",
+          listItems: [
+            {
+              id: 0,
+              type: "normal",
+              name: "Layer 1"
+            },
+            {
+              id: 1,
+              type: "normal",
+              name: "Fälligkeit: 22.11.2022"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "5 Fragen"
+            },
+          ]
+        },
+        {
+          id: 2,
+          name: "Spontanter Audit in der C-Gruppe",
+          listItems: [
+            {
+              id: 0,
+              type: "normal",
+              name: "Layer 1"
+            },
+            {
+              id: 1,
+              type: "normal",
+              name: "Fälligkeit: 22.11.2022"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "5 Fragen"
+            },
+          ]
+        }
+      ],
+      plannedAudits: [
+        {
+          id: 0,
+          name: "Audit in der C-Gruppe durch Auditor Tony Stark",
+          listItems: [
+            {
+              id: 0,
+              type: "normal",
+              name: "Layer 1"
+            },
+            {
+              id: 1,
+              type: "normal",
+              name: "Wöchentlich: Di, Do"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "5 Fragen"
+            },
+          ]
+        },
+        {
+          id: 1,
+          name: "Audit in der C-Gruppe durch Auditor Tony Stark",
+          listItems: [
+            {
+              id: 0,
+              type: "normal",
+              name: "Layer 1"
+            },
+            {
+              id: 1,
+              type: "normal",
+              name: "Monatlich: 1. Woche"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "5 Fragen"
+            },
+          ]
+        },
+        {
+          id: 2,
+          name: "Audit in der C-Gruppe durch Auditor Tony Stark",
+          listItems: [
+            {
+              id: 0,
+              type: "normal",
+              name: "Layer 1"
+            },
+            {
+              id: 1,
+              type: "normal",
+              name: "Jährlich: Jan, Feb"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "5 Fragen"
+            },
+          ]
+        }
+      ]
+    };
   },
 });
 </script>

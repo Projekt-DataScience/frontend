@@ -1,0 +1,45 @@
+<template>
+  <div v-for="item in listItems" :key="item.id" class="grid grid-cols-1">
+    <div
+      class="grid grid-cols-10"
+    >
+      <div class="col-span-8">
+        <div class="text-md font-medium">Spontanter Audit in der C-Gruppe</div>
+        <div class="flex items-center text-gray-400 pt-1 font-medium">
+          <div v-for="list in item.listItems" :key="list.id">
+            <AppTextWithDividerLine v-bind:isLast="false" :text="list.name" v-if="list.id < item.listItems.length - 1"></AppTextWithDividerLine>
+            <AppTextWithDividerLine v-bind:isLast="true" :text="list.name" v-else></AppTextWithDividerLine>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-2 flex items-center justify-end">Text</div>
+    </div>
+    <div
+      class="border-b-2 border-gray-200 mb-4 mt-4"
+      v-if="item.id < listItems.length - 1"
+    ></div>
+  </div>
+</template>
+    
+<script lang="ts">
+import { ref, defineComponent } from "vue";
+import AppTextWithDividerLine from "../../../components/AppTextWithDividerLine.vue";
+
+export default defineComponent({
+  name: "LPAItemList",
+  components: {
+    AppTextWithDividerLine
+  },
+  emits: {
+    toggleSidebar: null,
+    toggleSidebarHeader: null,
+  },
+  props: {
+    listItems: {
+      type: Object,
+      required: true,
+    },
+  },
+  methods: {},
+});
+</script>
