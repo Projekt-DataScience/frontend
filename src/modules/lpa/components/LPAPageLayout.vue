@@ -1,7 +1,7 @@
 <template>
    <div class="h-screen">
         <div class="relative">
-            <div class="fixed w-80 hidden md:inset-y-0 md:flex md:w-80 md:flex-col bg-cl-bg-gray border-r-2 border-gray-200">
+            <div class="fixed w-80 hidden md:inset-y-0 md:flex md:w-80 md:flex-col bg-gray-100 border-r-2 border-gray-200">
                 <slot name="sidebar"></slot>
             </div>
         </div>
