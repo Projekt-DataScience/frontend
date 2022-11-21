@@ -1,6 +1,7 @@
 <template>
   <div>
-    <AppOptionIcon class="h-6 w-full px-3"></AppOptionIcon>
+    <AppOptionIcon v-if="isVertical" class="h-6 w-full px-3 text-gray-400 rotate-90"></AppOptionIcon>
+    <AppOptionIcon v-else class="h-6 w-full px-3 text-gray-400"></AppOptionIcon>
   </div>
 </template>
     
@@ -9,7 +10,7 @@ import { ref, defineComponent } from "vue";
 import AppOptionIcon from "../assets/Icons/AppOptionIcon.vue"
 
 export default defineComponent({
-  name: "AppOptionButton",
+  name: "AppButtonOption",
   components: {
     AppOptionIcon
   },
