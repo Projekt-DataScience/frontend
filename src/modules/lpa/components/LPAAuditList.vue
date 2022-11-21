@@ -4,8 +4,8 @@
       class="grid grid-cols-10"
     >
       <div class="col-span-8">
-        <div class="text-md font-medium">{{item.name}}</div>
-        <div class="flex items-center text-gray-400 pt-1 font-medium">
+        <div class="text-md font-base">{{item.name}}</div>
+        <div class="flex items-center text-gray-400 pt-1 font-base">
           <div v-for="list in item.listItems" :key="list.id">
             <AppTextWithDividerLine v-bind:isLast="false" :text="list.name" v-if="list.id < item.listItems.length - 1"></AppTextWithDividerLine>
             <AppTextWithDividerLine v-bind:isLast="true" :text="list.name" v-else></AppTextWithDividerLine>

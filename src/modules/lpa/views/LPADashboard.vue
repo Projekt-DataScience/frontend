@@ -28,7 +28,8 @@
             <template #content>
               <LPAAuditList :listItems="openAudits">
                 <template #listControlls>
-                  <AppOptionButton v-bind:isVertical="false"></AppOptionButton>
+                  <AppButtonTertiary name="Audit starten"></AppButtonTertiary>
+                  <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                 </template>
               </LPAAuditList>
             </template>
@@ -39,7 +40,7 @@
             <template #content>
               <LPAAuditList :listItems="plannedAudits">
                 <template #listControlls>
-                  <AppOptionButton v-bind:isVertical="false"></AppOptionButton>
+                  <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                 </template>
               </LPAAuditList>
             </template>
@@ -58,7 +59,8 @@ import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue
 import LPADivideLineIcon from "../../../assets/Icons/LPADivideLineIcon.vue";
 import AppContainer from "../../../components/AppContainer.vue";
 import LPAAuditList from "../components/LPAAuditList.vue";
-import AppOptionButton from "../../../components/AppOptionButton.vue";
+import AppButtonOption from "../../../components/AppButtonOption.vue";
+import AppButtonTertiary from "../../../components/AppButtonTertiary.vue";
 
 export default defineComponent({
   name: "LPADashboard",
@@ -69,7 +71,8 @@ export default defineComponent({
     LPADivideLineIcon,
     AppContainer,
     LPAAuditList,
-    AppOptionButton
+    AppButtonOption,
+    AppButtonTertiary
   },
   data() {
     return {
