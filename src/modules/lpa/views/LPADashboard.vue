@@ -1,5 +1,5 @@
 <template>
-  <LPAPageLayout>
+  <AppPageLayout>
     <template #sidebar>
       <!-- content for the sidebar slot -->
       <LPASidebar currentPage="LPADashboard"></LPASidebar>
@@ -27,7 +27,7 @@
           <AppContainer containerName="Offene Audits">
             <template #content>
               <AppItemList :listItems="openAudits">
-                <template #listControlls>
+                <template #wrapperRight>
                   <AppButtonTertiary name="Audit starten"></AppButtonTertiary>
                   <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                 </template>
@@ -39,7 +39,7 @@
           <AppContainer containerName="Geplante Audits">
             <template #content>
               <AppItemList :listItems="plannedAudits">
-                <template #listControlls>
+                <template #wrapperRight>
                   <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                 </template>
               </AppItemList>
@@ -48,13 +48,13 @@
         </div>
       </div>
     </template>
-  </LPAPageLayout>
+  </AppPageLayout>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import LPASidebar from "../components/LPASidebar.vue";
-import LPAPageLayout from "../components/LPAPageLayout.vue";
+import AppPageLayout from "../../../components/AppPageLayout.vue";
 import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
 import LPADivideLineIcon from "../../../assets/Icons/LPADivideLineIcon.vue";
 import AppContainer from "../../../components/AppContainer.vue";
@@ -66,7 +66,7 @@ export default defineComponent({
   name: "LPADashboard",
   components: {
     LPASidebar,
-    LPAPageLayout,
+    AppPageLayout,
     AppSearchAndFilterBar,
     LPADivideLineIcon,
     AppContainer,
