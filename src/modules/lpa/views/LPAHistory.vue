@@ -1,5 +1,5 @@
 <template>
-    <LPAPageLayout>
+    <AppPageLayout>
     <template #sidebar>
       <!-- content for the sidebar slot -->
       <LPASidebar currentPage="LPAHistory"></LPASidebar>
@@ -7,13 +7,13 @@
     <template #header>
       <AppSearchAndFilterBar></AppSearchAndFilterBar>
     </template>
-  </LPAPageLayout>
+  </AppPageLayout>
 </template>
 
 <script lang="ts">
 import { defineComponent} from "vue";
 import LPASidebar from "../components/LPASidebar.vue";
-import LPAPageLayout from "../components/LPAPageLayout.vue";
+import AppPageLayout from "../../../components/AppPageLayout.vue";
 import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
 
 export default defineComponent({
@@ -21,7 +21,7 @@ export default defineComponent({
   components: {
     LPASidebar,
     AppSearchAndFilterBar,
-    LPAPageLayout
+    AppPageLayout
   },
   data() {
     return {

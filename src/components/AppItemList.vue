@@ -4,16 +4,21 @@
         class="grid grid-cols-10"
       >
         <div class="col-span-8">
-          <div class="text-md font-base">{{item.name}}</div>
-          <div class="flex items-center text-gray-400 pt-1 font-base">
-            <div v-for="list in item.listItems" :key="list.id">
-              <AppTextWithDividerLine v-bind:isLast="false" :text="list.name" v-if="list.id < item.listItems.length - 1"></AppTextWithDividerLine>
-              <AppTextWithDividerLine v-bind:isLast="true" :text="list.name" v-else></AppTextWithDividerLine>
+          <div class="flex">
+            <div class="flex items-center justify-start"><slot name="wrapperLeft"></slot></div>
+            <div class="flex-initial">
+              <div class="text-md font-base">{{item.name}}</div>
+              <div class="flex items-center text-gray-400 pt-1 font-base">
+                <div v-for="list in item.listItems" :key="list.id">
+                  <AppTextWithDividerLine v-bind:isLast="false" :text="list.name" v-if="list.id < item.listItems.length - 1"></AppTextWithDividerLine>
+                  <AppTextWithDividerLine v-bind:isLast="true" :text="list.name" v-else></AppTextWithDividerLine>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="col-span-2 flex items-center justify-end">
-          <slot name="listControlls"></slot>
+          <slot name="wrapperRight"></slot>
         </div>
       </div>
       <div
