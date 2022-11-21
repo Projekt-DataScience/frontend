@@ -1,15 +1,27 @@
 <template>
-    <LPASidebar currentPage="LPAQuestions"></LPASidebar>
+    <LPAPageLayout>
+    <template #sidebar>
+      <!-- content for the sidebar slot -->
+      <LPASidebar currentPage="LPAQuestions"></LPASidebar>
+    </template>
+    <template #header>
+      <AppSearchAndFilterBar></AppSearchAndFilterBar>
+    </template>
+  </LPAPageLayout>
 </template>
 
 <script lang="ts">
 import { defineComponent} from "vue";
 import LPASidebar from "../components/LPASidebar.vue";
+import LPAPageLayout from "../components/LPAPageLayout.vue";
+import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
 
 export default defineComponent({
   name: "LPAQuestions",
   components: {
-    LPASidebar
+    LPASidebar,
+    LPAPageLayout,
+    AppSearchAndFilterBar
   },
   data() {
     return {
