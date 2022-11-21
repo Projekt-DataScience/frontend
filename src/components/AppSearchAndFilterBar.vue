@@ -62,25 +62,12 @@
                 <AppPlusIcon class="mr-2 pr-0.5 py-0.5"></AppPlusIcon>
               </template>
             </AppButtonPrimary>
-
-            <button
-              type="button"
-              class="
-                rounded-full
-                bg-white
-                p-1
-                text-gray-400
-                hover:text-gray-500
-                focus:outline-none
-                focus:ring-2
-                focus:ring-primary-blue
-                focus:ring-offset-2
-                my-2
-              "
-            >
-              <span class="sr-only">View notifications</span>
-              <AppBellIcon class="h-6 w-6 text-gray-400"></AppBellIcon>
-            </button>
+            <!--Notification Button-->
+            <AppButtonNotification>
+              <template #icon>
+                <AppBellIcon class="h-6 w-6 text-gray-400"></AppBellIcon>
+              </template>
+            </AppButtonNotification>
 
             <!-- Profile dropdown -->
             <AppButtonProfile class="ml-5"></AppButtonProfile>
@@ -96,6 +83,7 @@ import AppBellIcon from "../assets/Icons/AppBellIcon.vue"
 import AppPlusIcon from "../assets/Icons/AppPlusIcon.vue"
 import AppButtonPrimary from "./AppButtonPrimary.vue";
 import AppButtonProfile from "./AppButtonProfile.vue";
+import AppButtonNotification from "./AppButtonNotification.vue";
 
 export default defineComponent({
   name: "AppSearchAndFilterBar",
@@ -103,7 +91,8 @@ export default defineComponent({
     AppBellIcon,
     AppPlusIcon,
     AppButtonPrimary,
-    AppButtonProfile
+    AppButtonProfile,
+    AppButtonNotification
   },
   data() {
     return {

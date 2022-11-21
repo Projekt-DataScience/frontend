@@ -26,23 +26,23 @@
         <div class="col-span-2">
           <AppContainer containerName="Offene Audits">
             <template #content>
-              <LPAAuditList :listItems="openAudits">
+              <AppItemList :listItems="openAudits">
                 <template #listControlls>
                   <AppButtonTertiary name="Audit starten"></AppButtonTertiary>
                   <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                 </template>
-              </LPAAuditList>
+              </AppItemList>
             </template>
           </AppContainer>
         </div>
         <div class="col-span-2">
           <AppContainer containerName="Geplante Audits">
             <template #content>
-              <LPAAuditList :listItems="plannedAudits">
+              <AppItemList :listItems="plannedAudits">
                 <template #listControlls>
                   <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                 </template>
-              </LPAAuditList>
+              </AppItemList>
             </template>
           </AppContainer>
         </div>
@@ -58,7 +58,7 @@ import LPAPageLayout from "../components/LPAPageLayout.vue";
 import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
 import LPADivideLineIcon from "../../../assets/Icons/LPADivideLineIcon.vue";
 import AppContainer from "../../../components/AppContainer.vue";
-import LPAAuditList from "../components/LPAAuditList.vue";
+import AppItemList from "../../../components/AppItemList.vue";
 import AppButtonOption from "../../../components/AppButtonOption.vue";
 import AppButtonTertiary from "../../../components/AppButtonTertiary.vue";
 
@@ -70,7 +70,7 @@ export default defineComponent({
     AppSearchAndFilterBar,
     LPADivideLineIcon,
     AppContainer,
-    LPAAuditList,
+    AppItemList,
     AppButtonOption,
     AppButtonTertiary
   },

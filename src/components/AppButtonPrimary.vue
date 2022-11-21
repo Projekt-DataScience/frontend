@@ -86,7 +86,6 @@ export default defineComponent({
     };
   },
   methods: {
-
     hasIconSlot() {
       return !!this.$slots.icon;
     },
