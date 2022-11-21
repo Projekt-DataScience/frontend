@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="30" viewBox="0 0 8 30">
+  <g id="AppOptionIcon" transform="translate(474 -602.412) rotate(90)">
+    <g id="Ellipse_4" data-name="Ellipse 4" transform="translate(602.412 466)" fill="none" stroke="#707070" stroke-width="2">
+      <circle cx="4" cy="4" r="4" stroke="none"/>
+      <circle cx="4" cy="4" r="3" fill="none"/>
+    </g>
+    <g id="Ellipse_5" data-name="Ellipse 5" transform="translate(613.412 466)" fill="none" stroke="#707070" stroke-width="2">
+      <circle cx="4" cy="4" r="4" stroke="none"/>
+      <circle cx="4" cy="4" r="3" fill="none"/>
+    </g>
+    <g id="Ellipse_6" data-name="Ellipse 6" transform="translate(624.412 466)" fill="none" stroke="#707070" stroke-width="2">
+      <circle cx="4" cy="4" r="4" stroke="none"/>
+      <circle cx="4" cy="4" r="3" fill="none"/>
+    </g>
+  </g>
+</svg>

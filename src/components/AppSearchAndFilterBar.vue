@@ -113,7 +113,7 @@
                 tabindex="-1"
                 v-bind:class="{ active: uploadIsActive }"
               >
-                <ImageUpload></ImageUpload>
+                
                  
               </div>
             </div>
@@ -153,6 +153,7 @@
                     focus:ring-2
                     focus:ring-primary-blue
                     focus:ring-offset-2
+                    mr-7
                   "
                   id="user-menu-button"
                   aria-expanded="false"

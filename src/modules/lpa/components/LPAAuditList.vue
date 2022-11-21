@@ -4,7 +4,7 @@
       class="grid grid-cols-10"
     >
       <div class="col-span-8">
-        <div class="text-md font-medium">Spontanter Audit in der C-Gruppe</div>
+        <div class="text-md font-medium">{{item.name}}</div>
         <div class="flex items-center text-gray-400 pt-1 font-medium">
           <div v-for="list in item.listItems" :key="list.id">
             <AppTextWithDividerLine v-bind:isLast="false" :text="list.name" v-if="list.id < item.listItems.length - 1"></AppTextWithDividerLine>
@@ -12,7 +12,9 @@
           </div>
         </div>
       </div>
-      <div class="col-span-2 flex items-center justify-end">Text</div>
+      <div class="col-span-2 flex items-center justify-end">
+        <slot name="listControlls"></slot>
+      </div>
     </div>
     <div
       class="border-b-2 border-gray-200 mb-4 mt-4"

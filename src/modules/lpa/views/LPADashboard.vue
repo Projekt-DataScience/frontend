@@ -26,14 +26,22 @@
         <div class="col-span-2">
           <AppContainer containerName="Offene Audits">
             <template #content>
-              <LPAAuditList :listItems="openAudits"></LPAAuditList>
+              <LPAAuditList :listItems="openAudits">
+                <template #listControlls>
+                  <AppOptionButton v-bind:isVertical="false"></AppOptionButton>
+                </template>
+              </LPAAuditList>
             </template>
           </AppContainer>
         </div>
         <div class="col-span-2">
           <AppContainer containerName="Geplante Audits">
             <template #content>
-              <LPAAuditList :listItems="plannedAudits"></LPAAuditList>
+              <LPAAuditList :listItems="plannedAudits">
+                <template #listControlls>
+                  <AppOptionButton v-bind:isVertical="false"></AppOptionButton>
+                </template>
+              </LPAAuditList>
             </template>
           </AppContainer>
         </div>
@@ -50,6 +58,7 @@ import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue
 import LPADivideLineIcon from "../../../assets/Icons/LPADivideLineIcon.vue";
 import AppContainer from "../../../components/AppContainer.vue";
 import LPAAuditList from "../components/LPAAuditList.vue";
+import AppOptionButton from "../../../components/AppOptionButton.vue";
 
 export default defineComponent({
   name: "LPADashboard",
@@ -59,7 +68,8 @@ export default defineComponent({
     AppSearchAndFilterBar,
     LPADivideLineIcon,
     AppContainer,
-    LPAAuditList
+    LPAAuditList,
+    AppOptionButton
   },
   data() {
     return {
