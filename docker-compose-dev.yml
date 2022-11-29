@@ -1,0 +1,13 @@
+version: "1.0"
+services:
+  frontend:
+    build: .
+    volumes:
+      - ./:/code
+    working_dir: /code/
+    command: npm run dev
+    expose:
+      - 8000
+    ports:
+      - "0.0.0.0:8000:8000"
+    tty: true
