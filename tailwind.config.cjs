@@ -8,11 +8,17 @@ module.exports = {
         'cl-bg-gray': "#F8F8F8",
         'custom-gray-200': "#E7E9EB",
         'cl': "#242B39",
-        'cl-active' : '#E7E9EB'
+        'cl-active' : '#E7E9EB',
+        'cl-green' : '#1fd537',
+        'cl-yellow' : '#FFC537',
+        'cl-red' : '#E40010'
       },
       spacing: {
         '18': '66px',
-      }
+      },
+      strokeWidth: {
+        '4': '4px'
+      },
     },
     fontFamily: {
       'sans': ['Montserrat', 'sans-serif'],
