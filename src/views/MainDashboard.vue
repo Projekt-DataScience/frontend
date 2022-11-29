@@ -6,7 +6,7 @@
           <template #content>
             <AppItemList>
               <template #wrapperLeft>
-                icon
+                <AppLPAIcon class="h-10"></AppLPAIcon>
               </template>
               <template #wrapperContent>
                 <div>
@@ -15,8 +15,9 @@
               </template>
               <template #wrapperRight>
                 
-                <AppButtonSecondary name="Öffnen" class="mr-6">
-                </AppButtonSecondary>
+                <router-link :to="{name : 'LPADashboard'}">
+                  <AppButtonSecondary name="Öffnen" class="mr-6"></AppButtonSecondary>
+                </router-link>
                 <AppButtonOption v-bind:is-vertical="true">
                 </AppButtonOption>
               
@@ -41,6 +42,7 @@ import AppContainer from "../components/AppContainer.vue";
 import AppItemList from "../components/AppItemList.vue";
 import AppButtonOption from "../components/AppButtonOption.vue";
 import AppButtonSecondary from "../components/AppButtonSecondary.vue";
+import AppLPAIcon from "../assets/Icons/AppLPAIcon.vue";
 
 export default defineComponent({
   name: "MainDashboard",
@@ -49,6 +51,7 @@ export default defineComponent({
     AppButtonSecondary,
     AppContainer,
     AppItemList,
+    AppLPAIcon,
     MainHeader
   },
   data() {

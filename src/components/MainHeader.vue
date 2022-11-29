@@ -1,7 +1,7 @@
 <template>
-    <div class="flex items-center p-4 bg-gray-100 border-b-2 border-gray-200">
+    <div class="flex items-center px-6 py-4 bg-gray-100 border-b-2 border-gray-200">
         <div>
-            Test
+            <img :src="imagePath" alt="MyCompanyLogo" class="h-10">
         </div>
         <div class="flex-auto">
             <div class="flex justify-end items-center">
@@ -33,8 +33,12 @@ export default defineComponent({
     components: {
         AppBellIcon,
         AppButtonNotification,
-        AppButtonProfile,
-  
+        AppButtonProfile
     },
+    data(){
+        return {
+            imagePath: "src/assets/Icons/AppMyCompanyIcon.svg"
+        }
+    }
 });
 </script>

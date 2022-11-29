@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="271.259" height="57.005" viewBox="0 0 271.259 57.005">
+  <g id="AppMyCompanyIcon" transform="translate(5658.488 1865.761)">
+    <text id="MyCompany" transform="translate(-5582.229 -1826)" font-size="30" font-family="Montserrat-SemiBold, Montserrat" font-weight="600"><tspan x="0" y="0">MyCompany</tspan></text>
+    <g id="Layer_2" data-name="Layer 2" transform="translate(-5660.488 -1867.761)">
+      <g id="Gruppe_251" data-name="Gruppe 251" transform="translate(24.395 16.251)">
+        <path id="Pfad_225" data-name="Pfad 225" d="M16.036,13.072h4.072a2.036,2.036,0,0,0,0-4.072H16.036a2.036,2.036,0,0,0,0,4.072Z" transform="translate(-11.964 -9)" fill="#2697ff"/>
+        <path id="Pfad_226" data-name="Pfad 226" d="M16.036,17.072h4.072a2.036,2.036,0,0,0,0-4.072H16.036a2.036,2.036,0,0,0,0,4.072Z" transform="translate(-11.964 -4.856)" fill="#2697ff"/>
+        <path id="Pfad_227" data-name="Pfad 227" d="M16.036,21.072h4.072a2.036,2.036,0,0,0,0-4.072H16.036a2.036,2.036,0,0,0,0,4.072Z" transform="translate(-11.964 -0.713)" fill="#2697ff"/>
+        <path id="Pfad_228" data-name="Pfad 228" d="M21.144,22H17.072A4.072,4.072,0,0,0,13,26.072V36.251a2.036,2.036,0,0,0,2.036,2.036h8.144a2.036,2.036,0,0,0,2.036-2.036V26.072A4.072,4.072,0,0,0,21.144,22Zm0,12.215H17.072V26.072h4.072Z" transform="translate(-13 4.466)" fill="#2697ff"/>
+      </g>
+      <path id="Pfad_229" data-name="Pfad 229" d="M56.969,54.933v-28.5A4.072,4.072,0,0,0,52.9,22.359H44.753V12.179a4.072,4.072,0,0,0-4.072-4.072H32.538V4.036a2.036,2.036,0,1,0-4.072,0V8.108H20.323a4.072,4.072,0,0,0-4.072,4.072V22.359H8.108a4.072,4.072,0,0,0-4.072,4.072v28.5a2.036,2.036,0,0,0,0,4.072H56.969a2.036,2.036,0,0,0,0-4.072ZM8.108,26.431h8.144v28.5H8.108ZM20.323,12.179H40.682V54.933H20.323ZM44.753,54.933v-28.5H52.9v28.5Z" fill="#171938"/>
+    </g>
+  </g>
+</svg>
