@@ -11,38 +11,54 @@
       <div class="grid grid-cols-2 gap-6">
         <div class="col-span-1">
           <AppContainer containerName="Auditscore">
-            <template #content>
-              Noch kein Inhalt
-            </template>
+            <template #content> Noch kein Inhalt </template>
           </AppContainer>
         </div>
         <div class="col-span-1">
           <AppContainer containerName="Fragenanalyse">
-            <template #content>
-              Noch kein Inhalt
-            </template>
+            <template #content> Noch kein Inhalt </template>
           </AppContainer>
         </div>
         <div class="col-span-2">
           <AppContainer containerName="Offene Audits">
             <template #content>
-              <AppItemList :listItems="openAudits">
-                <template #wrapperRight>
-                  <AppButtonTertiary name="Audit starten"></AppButtonTertiary>
-                  <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
-                </template>
-              </AppItemList>
+              <div v-for="item in openAudits" :key="item.id">
+                <AppListContainer :isLast="getStatus(openAudits, item.id)">
+                  <template #wrapperRight>
+                    <AppButtonTertiary name="Audit starten"></AppButtonTertiary>
+                    <AppButtonOption
+                      v-bind:isVertical="false"
+                    ></AppButtonOption>
+                  </template>
+                  <template #wrapperContent>
+                    <AppListTextAndSubtext
+                      :text="item.name"
+                      :subtext="item.listItems"
+                    ></AppListTextAndSubtext>
+                  </template>
+                </AppListContainer>
+              </div>
             </template>
           </AppContainer>
         </div>
         <div class="col-span-2">
           <AppContainer containerName="Geplante Audits">
             <template #content>
-              <AppItemList :listItems="plannedAudits">
-                <template #wrapperRight>
-                  <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
-                </template>
-              </AppItemList>
+              <div v-for="item in plannedAudits" :key="item.id">
+                <AppListContainer :isLast="getStatus(plannedAudits, item.id)">
+                  <template #wrapperRight>
+                    <AppButtonOption
+                      v-bind:isVertical="false"
+                    ></AppButtonOption>
+                  </template>
+                  <template #wrapperContent>
+                    <AppListTextAndSubtext
+                      :text="item.name"
+                      :subtext="item.listItems"
+                    ></AppListTextAndSubtext>
+                  </template>
+                </AppListContainer>
+              </div>
             </template>
           </AppContainer>
         </div>
@@ -58,9 +74,10 @@ import AppPageLayout from "../../../components/AppPageLayout.vue";
 import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
 import LPADivideLineIcon from "../../../assets/Icons/LPADivideLineIcon.vue";
 import AppContainer from "../../../components/AppContainer.vue";
-import AppItemList from "../../../components/AppItemList.vue";
+import AppListContainer from "../../../components/AppListContainer.vue";
 import AppButtonOption from "../../../components/AppButtonOption.vue";
 import AppButtonTertiary from "../../../components/AppButtonTertiary.vue";
+import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
 
 export default defineComponent({
   name: "LPADashboard",
@@ -70,9 +87,10 @@ export default defineComponent({
     AppSearchAndFilterBar,
     LPADivideLineIcon,
     AppContainer,
-    AppItemList,
+    AppListContainer,
     AppButtonOption,
-    AppButtonTertiary
+    AppButtonTertiary,
+    AppListTextAndSubtext,
   },
   data() {
     return {
@@ -84,19 +102,19 @@ export default defineComponent({
             {
               id: 0,
               type: "normal",
-              name: "Layer 1"
+              name: "Layer 1",
             },
             {
               id: 1,
               type: "normal",
-              name: "Fälligkeit: 22.11.2022"
+              name: "Fälligkeit: 22.11.2022",
             },
             {
               id: 2,
               type: "normal",
-              name: "5 Fragen"
+              name: "5 Fragen",
             },
-          ]
+          ],
         },
         {
           id: 1,
@@ -105,19 +123,19 @@ export default defineComponent({
             {
               id: 0,
               type: "normal",
-              name: "Layer 1"
+              name: "Layer 1",
             },
             {
               id: 1,
               type: "normal",
-              name: "Fälligkeit: 22.11.2022"
+              name: "Fälligkeit: 22.11.2022",
             },
             {
               id: 2,
               type: "normal",
-              name: "5 Fragen"
+              name: "5 Fragen",
             },
-          ]
+          ],
         },
         {
           id: 2,
@@ -126,20 +144,20 @@ export default defineComponent({
             {
               id: 0,
               type: "normal",
-              name: "Layer 1"
+              name: "Layer 1",
             },
             {
               id: 1,
               type: "normal",
-              name: "Fälligkeit: 22.11.2022"
+              name: "Fälligkeit: 22.11.2022",
             },
             {
               id: 2,
               type: "normal",
-              name: "5 Fragen"
+              name: "5 Fragen",
             },
-          ]
-        }
+          ],
+        },
       ],
       plannedAudits: [
         {
@@ -149,19 +167,19 @@ export default defineComponent({
             {
               id: 0,
               type: "normal",
-              name: "Layer 1"
+              name: "Layer 1",
             },
             {
               id: 1,
               type: "normal",
-              name: "Wöchentlich: Di, Do"
+              name: "Wöchentlich: Di, Do",
             },
             {
               id: 2,
               type: "normal",
-              name: "5 Fragen"
+              name: "5 Fragen",
             },
-          ]
+          ],
         },
         {
           id: 1,
@@ -170,19 +188,19 @@ export default defineComponent({
             {
               id: 0,
               type: "normal",
-              name: "Layer 1"
+              name: "Layer 1",
             },
             {
               id: 1,
               type: "normal",
-              name: "Monatlich: 1. Woche"
+              name: "Monatlich: 1. Woche",
             },
             {
               id: 2,
               type: "normal",
-              name: "5 Fragen"
+              name: "5 Fragen",
             },
-          ]
+          ],
         },
         {
           id: 2,
@@ -191,22 +209,31 @@ export default defineComponent({
             {
               id: 0,
               type: "normal",
-              name: "Layer 1"
+              name: "Layer 1",
             },
             {
               id: 1,
               type: "normal",
-              name: "Jährlich: Jan, Feb"
+              name: "Jährlich: Jan, Feb",
             },
             {
               id: 2,
               type: "normal",
-              name: "5 Fragen"
+              name: "5 Fragen",
             },
-          ]
-        }
-      ]
+          ],
+        },
+      ],
     };
   },
+  methods: {
+    getStatus(list: any, item: Number){
+      if(item < list.length - 1){
+        return false
+      }else {
+        return true
+      }
+    }
+  }
 });
 </script>

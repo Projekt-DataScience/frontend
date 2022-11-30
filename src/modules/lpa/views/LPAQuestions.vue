@@ -8,15 +8,27 @@
       <AppSearchAndFilterBar></AppSearchAndFilterBar>
     </template>
     <template #content>
-      <AppItemList :listItems="questions">
-        <template #wrapperLeft>
-          <AppCheckboxIcon class="h-5 w-full text-gray-400 mr-4"></AppCheckboxIcon>
-        </template>
-        <template #wrapperRight>
-          <LPAQuestionBar :green="questions[0].statistics.green" :orange="questions[0].statistics.orange" :red="questions[0].statistics.red"></LPAQuestionBar>
+      <div v-for="item in questions" :key="item.id">
+        <AppListContainer :isLast="getStatus(questions, item.id)">
+          <template #wrapperLeft>
+            <AppCheckboxIcon class="h-5 w-full text-gray-400 mr-4"></AppCheckboxIcon>
+          </template>
+          <template #wrapperContent>
+            <AppListTextAndSubtext
+              :text="item.name"
+              :subtext="item.listItems"
+            ></AppListTextAndSubtext>
+          </template>
+          <template #wrapperRight>
+            <LPAQuestionBar
+            :green="questions[0].statistics.green"
+            :orange="questions[0].statistics.orange"
+            :red="questions[0].statistics.red"
+          ></LPAQuestionBar>
           <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
-        </template>
-      </AppItemList>
+          </template>
+        </AppListContainer>
+      </div>
     </template>
   </AppPageLayout>
 </template>
@@ -26,10 +38,11 @@ import { defineComponent } from "vue";
 import LPASidebar from "../components/LPASidebar.vue";
 import AppPageLayout from "../../../components/AppPageLayout.vue";
 import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
-import AppItemList from "../../../components/AppItemList.vue";
+import AppListContainer from "../../../components/AppListContainer.vue";
 import AppButtonOption from "../../../components/AppButtonOption.vue";
 import AppCheckboxIcon from "../../../assets/Icons/AppCheckboxIcon.vue";
 import LPAQuestionBar from "../components/LPAQuestionBar.vue";
+import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
 
 export default defineComponent({
   name: "LPAQuestions",
@@ -37,10 +50,11 @@ export default defineComponent({
     LPASidebar,
     AppPageLayout,
     AppSearchAndFilterBar,
-    AppItemList,
+    AppListContainer,
     AppButtonOption,
     AppCheckboxIcon,
-    LPAQuestionBar
+    LPAQuestionBar,
+    AppListTextAndSubtext
   },
   data() {
     return {
@@ -111,5 +125,14 @@ export default defineComponent({
       ],
     };
   },
+  methods: {
+    getStatus(list: any, item: Number){
+      if(item < list.length - 1){
+        return false
+      }else {
+        return true
+      }
+    }
+  }
 });
 </script>

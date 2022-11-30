@@ -4,7 +4,7 @@
       <div class="grid gap-6 grid-cols-1 col-span-2">
         <AppContainer container-name="Favoriten">
           <template #content>
-            <AppItemList>
+            <AppListContainer v-bind:isLast="true">
               <template #wrapperLeft>
                 <AppLPAIcon class="h-10"></AppLPAIcon>
               </template>
@@ -22,7 +22,7 @@
                 </AppButtonOption>
               
               </template>
-            </AppItemList>
+            </AppListContainer>
           </template>
         </AppContainer>
         <AppContainer container-name="Anwendungen">
@@ -39,7 +39,7 @@
 import { defineComponent} from "vue";
 import MainHeader from "../components/MainHeader.vue";
 import AppContainer from "../components/AppContainer.vue";
-import AppItemList from "../components/AppItemList.vue";
+import AppListContainer from "../components/AppListContainer.vue";
 import AppButtonOption from "../components/AppButtonOption.vue";
 import AppButtonSecondary from "../components/AppButtonSecondary.vue";
 import AppLPAIcon from "../assets/Icons/AppLPAIcon.vue";
@@ -50,7 +50,7 @@ export default defineComponent({
     AppButtonOption,
     AppButtonSecondary,
     AppContainer,
-    AppItemList,
+    AppListContainer,
     AppLPAIcon,
     MainHeader
   },

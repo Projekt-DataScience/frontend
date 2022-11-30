@@ -1,24 +1,4 @@
 <template>
-  <!--
-    <div class="grid grid-cols-1">
-    <div class="grid grid-cols-10 ">
-      <div class="col-span-8 justify-items-start">
-        <div class="flex">
-          <div class="flex items-center justify-start">
-            <slot name="wrapperLeft"></slot>
-          </div>
-          <div class="flex-initial">
-            <slot name="wrapperContent">
-            </slot>
-          </div>
-        </div>
-      </div>
-      <div class="col-span-2 flex items-center justify-end">
-        <slot name="wrapperRight"></slot>
-      </div>
-    </div>
-  </div>
-  -->
   <div class="flex items-center">
     <div class="flex-none mr-2" v-if="hasWrapperLeftSlot()">
       <slot name="wrapperLeft"></slot>
@@ -32,28 +12,37 @@
       </div>
     </div>
   </div>
+  <div v-if="isLast===false" class="border-b-2 border-gray-200 mb-4 mt-4"></div>
 </template>
       
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import AppTextWithDividerLine from "./AppTextWithDividerLine.vue";
 
 export default defineComponent({
-  name: "AppItemList",
-  components: {
-    AppTextWithDividerLine
-  },
+  name: "AppListContainer",
+  components: {},
   emits: {
     toggleSidebar: null,
     toggleSidebarHeader: null,
+  },
+  props: {
+    isLast: {
+        type: Boolean,
+        required: false
+    }
+  },
+  data() {
+    return {
+      
+    }
   },
   methods: {
     hasWrapperLeftSlot() {
       return !!this.$slots.wrapperLeft;
     },
-    hasWrapperRightSlot(){
+    hasWrapperRightSlot() {
       return !!this.$slots.wrapperRight;
-    }
+    },
   },
 });
 </script>
