@@ -4,7 +4,7 @@
       <div class="flex rounded-md text-gray-400">
         <div class="flex-none">
           <div class="inline-grid py-3 pl-3.5 pr-4">
-              <slot></slot>
+            <AppIconLibrary :icon="iconName" styling="w-5! h-5!"></AppIconLibrary>
           </div>
         </div>
         <div class="flex-inherit table ml-2">
@@ -21,10 +21,13 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
+import AppIconLibrary from "./AppIconLibrary.vue";
 
 export default defineComponent({
   name: "AppNavigationItem",
-  components: {},
+  components: {
+    AppIconLibrary
+  },
   emits: {
     toggleSidebar: null,
     toggleSidebarHeader: null,
@@ -38,6 +41,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    iconName: {
+      type: String,
+      required: true
+    }
   },
 });
 </script>

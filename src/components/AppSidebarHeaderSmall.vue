@@ -22,9 +22,7 @@
                 </div>
                 <div class="col-span-1 w-8">
                   <div class="inline-grid h-16">
-                    <AppArrowsTopBottom
-                      class="text-gray-400 h-full w-full p-2.5"
-                    ></AppArrowsTopBottom>
+                    <AppIconLibrary icon="arrowsTopBottom" styling="text-gray-400 h-full w-full p-2.5"></AppIconLibrary>
                   </div>
                 </div>
               </div>
@@ -60,18 +58,16 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 import LPAIcon from "../assets/Icons/LPAIcon.vue";
-import AppArrowsTopBottom from "../assets/Icons/AppArrowsTopBottom.vue";
 import AppArrowsLeft from "../assets/Icons/AppArrowsLeft.vue";
-import AppHomeIcon from "../assets/Icons/AppHomeIcon.vue";
 import {truncateStringMixin} from "../mixins/truncateStringMixin"
+import AppIconLibrary from "./AppIconLibrary.vue";
 
 export default defineComponent({
   name: "LPASidebarHeaderSmall",
   components: {
     LPAIcon,
-    AppArrowsTopBottom,
     AppArrowsLeft,
-    AppHomeIcon
+    AppIconLibrary
   },
   emits: {
     toggleSidebar: null,

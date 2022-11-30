@@ -3,7 +3,7 @@
     <div class="grid grid-cols-2 border-b-2 border-gray-200 p-3">
       <div class="inline-grid">
         <router-link :to="{ name: 'MainDashboard' }" class="flex text-gray-400">
-          <AppHomeIcon class=""></AppHomeIcon>
+          <AppIconLibrary icon="home"></AppIconLibrary>
           <div class="flex-initial text-sm font-semibold ml-2">Startseite</div>
         </router-link>
       </div>
@@ -20,7 +20,7 @@
           "
           @click="$emit('toggleSidebar')"
         >
-          <AppArrowsLeft class="text-gray-400 h-full w-full"></AppArrowsLeft>
+          <AppIconLibrary icon="arrowsLeft" styling="text-gray-400 h-full w-full"></AppIconLibrary>
         </button>
       </div>
     </div>
@@ -52,17 +52,13 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import AppArrowsTopBottom from "../assets/Icons/AppArrowsTopBottom.vue";
-import AppArrowsLeft from "../assets/Icons/AppArrowsLeft.vue";
-import AppHomeIcon from "../assets/Icons/AppHomeIcon.vue";
 import { truncateStringMixin } from "../mixins/truncateStringMixin";
+import AppIconLibrary from "./AppIconLibrary.vue";
 
 export default defineComponent({
   name: "LPASidebarHeader",
   components: {
-    AppArrowsTopBottom,
-    AppArrowsLeft,
-    AppHomeIcon,
+    AppIconLibrary
   },
   emits: {
     toggleSidebar: null,

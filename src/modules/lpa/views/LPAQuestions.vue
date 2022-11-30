@@ -11,7 +11,9 @@
       <div v-for="item in questions" :key="item.id">
         <AppListContainer :isLast="getStatus(questions, item.id)">
           <template #wrapperLeft>
-            <AppCheckboxIcon class="h-5 w-full text-gray-400 mr-4"></AppCheckboxIcon>
+            <div class="mr-4">
+              <AppIconLibrary icon="checkbox" type="active" styling="h-5 w-full text-gray-400"></AppIconLibrary>
+            </div>
           </template>
           <template #wrapperContent>
             <AppListTextAndSubtext
@@ -40,9 +42,9 @@ import AppPageLayout from "../../../components/AppPageLayout.vue";
 import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
 import AppListContainer from "../../../components/AppListContainer.vue";
 import AppButtonOption from "../../../components/AppButtonOption.vue";
-import AppCheckboxIcon from "../../../assets/Icons/AppCheckboxIcon.vue";
 import LPAQuestionBar from "../components/LPAQuestionBar.vue";
 import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
+import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 
 export default defineComponent({
   name: "LPAQuestions",
@@ -52,9 +54,9 @@ export default defineComponent({
     AppSearchAndFilterBar,
     AppListContainer,
     AppButtonOption,
-    AppCheckboxIcon,
     LPAQuestionBar,
-    AppListTextAndSubtext
+    AppListTextAndSubtext,
+    AppIconLibrary
   },
   data() {
     return {

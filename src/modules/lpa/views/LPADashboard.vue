@@ -72,7 +72,6 @@ import { defineComponent } from "vue";
 import LPASidebar from "../components/LPASidebar.vue";
 import AppPageLayout from "../../../components/AppPageLayout.vue";
 import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
-import LPADivideLineIcon from "../../../assets/Icons/LPADivideLineIcon.vue";
 import AppContainer from "../../../components/AppContainer.vue";
 import AppListContainer from "../../../components/AppListContainer.vue";
 import AppButtonOption from "../../../components/AppButtonOption.vue";
@@ -85,7 +84,6 @@ export default defineComponent({
     LPASidebar,
     AppPageLayout,
     AppSearchAndFilterBar,
-    LPADivideLineIcon,
     AppContainer,
     AppListContainer,
     AppButtonOption,
