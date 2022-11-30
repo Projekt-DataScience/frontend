@@ -2,7 +2,7 @@
   <div class="flex items-center h-full w-full">
     <div class="flex-initial">
       <form class="flex w-34 ml-4" action="#" method="GET">
-        <label for="search-field" class="sr-only">Search</label>
+        <label for="search-field" class="sr-only">Suche</label>
         <div class="relative w-full text-gray-400 focus-within:text-gray-600">
           <div
             class="
@@ -47,7 +47,7 @@
               focus:ring-0
               sm:text-sm
             "
-            placeholder="Search"
+            placeholder="Suche"
             type="search"
             name="search"
           />
@@ -70,7 +70,7 @@
             </AppButtonNotification>
 
             <!-- Profile dropdown -->
-            <AppButtonProfile class="ml-5"></AppButtonProfile>
+            <AppButtonProfile class="ml-5 mr-5"></AppButtonProfile>
           </div>
         </div>
     </div>

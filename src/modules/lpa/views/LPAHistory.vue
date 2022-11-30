@@ -1,5 +1,5 @@
 <template>
-    <AppPageLayout>
+  <AppPageLayout>
     <template #sidebar>
       <!-- content for the sidebar slot -->
       <LPASidebar currentPage="LPAHistory"></LPASidebar>
@@ -8,29 +8,42 @@
       <AppSearchAndFilterBar></AppSearchAndFilterBar>
     </template>
     <template #content>
-      <AppItemList :listItems="questions">
-        <template #wrapperLeft>
-          <LPAStatusAudit status="green"></LPAStatusAudit>
-        </template>
-        <template #wrapperRight>
-          <LPAQuestionBar :green="questions[0].statistics.green" :orange="questions[0].statistics.orange" :red="questions[0].statistics.red"></LPAQuestionBar>
+      <div v-for="item in questions" :key="item.id">
+        <AppListContainer :isLast="getStatus(questions, item.id)">
+          <template #wrapperLeft>
+            <LPAStatusAudit status="green"></LPAStatusAudit>
+          </template>
+          <template #wrapperContent>
+            <AppListTextAndSubtext
+              :text="item.name"
+              :subtext="item.listItems"
+            ></AppListTextAndSubtext>
+          </template>
+          <template #wrapperRight>
+            <LPAQuestionBar
+            :green="questions[0].statistics.green"
+            :orange="questions[0].statistics.orange"
+            :red="questions[0].statistics.red"
+          ></LPAQuestionBar>
           <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
-        </template>
-      </AppItemList>
+          </template>
+        </AppListContainer>
+      </div>
     </template>
   </AppPageLayout>
 </template>
 
 <script lang="ts">
-import { defineComponent} from "vue";
+import { defineComponent } from "vue";
 import LPASidebar from "../components/LPASidebar.vue";
 import AppPageLayout from "../../../components/AppPageLayout.vue";
 import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
 import LPAQuestionBar from "../components/LPAQuestionBar.vue";
 import AppButtonOption from "../../../components/AppButtonOption.vue";
 import AppCheckboxIcon from "../../../assets/Icons/AppCheckboxIcon.vue";
-import AppItemList from "../../../components/AppItemList.vue";
+import AppListContainer from "../../../components/AppListContainer.vue";
 import LPAStatusAudit from "../components/LPAStatusAudit.vue";
+import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
 
 export default defineComponent({
   name: "LPAHistory",
@@ -41,8 +54,9 @@ export default defineComponent({
     AppCheckboxIcon,
     AppButtonOption,
     LPAQuestionBar,
-    AppItemList,
-    LPAStatusAudit
+    AppListContainer,
+    LPAStatusAudit,
+    AppListTextAndSubtext
   },
   data() {
     return {
@@ -54,19 +68,19 @@ export default defineComponent({
             {
               id: 0,
               type: "normal",
-              name: "Layer 1"
+              name: "Layer 1",
             },
             {
               id: 1,
               type: "normal",
-              name: "TN-Gruppe"
-            }
+              name: "TN-Gruppe",
+            },
           ],
           statistics: {
             green: 1000,
             orange: 50,
             red: 1,
-          }
+          },
         },
         {
           id: 1,
@@ -75,19 +89,19 @@ export default defineComponent({
             {
               id: 0,
               type: "normal",
-              name: "Layer 1"
+              name: "Layer 1",
             },
             {
               id: 1,
               type: "normal",
-              name: "C-Gruppe"
-            }
+              name: "C-Gruppe",
+            },
           ],
           statistics: {
             green: 244,
             orange: 23,
             red: 2,
-          }
+          },
         },
         {
           id: 2,
@@ -96,22 +110,31 @@ export default defineComponent({
             {
               id: 0,
               type: "normal",
-              name: "Layer 1"
+              name: "Layer 1",
             },
             {
               id: 1,
               type: "normal",
-              name: "TN-Gruppe"
-            }
+              name: "TN-Gruppe",
+            },
           ],
           statistics: {
             green: 244,
             orange: 23,
             red: 2,
-          }
-        }
+          },
+        },
       ],
     };
   },
-}); 
+  methods: {
+    getStatus(list: any, item: Number){
+      if(item < list.length - 1){
+        return false
+      }else {
+        return true
+      }
+    }
+  }
+});
 </script>

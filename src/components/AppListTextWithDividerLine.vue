@@ -12,7 +12,7 @@ import { ref, defineComponent } from "vue";
 import LPADivideLineIcon from "../assets/Icons/LPADivideLineIcon.vue";
 
 export default defineComponent({
-  name: "AppContainer",
+  name: "AppListTextWithDividerLine",
   components: {
     LPADivideLineIcon
   },

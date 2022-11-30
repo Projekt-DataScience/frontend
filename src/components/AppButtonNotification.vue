@@ -3,7 +3,6 @@
     type="button"
     class="
       rounded-full
-      bg-white
       p-1
       text-gray-400
       hover:text-gray-500
