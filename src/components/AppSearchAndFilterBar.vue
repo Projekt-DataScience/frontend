@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center h-full w-full">
+  <div class="flex items-center w-full h-18">
     <div class="flex-initial">
       <form class="flex w-34 ml-4" action="#" method="GET">
         <label for="search-field" class="sr-only">Suche</label>

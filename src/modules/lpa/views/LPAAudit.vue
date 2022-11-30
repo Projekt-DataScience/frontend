@@ -15,7 +15,7 @@
               v-bind:isActive="false"
             >
             </AppButtonPrimary>
-            <AppButtonSecondary class="mr-6" name="Abbrechen">
+            <AppButtonSecondary class="mr-8" name="Abbrechen">
             </AppButtonSecondary>
           </div>
         </div>
