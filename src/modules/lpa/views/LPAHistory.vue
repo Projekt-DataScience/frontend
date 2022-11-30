@@ -16,10 +16,11 @@
           <template #wrapperContent>
             <AppListTextAndSubtext
               :text="item.name"
-              :subtext="item.listItems"
+              :subtext="item.listItems.slice(0,2)"
             ></AppListTextAndSubtext>
           </template>
           <template #wrapperRight>
+            <LPAHistoryBar :auditList="item.listItems"></LPAHistoryBar>
             <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
           </template>
         </AppListContainer>
@@ -37,6 +38,7 @@ import AppButtonOption from "../../../components/AppButtonOption.vue";
 import AppListContainer from "../../../components/AppListContainer.vue";
 import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
+import LPAHistoryBar from "../components/LPAHistoryBar.vue";
 
 export default defineComponent({
   name: "LPAHistory",
@@ -47,7 +49,8 @@ export default defineComponent({
     AppButtonOption,
     AppListContainer,
     AppListTextAndSubtext,
-    AppIconLibrary
+    AppIconLibrary,
+    LPAHistoryBar
   },
   data() {
     return {
@@ -61,11 +64,25 @@ export default defineComponent({
               id: 0,
               type: "normal",
               name: "Layer 1",
+              color: "green"
             },
             {
               id: 1,
               type: "normal",
               name: "TN-Gruppe",
+              color: "green"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "Layer 1",
+              color: "green"
+            },
+            {
+              id: 3,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
             },
           ],
         },
@@ -78,11 +95,37 @@ export default defineComponent({
               id: 0,
               type: "normal",
               name: "Layer 1",
+              color: "green"
             },
             {
               id: 1,
               type: "normal",
               name: "C-Gruppe",
+              color: "green"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "Layer 1",
+              color: "green"
+            },
+            {
+              id: 3,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
+            },
+            {
+              id: 4,
+              type: "normal",
+              name: "Layer 1",
+              color: "green"
+            },
+            {
+              id: 5,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
             },
           ]
         },
@@ -95,11 +138,37 @@ export default defineComponent({
               id: 0,
               type: "normal",
               name: "Layer 1",
+              color: "green"
             },
             {
               id: 1,
               type: "normal",
               name: "TN-Gruppe",
+              color: "yellow"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "Layer 1",
+              color: "green"
+            },
+            {
+              id: 3,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
+            },
+            {
+              id: 4,
+              type: "normal",
+              name: "Layer 1",
+              color: "green"
+            },
+            {
+              id: 5,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
             },
           ]
         },
@@ -112,11 +181,13 @@ export default defineComponent({
               id: 0,
               type: "normal",
               name: "Layer 1",
+              color: "green"
             },
             {
               id: 1,
               type: "normal",
               name: "TN-Gruppe",
+              color: "green"
             },
           ],
         },
@@ -129,11 +200,25 @@ export default defineComponent({
               id: 0,
               type: "normal",
               name: "Layer 1",
+              color: "green"
             },
             {
               id: 1,
               type: "normal",
               name: "C-Gruppe",
+              color: "green"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "Layer 1",
+              color: "green"
+            },
+            {
+              id: 3,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
             },
           ]
         },
@@ -146,11 +231,67 @@ export default defineComponent({
               id: 0,
               type: "normal",
               name: "Layer 1",
+              color: "green"
             },
             {
               id: 1,
               type: "normal",
               name: "TN-Gruppe",
+              color: "green"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "Layer 1",
+              color: "green"
+            },
+            {
+              id: 3,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
+            },
+            {
+              id: 4,
+              type: "normal",
+              name: "Layer 1",
+              color: "green"
+            },
+            {
+              id: 5,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
+            },
+            {
+              id: 6,
+              type: "normal",
+              name: "Layer 1",
+              color: "red"
+            },
+            {
+              id: 7,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
+            },
+            {
+              id: 8,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
+            },
+            {
+              id: 9,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
+            },
+            {
+              id: 10,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
             },
           ],
         },
@@ -163,11 +304,25 @@ export default defineComponent({
               id: 0,
               type: "normal",
               name: "Layer 1",
+              color: "green"
             },
             {
               id: 1,
               type: "normal",
               name: "C-Gruppe",
+              color: "green"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "Layer 1",
+              color: "green"
+            },
+            {
+              id: 3,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
             },
           ]
         },
@@ -180,11 +335,37 @@ export default defineComponent({
               id: 0,
               type: "normal",
               name: "Layer 1",
+              color: "green"
             },
             {
               id: 1,
               type: "normal",
               name: "TN-Gruppe",
+              color: "green"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "Layer 1",
+              color: "green"
+            },
+            {
+              id: 3,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
+            },
+            {
+              id: 4,
+              type: "normal",
+              name: "Layer 1",
+              color: "green"
+            },
+            {
+              id: 5,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
             },
           ],
         },
@@ -197,11 +378,25 @@ export default defineComponent({
               id: 0,
               type: "normal",
               name: "Layer 1",
+              color: "green"
             },
             {
               id: 1,
               type: "normal",
               name: "C-Gruppe",
+              color: "green"
+            },
+            {
+              id: 2,
+              type: "normal",
+              name: "Layer 1",
+              color: "green"
+            },
+            {
+              id: 3,
+              type: "normal",
+              name: "TN-Gruppe",
+              color: "green"
             },
           ]
         },

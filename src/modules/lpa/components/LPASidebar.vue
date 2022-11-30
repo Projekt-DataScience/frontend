@@ -21,29 +21,37 @@
             itemName="Übersicht"
             iconName="dashboard"
             v-if="currentPage === 'LPADashboard'"
-            ></AppNavigationItemActive>
+          ></AppNavigationItemActive>
           <AppNavigationItem
             itemName="Übersicht"
             iconName="dashboard"
             v-else
             routerName="LPADashboard"
-            ></AppNavigationItem>
+          ></AppNavigationItem>
           <!-- Question Navigation Item -->
           <AppNavigationItemActive
             itemName="Fragen"
             iconName="question"
             v-if="currentPage === 'LPAQuestions'"
-            ></AppNavigationItemActive>
-          <AppNavigationItem itemName="Fragen" iconName="question" v-else routerName="LPAQuestions"
-            ></AppNavigationItem>
+          ></AppNavigationItemActive>
+          <AppNavigationItem
+            itemName="Fragen"
+            iconName="question"
+            v-else
+            routerName="LPAQuestions"
+          ></AppNavigationItem>
           <!-- History Navigation Item -->
           <AppNavigationItemActive
             itemName="Historie"
             iconName="history"
             v-if="currentPage === 'LPAHistory'"
-            ></AppNavigationItemActive>
-          <AppNavigationItem itemName="Historie" iconName="history" v-else routerName="LPAHistory"
-            ></AppNavigationItem>
+          ></AppNavigationItemActive>
+          <AppNavigationItem
+            itemName="Historie"
+            iconName="history"
+            v-else
+            routerName="LPAHistory"
+          ></AppNavigationItem>
           <!-- Analytics Navigation Item -->
           <AppNavigationItemActive
             itemName="Analysen"
@@ -55,19 +63,19 @@
             iconName="analytics"
             v-else
             routerName="LPAAnalytics"
-            ></AppNavigationItem>
+          ></AppNavigationItem>
           <!-- Configuration Navigation Item -->
           <AppNavigationItemActive
             itemName="Konfiguration"
             iconName="configuration"
             v-if="currentPage === 'LPAConfiguration'"
-            ></AppNavigationItemActive>
+          ></AppNavigationItemActive>
           <AppNavigationItem
             itemName="Konfiguration"
             iconName="configuration"
             v-else
             routerName="LPAConfiguration"
-            ></AppNavigationItem>
+          ></AppNavigationItem>
         </div>
       </div>
     </div>
