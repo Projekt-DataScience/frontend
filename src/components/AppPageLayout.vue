@@ -1,7 +1,7 @@
 <template>
     <div class="h-screen">
          <div class="relative">
-             <div class="fixed w-80 hidden md:inset-y-0 md:flex md:w-80 md:flex-col bg-gray-100 border-r-2 border-gray-200" id="sidebar">
+             <div class="fixed w-80 hidden md:inset-y-0 md:flex md:w-80 md:flex-col bg-gray-100 border-r-2 border-gray-200" id="sidebar" v-if="hasSidebar()">
                  <slot name="sidebar"></slot>
              </div>
          </div>
@@ -13,21 +13,15 @@
              </div>
              
              <div class="flex pt-18">
-                 <div class="hidden flex-none w-80 h-screen"><slot name="subsidebar"></slot></div>
+                 <div class="flex-none w-80 h-screen m-6" v-if="hasSubsidebar()">
+                    <slot name="subsidebar"></slot>
+                </div>
                  <div class="flex-auto m-6">
                      <slot name="content"></slot>
                  </div>
              </div>
          </div>
     </div>
-     <!--
-     <div class="hidden md:fixed md:inset-y-0 md:flex md:w-80 md:flex-col bg-gray-100 border-r-2 border-gray-200">
-         <slot name="sidebar"></slot>
-     </div>
-   
-   <slot name="subsidebar"></slot>
-   <slot name="header"></slot>
-   <slot name="content"></slot>-->
  </template>
  
  <script lang="ts">
@@ -61,7 +55,13 @@
              const calculatedWidth = windowWidth - element.offsetWidth;
              this.width = calculatedWidth;
          }
-     }
+     },
+     hasSubsidebar() {
+      return !!this.$slots.subsidebar;
+    },
+    hasSidebar() {
+      return !!this.$slots.sidebar;
+    },
    },
  });
  </script>

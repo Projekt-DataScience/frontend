@@ -5,7 +5,22 @@
       <LPASidebar currentPage="LPADashboard"></LPASidebar>
     </template>
     <template #header>
-      <AppSearchAndFilterBar></AppSearchAndFilterBar>
+      <AppSearchAndFilterBar>
+        <template #wrapperRight>
+          <AppButtonPrimary
+            class="mr-6"
+            name="Audit erstellen"
+            v-bind:isActive="true"
+          >
+            <template #icon>
+              <AppIconLibrary
+                icon="plus"
+                styling="mr-2 pr-0.5 py-0.5"
+              ></AppIconLibrary>
+            </template>
+          </AppButtonPrimary>
+        </template>
+      </AppSearchAndFilterBar>
     </template>
     <template #content>
       <div class="grid grid-cols-2 gap-6">
@@ -25,7 +40,12 @@
               <div v-for="item in openAudits" :key="item.id">
                 <AppListContainer :isLast="getStatus(openAudits, item.id)">
                   <template #wrapperRight>
-                    <router-link :to="{name: 'LPAAudit',params: { id: 1 },}"><AppButtonTertiary name="Audit starten"></AppButtonTertiary></router-link>
+                    <router-link
+                      :to="{ name: 'LPAAudit', params: { id: item.id } }"
+                      ><AppButtonTertiary
+                        name="Audit starten"
+                      ></AppButtonTertiary
+                    ></router-link>
                     <AppButtonOption
                       v-bind:isVertical="false"
                     ></AppButtonOption>
@@ -77,6 +97,8 @@ import AppListContainer from "../../../components/AppListContainer.vue";
 import AppButtonOption from "../../../components/AppButtonOption.vue";
 import AppButtonTertiary from "../../../components/AppButtonTertiary.vue";
 import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
+import AppButtonPrimary from "../../../components/AppButtonPrimary.vue";
+import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 
 export default defineComponent({
   name: "LPADashboard",
@@ -89,6 +111,8 @@ export default defineComponent({
     AppButtonOption,
     AppButtonTertiary,
     AppListTextAndSubtext,
+    AppButtonPrimary,
+    AppIconLibrary
   },
   data() {
     return {
@@ -225,13 +249,13 @@ export default defineComponent({
     };
   },
   methods: {
-    getStatus(list: any, item: Number){
-      if(item < list.length - 1){
-        return false
-      }else {
-        return true
+    getStatus(list: any, item: Number) {
+      if (item < list.length - 1) {
+        return false;
+      } else {
+        return true;
       }
-    }
-  }
+    },
+  },
 });
 </script>
