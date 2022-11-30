@@ -4,7 +4,7 @@
       <div class="grid gap-6 grid-cols-1 col-span-2">
         <AppContainer container-name="Favoriten">
           <template #content>
-            <AppListContainer v-bind:isLast="true">
+            <AppListContainer>
               <template #wrapperLeft>
                 <AppLPAIcon class="h-10"></AppLPAIcon>
               </template>

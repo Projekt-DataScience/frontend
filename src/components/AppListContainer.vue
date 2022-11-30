@@ -28,6 +28,7 @@ export default defineComponent({
   props: {
     isLast: {
         type: Boolean,
+        default: true,
         required: false
     }
   },
