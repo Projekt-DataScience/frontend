@@ -2,19 +2,19 @@
   <div class="flex items-center">
     <div>{{text}}</div>
     <div class="px-4" v-if="isLast === false">
-      <LPADivideLineIcon class="h-4 text-primary-blue"></LPADivideLineIcon>
+      <AppIconLibrary icon="divideLine" styling="h-4 text-primary-blue"></AppIconLibrary>
     </div>
   </div>
 </template>
     
     <script lang="ts">
 import { ref, defineComponent } from "vue";
-import LPADivideLineIcon from "../assets/Icons/LPADivideLineIcon.vue";
+import AppIconLibrary from "./AppIconLibrary.vue";
 
 export default defineComponent({
   name: "AppListTextWithDividerLine",
   components: {
-    LPADivideLineIcon
+    AppIconLibrary
   },
   emits: {
     toggleSidebar: null,

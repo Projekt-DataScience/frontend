@@ -14,16 +14,19 @@
     "
   >
     <span class="sr-only">View notifications</span>
-    <slot name="icon"></slot>
+    <AppIconLibrary icon="bell" styling="h-7 text-gray-400"></AppIconLibrary>
   </button>
 </template>
   
   <script lang="ts">
 import { ref, defineComponent } from "vue";
+import AppIconLibrary from "./AppIconLibrary.vue";
 
 export default defineComponent({
   name: "AppButtonNotification",
-  components: {},
+  components: {
+    AppIconLibrary
+  },
   data() {
     return {
       profileIsActive: false,

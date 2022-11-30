@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div
-      class="flex flex-grow flex-col overflow-y-auto"
-    >
+    <div class="flex flex-grow flex-col overflow-y-auto">
       <!-- App Sidebar Header -->
       <AppSidebarHeader
         brandingName="MyCompany"
@@ -10,8 +8,8 @@
         @toggleSidebar="toggleSidebar()"
         @toggleSidebarHeader="toggleSidebarHeader()"
       >
-      <LPAIcon></LPAIcon>
-    </AppSidebarHeader>
+        <AppIconLibrary icon="lpa"></AppIconLibrary>
+      </AppSidebarHeader>
       <!-- App Sidebar Header when toggleSidebarHeader event is true-->
       <div v-if="sidebarHeaderIsActive" class="border-b-2 border-gray-200">
         Test
@@ -21,57 +19,55 @@
           <!-- Dashboard Navigation Item -->
           <AppNavigationItemActive
             itemName="Übersicht"
+            iconName="dashboard"
             v-if="currentPage === 'LPADashboard'"
-            ><LPADashboard></LPADashboard
-          ></AppNavigationItemActive>
+            ></AppNavigationItemActive>
           <AppNavigationItem
             itemName="Übersicht"
+            iconName="dashboard"
             v-else
             routerName="LPADashboard"
-            ><LPADashboard></LPADashboard
-          ></AppNavigationItem>
+            ></AppNavigationItem>
           <!-- Question Navigation Item -->
           <AppNavigationItemActive
             itemName="Fragen"
+            iconName="question"
             v-if="currentPage === 'LPAQuestions'"
-            ><LPAQuestionIcon></LPAQuestionIcon
-          ></AppNavigationItemActive>
-          <AppNavigationItem itemName="Fragen" v-else routerName="LPAQuestions"
-            ><LPAQuestionIcon></LPAQuestionIcon
-          ></AppNavigationItem>
+            ></AppNavigationItemActive>
+          <AppNavigationItem itemName="Fragen" iconName="question" v-else routerName="LPAQuestions"
+            ></AppNavigationItem>
           <!-- History Navigation Item -->
           <AppNavigationItemActive
             itemName="Historie"
+            iconName="history"
             v-if="currentPage === 'LPAHistory'"
-            ><LPAHistoryIcon></LPAHistoryIcon
-          ></AppNavigationItemActive>
-          <AppNavigationItem itemName="Historie" v-else routerName="LPAHistory"
-            ><LPAHistoryIcon></LPAHistoryIcon
-          ></AppNavigationItem>
+            ></AppNavigationItemActive>
+          <AppNavigationItem itemName="Historie" iconName="history" v-else routerName="LPAHistory"
+            ></AppNavigationItem>
           <!-- Analytics Navigation Item -->
           <AppNavigationItemActive
             itemName="Analysen"
+            iconName="analytics"
             v-if="currentPage === 'LPAAnalytics'"
-            ><LPAAnalyticsIcon></LPAAnalyticsIcon
           ></AppNavigationItemActive>
           <AppNavigationItem
             itemName="Analysen"
+            iconName="analytics"
             v-else
             routerName="LPAAnalytics"
-            ><LPAAnalyticsIcon></LPAAnalyticsIcon
-          ></AppNavigationItem>
+            ></AppNavigationItem>
           <!-- Configuration Navigation Item -->
           <AppNavigationItemActive
             itemName="Konfiguration"
+            iconName="configuration"
             v-if="currentPage === 'LPAConfiguration'"
-            ><LPAConfigurationIcon></LPAConfigurationIcon
-          ></AppNavigationItemActive>
+            ></AppNavigationItemActive>
           <AppNavigationItem
             itemName="Konfiguration"
+            iconName="configuration"
             v-else
             routerName="LPAConfiguration"
-            ><LPAConfigurationIcon></LPAConfigurationIcon
-          ></AppNavigationItem>
+            ></AppNavigationItem>
         </div>
       </div>
     </div>
@@ -83,25 +79,15 @@ import { ref, defineComponent } from "vue";
 import AppSidebarHeader from "../../../components/AppSidebarHeader.vue";
 import AppNavigationItem from "../../../components/AppNavigationItem.vue";
 import AppNavigationItemActive from "../../../components/AppNavigationItemActive.vue";
-import LPADashboard from "../../../assets/Icons/LPADashboard.vue";
-import LPAQuestionIcon from "../../../assets/Icons/LPAQuestionIcon.vue";
-import LPAHistoryIcon from "../../../assets/Icons/LPAHistoryArrowIcon.vue";
-import LPAConfigurationIcon from "../../../assets/Icons/LPAConfigurationIcon.vue";
-import LPAAnalyticsIcon from "../../../assets/Icons/LPAAnalyticsIcon.vue";
-import LPAIcon from "../../../assets/Icons/LPAIcon.vue";
+import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 
 export default defineComponent({
   name: "LPASidebar",
   components: {
     AppSidebarHeader,
     AppNavigationItem,
-    LPADashboard,
     AppNavigationItemActive,
-    LPAQuestionIcon,
-    LPAHistoryIcon,
-    LPAConfigurationIcon,
-    LPAAnalyticsIcon,
-    LPAIcon
+    AppIconLibrary,
   },
   props: {
     currentPage: {

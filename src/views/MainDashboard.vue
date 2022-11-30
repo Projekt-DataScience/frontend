@@ -6,7 +6,7 @@
           <template #content>
             <AppListContainer>
               <template #wrapperLeft>
-                <AppLPAIcon class="h-10"></AppLPAIcon>
+                <AppIconLibrary icon="lpa" styling="h-10 text-primary-blue"></AppIconLibrary>
               </template>
               <template #wrapperContent>
                 <div>
@@ -42,7 +42,7 @@ import AppContainer from "../components/AppContainer.vue";
 import AppListContainer from "../components/AppListContainer.vue";
 import AppButtonOption from "../components/AppButtonOption.vue";
 import AppButtonSecondary from "../components/AppButtonSecondary.vue";
-import AppLPAIcon from "../assets/Icons/AppLPAIcon.vue";
+import AppIconLibrary from "../components/AppIconLibrary.vue";
 
 export default defineComponent({
   name: "MainDashboard",
@@ -51,8 +51,8 @@ export default defineComponent({
     AppButtonSecondary,
     AppContainer,
     AppListContainer,
-    AppLPAIcon,
-    MainHeader
+    MainHeader,
+    AppIconLibrary
   },
   data() {
     return {

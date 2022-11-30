@@ -59,15 +59,11 @@
             <div class="ml-4 flex items-center md:ml-5">
             <AppButtonPrimary class="mr-6" name="Audit erstellen" v-bind:isActive="true">
               <template #icon>
-                <AppPlusIcon class="mr-2 pr-0.5 py-0.5"></AppPlusIcon>
+                <AppIconLibrary icon="plus" styling="mr-2 pr-0.5 py-0.5"></AppIconLibrary>
               </template>
             </AppButtonPrimary>
             <!--Notification Button-->
-            <AppButtonNotification>
-              <template #icon>
-                <AppBellIcon class="h-6 w-6 text-gray-400"></AppBellIcon>
-              </template>
-            </AppButtonNotification>
+            <AppButtonNotification></AppButtonNotification>
 
             <!-- Profile dropdown -->
             <AppButtonProfile class="ml-5 mr-5"></AppButtonProfile>
@@ -79,20 +75,18 @@
     
   <script lang="ts">
 import { ref, defineComponent } from "vue";
-import AppBellIcon from "../assets/Icons/AppBellIcon.vue"
-import AppPlusIcon from "../assets/Icons/AppPlusIcon.vue"
 import AppButtonPrimary from "./AppButtonPrimary.vue";
 import AppButtonProfile from "./AppButtonProfile.vue";
 import AppButtonNotification from "./AppButtonNotification.vue";
+import AppIconLibrary from "./AppIconLibrary.vue";
 
 export default defineComponent({
   name: "AppSearchAndFilterBar",
   components: {
-    AppBellIcon,
-    AppPlusIcon,
     AppButtonPrimary,
     AppButtonProfile,
-    AppButtonNotification
+    AppButtonNotification,
+    AppIconLibrary
   },
   data() {
     return {

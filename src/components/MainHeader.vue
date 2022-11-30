@@ -6,11 +6,7 @@
         <div class="flex-auto">
             <div class="flex justify-end items-center">
                 <div class="mr-4">
-                    <AppButtonNotification>
-                        <template #icon>
-                            <AppBellIcon class="h-6 text-gray-400"></AppBellIcon>
-                        </template>
-                    </AppButtonNotification>
+                    <AppButtonNotification></AppButtonNotification>
                 </div>
                 <div>
                     <AppButtonProfile></AppButtonProfile>
@@ -25,13 +21,11 @@ import { ref, defineComponent } from "vue";
 
 import AppButtonProfile from "./AppButtonProfile.vue";
 import AppButtonNotification from "./AppButtonNotification.vue";
-import AppBellIcon from "../assets/Icons/AppBellIcon.vue";
 
 
 export default defineComponent({
     name: "MainHeader",
     components: {
-        AppBellIcon,
         AppButtonNotification,
         AppButtonProfile
     },
