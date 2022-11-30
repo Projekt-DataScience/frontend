@@ -628,24 +628,7 @@ export default defineComponent({
       type: String,
       default: "none",
       required: false,
-    },
-    width: {
-      type: String,
-      required: false,
-    },
-  },
-  computed: {
-    propWidth() {
-      return {
-        "h-": this.width,
-      };
-    },
-    propHeight() {
-      return "h-5";
-    },
-  },
-  methods: {
-    propStyling() {},
+    }
   },
 });
 </script>
