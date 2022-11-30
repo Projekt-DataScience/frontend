@@ -25,7 +25,7 @@
               <div v-for="item in openAudits" :key="item.id">
                 <AppListContainer :isLast="getStatus(openAudits, item.id)">
                   <template #wrapperRight>
-                    <AppButtonTertiary name="Audit starten"></AppButtonTertiary>
+                    <router-link :to="{name: 'LPAAudit',params: { id: 1 },}"><AppButtonTertiary name="Audit starten"></AppButtonTertiary></router-link>
                     <AppButtonOption
                       v-bind:isVertical="false"
                     ></AppButtonOption>
