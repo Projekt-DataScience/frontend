@@ -33,7 +33,12 @@ export const useApplications = defineStore('Applications', {
             return state.apps.filter(() => app.favourite === true)
         },
         */
-        getApps: (state) => state.apps
+        getApps (state) {
+            return state.apps
+        },
+        getFavourites(state) {
+            return state.apps.filter((app) => app.favourite);
+        }
     }
     
 }

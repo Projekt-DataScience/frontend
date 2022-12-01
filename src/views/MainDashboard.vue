@@ -10,7 +10,7 @@
               </template>
               <template #wrapperContent>
                 <div>
-                  {{apps[0].name}}
+                  {{favourite[0].name}}
                 </div>
               </template>
               <template #wrapperRight>
@@ -26,6 +26,27 @@
           </template>
         </AppContainer>
         <AppContainer container-name="Anwendungen">
+          <template #content>
+            <AppListContainer>
+              <template #wrapperLeft>
+                <AppIconLibrary icon="lpa" styling="h-10 text-primary-blue"></AppIconLibrary>
+              </template>
+              <template #wrapperContent>
+                <div>
+                  {{apps[1].name}}
+                </div>
+              </template>
+              <template #wrapperRight>
+                
+                <router-link :to="{name : 'LPADashboard'}">
+                  <AppButtonSecondary name="Öffnen" class="mr-6"></AppButtonSecondary>
+                </router-link>
+                <AppButtonOption v-bind:is-vertical="true">
+                </AppButtonOption>
+              
+              </template>
+            </AppListContainer>
+          </template>
         </AppContainer>
       </div>
       <div>
@@ -60,7 +81,10 @@ export default defineComponent({
   setup() {
     const store = useApplications();
     console.log(store.$state.apps)
-    return { apps:  store.$state.apps };
+    return { 
+      apps:  store.getApps,
+      favourite: store.getFavourites
+    };
     
   },
   data() {
