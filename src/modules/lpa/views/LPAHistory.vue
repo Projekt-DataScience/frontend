@@ -9,7 +9,7 @@
     </template>
     <template #content>
       <div v-for="item in questions" :key="item.id">
-        <AppListContainer :isLast="getStatus(questions, item.id)">
+        <AppListContainer :isLast="getStatus(item)">
           <template #wrapperLeft>
             <AppIconLibrary icon="lpaStatus" :type="item.status" styling="h-10"></AppIconLibrary>
           </template>
@@ -404,11 +404,11 @@ export default defineComponent({
     };
   },
   methods: {
-    getStatus(list: any, item: Number){
-      if(item < list.length - 1){
-        return false
-      }else {
+    getStatus(item: any){
+      if(item === this.questions[this.questions.length-1]){
         return true
+      }else {
+        return false
       }
     }
   }
