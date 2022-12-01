@@ -10,7 +10,7 @@
               </template>
               <template #wrapperContent>
                 <div>
-                  {{favourites[0].appName}}
+                  {{apps[0].name}}
                 </div>
               </template>
               <template #wrapperRight>
@@ -44,6 +44,9 @@ import AppButtonOption from "../components/AppButtonOption.vue";
 import AppButtonSecondary from "../components/AppButtonSecondary.vue";
 import AppIconLibrary from "../components/AppIconLibrary.vue";
 
+import { useApplications } from "../store/applications"; 
+
+
 export default defineComponent({
   name: "MainDashboard",
   components: {
@@ -54,24 +57,28 @@ export default defineComponent({
     MainHeader,
     AppIconLibrary
   },
+  setup() {
+    const store = useApplications();
+    console.log(store.$state.apps)
+    return { apps:  store.$state.apps };
+    
+  },
   data() {
     return {
       favourites: [
         {
-          id: 0,
           appName: "Layered Process Audit"
         }
       ],
       applications: [
         {
-          id: 0,
           appName: "Gerätemanager"
         },
         {
-          id: 1,
           appName: "Urlaubsplanung"
         }
       ]
+     
       
     };
   },
