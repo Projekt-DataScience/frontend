@@ -25,7 +25,7 @@
       >
         <div class="flex text-white">
           <div><slot name="icon" v-if="hasIconSlot()"></slot></div>
-          <div class="flex-initial font-medium">Audit erstellen</div>
+          <div class="flex-initial font-medium">{{name}}</div>
         </div>
       </button>
     </div>

@@ -5,6 +5,7 @@
     </div>
     <div class="p-7 flex">
       <AppButtonPrimary name="Audit starten" v-bind:isActive="true"></AppButtonPrimary>
+      <AppButtonSecondary></AppButtonSecondary>
     </div>
   </AppPopup>
   <AppPageLayout>
@@ -39,7 +40,7 @@
           <AppContainer containerName="Offene Audits">
             <template #content>
               <div v-for="item in openAudits" :key="item.id">
-                <AppListContainer :isLast="getStatus(openAudits, item.id)">
+                <AppListContainer :isLast="getStatus(item, openAudits)">
                   <template #wrapperRight>
                     <!--<router-link
                       :to="{ name: 'LPAAudit', params: { id: item.id } }"
@@ -63,7 +64,7 @@
           <AppContainer containerName="Geplante Audits">
             <template #content>
               <div v-for="item in plannedAudits" :key="item.id">
-                <AppListContainer :isLast="getStatus(plannedAudits, item.id)">
+                <AppListContainer :isLast="getStatus(item, plannedAudits)">
                   <template #wrapperRight>
                     <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                   </template>
@@ -93,6 +94,7 @@ import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue
 import AppButtonPrimary from "../../../components/AppButtonPrimary.vue";
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 import AppPopup from "../../../components/AppPopup.vue";
+import AppButtonSecondary from "../../../components/AppButtonSecondary.vue";
 
 export default defineComponent({
   name: "LPADashboard",
@@ -248,13 +250,6 @@ export default defineComponent({
     this.enableScroll();
   },
   methods: {
-    getStatus(list: any, item: Number) {
-      if (item < list.length - 1) {
-        return false;
-      } else {
-        return true;
-      }
-    },
     openPopup(id: any) {
       this.disableScroll();
       this.visibleTest = true;
@@ -271,6 +266,13 @@ export default defineComponent({
     },
     enableScroll() {
       window.onscroll = function () { };
+    },
+    getStatus(item: any, array: any){
+      if(item === array[array.length-1]){
+        return true
+      }else {
+        return false
+      }
     }
   },
 });
