@@ -11,7 +11,8 @@ module.exports = {
         'cl-active' : '#E7E9EB',
         'cl-green' : '#1fd537',
         'cl-yellow' : '#FFC537',
-        'cl-red' : '#E40010'
+        'cl-red' : '#E40010',
+        'cl-popup' : 'rgba(0, 0, 0, 0.4)'
       },
       spacing: {
         '18': '66px',

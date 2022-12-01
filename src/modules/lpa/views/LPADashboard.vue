@@ -1,4 +1,5 @@
 <template>
+  <AppPopup></AppPopup>
   <AppPageLayout>
     <template #sidebar>
       <!-- content for the sidebar slot -->
@@ -99,6 +100,7 @@ import AppButtonTertiary from "../../../components/AppButtonTertiary.vue";
 import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
 import AppButtonPrimary from "../../../components/AppButtonPrimary.vue";
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
+import AppPopup from "../../../components/AppPopup.vue";
 
 export default defineComponent({
   name: "LPADashboard",
@@ -112,7 +114,8 @@ export default defineComponent({
     AppButtonTertiary,
     AppListTextAndSubtext,
     AppButtonPrimary,
-    AppIconLibrary
+    AppIconLibrary,
+    AppPopup
   },
   data() {
     return {
