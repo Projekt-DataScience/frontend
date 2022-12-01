@@ -1,5 +1,12 @@
 <template>
-  <AppPopup></AppPopup>
+  <AppPopup v-if="visibleTest">
+    <div class="p-7 border-b-2 border-gray-200">
+      <AppListTextAndSubtext :text="openAudits[0].name" :subtext="openAudits[0].listItems"></AppListTextAndSubtext>
+    </div>
+    <div class="p-7 flex">
+      <AppButtonPrimary name="Audit starten" v-bind:isActive="true"></AppButtonPrimary>
+    </div>
+  </AppPopup>
   <AppPageLayout>
     <template #sidebar>
       <!-- content for the sidebar slot -->
@@ -8,16 +15,9 @@
     <template #header>
       <AppSearchAndFilterBar>
         <template #wrapperRight>
-          <AppButtonPrimary
-            class="mr-6"
-            name="Audit erstellen"
-            v-bind:isActive="true"
-          >
+          <AppButtonPrimary class="mr-6" name="Audit erstellen" v-bind:isActive="true">
             <template #icon>
-              <AppIconLibrary
-                icon="plus"
-                styling="mr-2 pr-0.5 py-0.5"
-              ></AppIconLibrary>
+              <AppIconLibrary icon="plus" styling="mr-2 pr-0.5 py-0.5"></AppIconLibrary>
             </template>
           </AppButtonPrimary>
         </template>
@@ -41,21 +41,18 @@
               <div v-for="item in openAudits" :key="item.id">
                 <AppListContainer :isLast="getStatus(openAudits, item.id)">
                   <template #wrapperRight>
-                    <router-link
+                    <!--<router-link
                       :to="{ name: 'LPAAudit', params: { id: item.id } }"
                       ><AppButtonTertiary
                         name="Audit starten"
+                        v-on:buttonClick="openPopup(item.id)"
                       ></AppButtonTertiary
-                    ></router-link>
-                    <AppButtonOption
-                      v-bind:isVertical="false"
-                    ></AppButtonOption>
+                    ></router-link>-->
+                    <AppButtonTertiary name="Audit starten" v-on:buttonClick="openPopup(item.id)"></AppButtonTertiary>
+                    <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                   </template>
                   <template #wrapperContent>
-                    <AppListTextAndSubtext
-                      :text="item.name"
-                      :subtext="item.listItems"
-                    ></AppListTextAndSubtext>
+                    <AppListTextAndSubtext :text="item.name" :subtext="item.listItems"></AppListTextAndSubtext>
                   </template>
                 </AppListContainer>
               </div>
@@ -68,15 +65,10 @@
               <div v-for="item in plannedAudits" :key="item.id">
                 <AppListContainer :isLast="getStatus(plannedAudits, item.id)">
                   <template #wrapperRight>
-                    <AppButtonOption
-                      v-bind:isVertical="false"
-                    ></AppButtonOption>
+                    <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                   </template>
                   <template #wrapperContent>
-                    <AppListTextAndSubtext
-                      :text="item.name"
-                      :subtext="item.listItems"
-                    ></AppListTextAndSubtext>
+                    <AppListTextAndSubtext :text="item.name" :subtext="item.listItems"></AppListTextAndSubtext>
                   </template>
                 </AppListContainer>
               </div>
@@ -249,7 +241,11 @@ export default defineComponent({
           ],
         },
       ],
+      visibleTest: false
     };
+  },
+  mounted() {
+    this.enableScroll();
   },
   methods: {
     getStatus(list: any, item: Number) {
@@ -259,6 +255,23 @@ export default defineComponent({
         return true;
       }
     },
+    openPopup(id: any) {
+      this.disableScroll();
+      this.visibleTest = true;
+    },
+    disableScroll() {
+      // Get the current page scroll position
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+      // if any scroll is attempted, set this to the previous value
+      window.onscroll = function () {
+        window.scrollTo(scrollLeft, scrollTop);
+      };
+    },
+    enableScroll() {
+      window.onscroll = function () { };
+    }
   },
 });
 </script>
