@@ -1,11 +1,28 @@
 <template>
+  <AppPopup v-if="visibleTest">
+    <div class="p-7 border-b-2 border-gray-200">
+      <AppListTextAndSubtext :text="openAudits[0].name" :subtext="openAudits[0].listItems"></AppListTextAndSubtext>
+    </div>
+    <div class="p-7 flex">
+      <AppButtonPrimary name="Audit starten" v-bind:isActive="true"></AppButtonPrimary>
+      <AppButtonSecondary></AppButtonSecondary>
+    </div>
+  </AppPopup>
   <AppPageLayout>
     <template #sidebar>
       <!-- content for the sidebar slot -->
       <LPASidebar currentPage="LPADashboard"></LPASidebar>
     </template>
     <template #header>
-      <AppSearchAndFilterBar></AppSearchAndFilterBar>
+      <AppSearchAndFilterBar>
+        <template #wrapperRight>
+          <AppButtonPrimary class="mr-6" name="Audit erstellen" v-bind:isActive="true">
+            <template #icon>
+              <AppIconLibrary icon="plus" styling="mr-2 pr-0.5 py-0.5"></AppIconLibrary>
+            </template>
+          </AppButtonPrimary>
+        </template>
+      </AppSearchAndFilterBar>
     </template>
     <template #content>
       <div class="grid grid-cols-2 gap-6">
@@ -23,18 +40,20 @@
           <AppContainer containerName="Offene Audits">
             <template #content>
               <div v-for="item in openAudits" :key="item.id">
-                <AppListContainer :isLast="getStatus(openAudits, item.id)">
+                <AppListContainer :isLast="getStatus(item, openAudits)">
                   <template #wrapperRight>
-                    <router-link :to="{name: 'LPAAudit',params: { id: 1 },}"><AppButtonTertiary name="Audit starten"></AppButtonTertiary></router-link>
-                    <AppButtonOption
-                      v-bind:isVertical="false"
-                    ></AppButtonOption>
+                    <!--<router-link
+                      :to="{ name: 'LPAAudit', params: { id: item.id } }"
+                      ><AppButtonTertiary
+                        name="Audit starten"
+                        v-on:buttonClick="openPopup(item.id)"
+                      ></AppButtonTertiary
+                    ></router-link>-->
+                    <AppButtonTertiary name="Audit starten" v-on:buttonClick="openPopup(item.id)"></AppButtonTertiary>
+                    <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                   </template>
                   <template #wrapperContent>
-                    <AppListTextAndSubtext
-                      :text="item.name"
-                      :subtext="item.listItems"
-                    ></AppListTextAndSubtext>
+                    <AppListTextAndSubtext :text="item.name" :subtext="item.listItems"></AppListTextAndSubtext>
                   </template>
                 </AppListContainer>
               </div>
@@ -45,17 +64,12 @@
           <AppContainer containerName="Geplante Audits">
             <template #content>
               <div v-for="item in plannedAudits" :key="item.id">
-                <AppListContainer :isLast="getStatus(plannedAudits, item.id)">
+                <AppListContainer :isLast="getStatus(item, plannedAudits)">
                   <template #wrapperRight>
-                    <AppButtonOption
-                      v-bind:isVertical="false"
-                    ></AppButtonOption>
+                    <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                   </template>
                   <template #wrapperContent>
-                    <AppListTextAndSubtext
-                      :text="item.name"
-                      :subtext="item.listItems"
-                    ></AppListTextAndSubtext>
+                    <AppListTextAndSubtext :text="item.name" :subtext="item.listItems"></AppListTextAndSubtext>
                   </template>
                 </AppListContainer>
               </div>
@@ -77,6 +91,10 @@ import AppListContainer from "../../../components/AppListContainer.vue";
 import AppButtonOption from "../../../components/AppButtonOption.vue";
 import AppButtonTertiary from "../../../components/AppButtonTertiary.vue";
 import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
+import AppButtonPrimary from "../../../components/AppButtonPrimary.vue";
+import AppIconLibrary from "../../../components/AppIconLibrary.vue";
+import AppPopup from "../../../components/AppPopup.vue";
+import AppButtonSecondary from "../../../components/AppButtonSecondary.vue";
 
 export default defineComponent({
   name: "LPADashboard",
@@ -89,6 +107,9 @@ export default defineComponent({
     AppButtonOption,
     AppButtonTertiary,
     AppListTextAndSubtext,
+    AppButtonPrimary,
+    AppIconLibrary,
+    AppPopup
   },
   data() {
     return {
@@ -222,16 +243,37 @@ export default defineComponent({
           ],
         },
       ],
+      visibleTest: false
     };
   },
+  mounted() {
+    this.enableScroll();
+  },
   methods: {
-    getStatus(list: any, item: Number){
-      if(item < list.length - 1){
-        return false
-      }else {
+    openPopup(id: any) {
+      this.disableScroll();
+      this.visibleTest = true;
+    },
+    disableScroll() {
+      // Get the current page scroll position
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+      // if any scroll is attempted, set this to the previous value
+      window.onscroll = function () {
+        window.scrollTo(scrollLeft, scrollTop);
+      };
+    },
+    enableScroll() {
+      window.onscroll = function () { };
+    },
+    getStatus(item: any, array: any){
+      if(item === array[array.length-1]){
         return true
+      }else {
+        return false
       }
     }
-  }
+  },
 });
 </script>

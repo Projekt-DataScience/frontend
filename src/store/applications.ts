@@ -1,0 +1,66 @@
+export interface Applications {
+    name: string,
+    icon: string,
+    favourite: boolean,
+    available: boolean,
+    routerName: string
+}
+
+import { defineStore } from "pinia";
+
+export const useApplications = defineStore('Applications', {
+    state: () => ({
+        apps: [
+            {
+                name: "Layered Process Audit",
+                icon: "lpa",
+                favourite: true,
+                available: true,
+                routerName: "LPADashboard"
+            },
+            {
+                name: "Gerätemanager",
+                icon: "lpa",
+                favourite: false,
+                available: false,
+                routerName: "LPADashboard"
+            },
+            {
+                name: "Urlaubsplanung",
+                icon: "lpa",
+                favourite: false,
+                available: false,
+                routerName: "LPADashboard"
+            },
+            {
+                name: "Werkzeugausgabe",
+                icon: "lpa",
+                favourite: true,
+                available: false,
+                routerName: "LPADashboard"
+            },
+            {
+                name: "Fuhrparkverwaltung",
+                icon: "lpa",
+                favourite: false,
+                available: false,
+                routerName: "LPADashboard"
+            }
+        ] as Applications[]
+    }),
+    getters: {
+        /* 
+        getFavourites: (state) => {
+            return state.apps.filter(() => app.favourite === true)
+        },
+        */
+        getApps (state) {
+            return state.apps
+        },
+        getFavourites(state) {
+            return state.apps.filter((app) => app.favourite);
+        }
+    }
+    
+}
+)

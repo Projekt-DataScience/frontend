@@ -25,7 +25,7 @@ export const lpaRoutes = [
                 component: LPAQuestions,
             },
             {
-                path: 'audit',
+                path: 'audit/:id',
                 name: 'LPAAudit',
                 component: LPAAudit,
             },

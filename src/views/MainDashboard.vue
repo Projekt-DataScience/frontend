@@ -1,48 +1,76 @@
 <template>
-    <MainHeader></MainHeader>
-    <div class="grid gap-6 grid-cols-3 m-6">
-      <div class="grid gap-6 grid-cols-1 col-span-2">
-        <AppContainer container-name="Favoriten">
-          <template #content>
-            <AppListContainer>
+  <MainHeader></MainHeader>
+  <div class="grid gap-6 grid-cols-3 m-6">
+    <div class="grid gap-6 grid-cols-1 col-span-2">
+      <AppContainer container-name="Favoriten">
+        <template #content>
+          <div v-for="(item, index) in favourites" :key="index">
+            <AppListContainer :isLast="getStatus(item, favourites)">
               <template #wrapperLeft>
-                <AppIconLibrary icon="lpa" styling="h-10 text-primary-blue"></AppIconLibrary>
+                <AppIconLibrary :icon="item.icon" styling="h-10 text-primary-blue"></AppIconLibrary>
               </template>
               <template #wrapperContent>
                 <div>
-                  {{favourites[0].appName}}
+                  {{ item.name }}
                 </div>
               </template>
               <template #wrapperRight>
-                
-                <router-link :to="{name : 'LPADashboard'}">
+
+                <router-link :to="{ name: item.routerName }">
                   <AppButtonSecondary name="Öffnen" class="mr-6"></AppButtonSecondary>
                 </router-link>
                 <AppButtonOption v-bind:is-vertical="true">
                 </AppButtonOption>
-              
+
               </template>
             </AppListContainer>
-          </template>
-        </AppContainer>
-        <AppContainer container-name="Anwendungen">
-        </AppContainer>
-      </div>
-      <div>
-        <AppContainer container-name="Aktuelle Aufgaben">
-        </AppContainer>
-      </div>
-      </div>
+          </div>
+        </template>
+      </AppContainer>
+      <AppContainer container-name="Anwendungen">
+        <template #content>
+          <div v-for="(item, index) in apps" :key="index">
+            <AppListContainer :isLast="getStatus(item, apps)">
+              <template #wrapperLeft>
+                <AppIconLibrary :icon="item.icon" styling="h-10 text-primary-blue"></AppIconLibrary>
+              </template>
+              <template #wrapperContent>
+                <div>
+                  {{ item.name }}
+                </div>
+              </template>
+              <template #wrapperRight>
+
+                <router-link :to="{ name: item.routerName }">
+                  <AppButtonSecondary name="Öffnen" class="mr-6"></AppButtonSecondary>
+                </router-link>
+                <AppButtonOption v-bind:is-vertical="true">
+                </AppButtonOption>
+
+              </template>
+            </AppListContainer>
+          </div>
+        </template>
+      </AppContainer>
+    </div>
+    <div>
+      <AppContainer container-name="Aktuelle Aufgaben">
+      </AppContainer>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent} from "vue";
+import { defineComponent } from "vue";
 import MainHeader from "../components/MainHeader.vue";
 import AppContainer from "../components/AppContainer.vue";
 import AppListContainer from "../components/AppListContainer.vue";
 import AppButtonOption from "../components/AppButtonOption.vue";
 import AppButtonSecondary from "../components/AppButtonSecondary.vue";
 import AppIconLibrary from "../components/AppIconLibrary.vue";
+
+import { useApplications } from "../store/applications";
+
 
 export default defineComponent({
   name: "MainDashboard",
@@ -54,26 +82,29 @@ export default defineComponent({
     MainHeader,
     AppIconLibrary
   },
+  setup() {
+    const store = useApplications();
+    console.log(store.$state.apps);
+    console.log(store.getFavourites);
+    return {
+      apps: store.getApps,
+      favourites: store.getFavourites
+    };
+
+  },
   data() {
     return {
-      favourites: [
-        {
-          id: 0,
-          appName: "Layered Process Audit"
-        }
-      ],
-      applications: [
-        {
-          id: 0,
-          appName: "Gerätemanager"
-        },
-        {
-          id: 1,
-          appName: "Urlaubsplanung"
-        }
-      ]
       
     };
   },
+  methods: {
+    getStatus(item: any, array: any){
+      if(item === array[array.length-1]){
+        return true
+      }else {
+        return false
+      }
+    }
+  }
 }); 
 </script>

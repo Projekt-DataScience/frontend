@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center h-full w-full">
+  <div class="flex items-center w-full h-18">
     <div class="flex-initial">
       <form class="flex w-34 ml-4" action="#" method="GET">
         <label for="search-field" class="sr-only">Suche</label>
@@ -57,11 +57,7 @@
     <div class="flex-auto">
         <div class="flex justify-end mr-4">
             <div class="ml-4 flex items-center md:ml-5">
-            <AppButtonPrimary class="mr-6" name="Audit erstellen" v-bind:isActive="true">
-              <template #icon>
-                <AppIconLibrary icon="plus" styling="mr-2 pr-0.5 py-0.5"></AppIconLibrary>
-              </template>
-            </AppButtonPrimary>
+            <slot name="wrapperRight" v-if="hasWrapperRight()"></slot>
             <!--Notification Button-->
             <AppButtonNotification></AppButtonNotification>
 
@@ -75,7 +71,6 @@
     
   <script lang="ts">
 import { ref, defineComponent } from "vue";
-import AppButtonPrimary from "./AppButtonPrimary.vue";
 import AppButtonProfile from "./AppButtonProfile.vue";
 import AppButtonNotification from "./AppButtonNotification.vue";
 import AppIconLibrary from "./AppIconLibrary.vue";
@@ -83,7 +78,6 @@ import AppIconLibrary from "./AppIconLibrary.vue";
 export default defineComponent({
   name: "AppSearchAndFilterBar",
   components: {
-    AppButtonPrimary,
     AppButtonProfile,
     AppButtonNotification,
     AppIconLibrary
@@ -100,6 +94,9 @@ export default defineComponent({
     },
     handleUploadToggle() {
       this.uploadIsActive = !this.uploadIsActive;
+    },
+    hasWrapperRight() {
+      return !!this.$slots.wrapperRight;
     },
   },
 });
