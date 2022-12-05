@@ -3,9 +3,12 @@
     <div class="p-7 border-b-2 border-gray-200">
       <AppListTextAndSubtext :text="openAudits[0].name" :subtext="openAudits[0].listItems"></AppListTextAndSubtext>
     </div>
-    <div class="p-7 flex">
+    <div class="p-7 border-b-2 border-gray-200">
+      Test
+    </div>
+    <div class="p-7 flex items-center">
       <AppButtonPrimary name="Audit starten" v-bind:isActive="true"></AppButtonPrimary>
-      <AppButtonSecondary></AppButtonSecondary>
+      <AppButtonSecondary class="ml-5" name="Abbrechen" v-on:buttonClick="closePopup()"></AppButtonSecondary>
     </div>
   </AppPopup>
   <AppPageLayout>
@@ -109,7 +112,8 @@ export default defineComponent({
     AppListTextAndSubtext,
     AppButtonPrimary,
     AppIconLibrary,
-    AppPopup
+    AppPopup,
+    AppButtonSecondary
   },
   data() {
     return {
@@ -253,6 +257,10 @@ export default defineComponent({
     openPopup(id: any) {
       this.disableScroll();
       this.visibleTest = true;
+    },
+    closePopup(){
+      this.visibleTest = false;
+      this.enableScroll();
     },
     disableScroll() {
       // Get the current page scroll position

@@ -20,6 +20,9 @@ module.exports = {
         '4': '4px'
       },
     },
+    minWidth: {
+      '1/2': '50%',
+    },
     fontFamily: {
       'sans': ['Montserrat', 'sans-serif'],
     }
