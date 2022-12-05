@@ -20,31 +20,45 @@ export const useApplications = defineStore('Applications', {
             },
             {
                 name: "Gerätemanager",
-                icon: "lpa",
+                icon: "gm",
                 favourite: false,
                 available: false,
-                routerName: "LPADashboard"
+                routerName: "MainDashboard"
             },
             {
                 name: "Urlaubsplanung",
-                icon: "lpa",
+                icon: "up",
                 favourite: false,
                 available: false,
-                routerName: "LPADashboard"
+                routerName: "MainDashboard"
             },
             {
                 name: "Werkzeugausgabe",
-                icon: "lpa",
+                icon: "wa",
                 favourite: true,
                 available: false,
-                routerName: "LPADashboard"
+                routerName: "Login"
             },
             {
                 name: "Fuhrparkverwaltung",
-                icon: "lpa",
+                icon: "fv",
                 favourite: false,
                 available: false,
-                routerName: "LPADashboard"
+                routerName: "MainDashboard"
+            },
+            {
+                name: "Büromaterialausgabe",
+                icon: "bma",
+                favourite: false,
+                available: false,
+                routerName: "MainDashboard"
+            },
+            {
+                name: "Prüfmittelverwaltung",
+                icon: "pv",
+                favourite: false,
+                available: false,
+                routerName: "MainDashboard"
             }
         ] as Applications[]
     }),
