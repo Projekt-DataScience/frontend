@@ -1,30 +1,26 @@
 <template>
-    <div class="grid grid-cols-7">
-        <div class="col-span-2 bg-slate-100 row-auto">
+    <div class="grid grid-cols-5">
+        <div class="col-span-1 bg-slate-50 h-screen">
             <div class="px-5 py-5">
                 <img :src="logoImagePath" alt="MyCompanyLogo" class="h-10">
             </div>
 
             <div class="p-5">
-                <label for="email-address" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="text" name="email-address" id="email-address" autocomplete="email"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                <AppInputTextField headline="Email" id="email-address" name="email-address" label="email-address" autocomplete="email" type="text"></AppInputTextField>
+                
             </div>
 
-
             <div class="p-5">
-                <label for="password" class="block text-sm font-medium text-gray-700">Passwort</label>
-                <input type="password" name="password" id="password" autocomplete="password"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                <AppInputTextField headline="Passwort" id="password" name="password" label="password" autocomplete="password" type="password"></AppInputTextField>
             </div>
 
             <div class="px-5 py-5">
-                <AppButtonPrimary name="Einloggen" is-active="true">
+                <AppButtonPrimary name="Einloggen" v-bind:is-active="true">
                 </AppButtonPrimary>
             </div>
         </div>
         <div class="col-span-auto">
-            <img :src="welcomeImagePath" alt="WelcomeImage" class="w-100">
+            <img :src="welcomeImagePath" alt="WelcomeImage" class="w-100 h-screen">
         </div>
     </div>
 </template>
@@ -33,12 +29,14 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 import AppButtonPrimary from "../components/AppButtonPrimary.vue";
+import AppInputTextField from "../components/AppInputTextField.vue";
 
 
 export default defineComponent({
     name: "Login",
     components: {
-        AppButtonPrimary
+        AppButtonPrimary,
+        AppInputTextField
     },
     data() {
         return {
