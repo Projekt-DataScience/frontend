@@ -8,26 +8,29 @@
       <AppSearchAndFilterBar></AppSearchAndFilterBar>
     </template>
     <template #content>
-      <div v-for="item in questions" :key="item.id">
-        <AppListContainer :isLast="getStatus(questions, item.id)">
+      <div v-for="(item, index) in questions" :key="index">
+        <AppListContainer :isLast="getStatus(item, questions)">
           <template #wrapperLeft>
             <div class="mr-4">
-              <AppIconLibrary icon="checkbox" type="active" styling="h-5 w-full text-gray-400"></AppIconLibrary>
+              <AppIconLibrary
+                icon="checkbox"
+                type="active"
+                styling="h-5 w-full text-gray-400"
+              ></AppIconLibrary>
             </div>
           </template>
           <template #wrapperContent>
-            <AppListTextAndSubtext
-              :text="item.name"
-              :subtext="item.listItems"
-            ></AppListTextAndSubtext>
+            {{ item.title }}
+            <!--<AppListTextAndSubtext
+              :text="item.title"
+              :subtext="item"
+            ></AppListTextAndSubtext>-->
           </template>
           <template #wrapperRight>
-            <LPAQuestionBar
-            :green="questions[0].statistics.green"
-            :orange="questions[0].statistics.orange"
-            :red="questions[0].statistics.red"
-          ></LPAQuestionBar>
-          <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
+            <LPAQuestionBar :green="22" :orange="22" :red="22"></LPAQuestionBar>
+            <AppButtonOption
+              v-bind:isVertical="false"
+            ></AppButtonOption>
           </template>
         </AppListContainer>
       </div>
@@ -36,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref, onMounted, computed } from "vue";
 import LPASidebar from "../components/LPASidebar.vue";
 import AppPageLayout from "../../../components/AppPageLayout.vue";
 import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
@@ -45,6 +48,9 @@ import AppButtonOption from "../../../components/AppButtonOption.vue";
 import LPAQuestionBar from "../components/LPAQuestionBar.vue";
 import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
+
+import { useQuestions } from "../store/questions";
+import { Questions } from "../types";
 
 export default defineComponent({
   name: "LPAQuestions",
@@ -56,85 +62,33 @@ export default defineComponent({
     AppButtonOption,
     LPAQuestionBar,
     AppListTextAndSubtext,
-    AppIconLibrary
+    AppIconLibrary,
   },
-  data() {
-    return {
-      questions: [
-        {
-          id: 0,
-          name: "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              name: "Layer 1"
-            },
-            {
-              id: 1,
-              type: "normal",
-              name: "TN-Gruppe"
-            }
-          ],
-          statistics: {
-            green: 1000,
-            orange: 50,
-            red: 1,
-          }
-        },
-        {
-          id: 1,
-          name: "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              name: "Layer 1"
-            },
-            {
-              id: 1,
-              type: "normal",
-              name: "C-Gruppe"
-            }
-          ],
-          statistics: {
-            green: 244,
-            orange: 23,
-            red: 2,
-          }
-        },
-        {
-          id: 2,
-          name: "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              name: "Layer 1"
-            },
-            {
-              id: 1,
-              type: "normal",
-              name: "TN-Gruppe"
-            }
-          ],
-          statistics: {
-            green: 244,
-            orange: 23,
-            red: 2,
-          }
-        }
-      ],
-    };
+  async mounted() {
+    const store = useQuestions();
+    await store.fetchQuestions();
+    this.questions = store.questions;
+  },
+  data(){
+    return{
+      questions: [] as Questions[]
+    }
   },
   methods: {
-    getStatus(list: any, item: Number){
-      if(item < list.length - 1){
-        return false
-      }else {
-        return true
+    getStatus(item: any, array: any) {
+      if (item === array[array.length - 1]) {
+        return true;
+      } else {
+        return false;
       }
-    }
-  }
+    },
+    fetchQuestions() {
+      const store = useQuestions();
+      console.log(store.questions);
+      return {
+        questions: store.questions,
+      };
+    },
+  },
 });
 </script>

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Questions } from "./types";
+import { Questions } from "../types";
 import axios from 'axios';
 
 export const useQuestions = defineStore('Questions', {
@@ -7,15 +7,17 @@ export const useQuestions = defineStore('Questions', {
         questions: [] as Questions[]
     }),
     getters: {
-        getUsers: (state) => state.questions,
+        async getQuestions(state){
+            return state.questions
+        },
     },
     actions: {
-        async fetchQuestions({ commit }) {
+        async fetchQuestions() {
             try {
                 const data = await axios.get(
                     "http://localhost:3000/dataQuestions"
                 );
-                this.questions = data.data;
+                this.questions = data.data.data.questions;
             } catch (error) {
                 alert(error);
                 console.log(error);

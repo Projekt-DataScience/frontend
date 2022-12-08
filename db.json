@@ -41,32 +41,60 @@
     ]
   },
   "dataOpenAudits": {
-    "audits": [
-      {
-        "title": "Spontaner Audit in der C-Grupe",
-        "layer": 1,
-        "due_date": "2022-10-22T00:00:00.000Z",
-        "created_by": "Tony Stark"
-      },
-      {
-        "title": "Spontaner Audit in der TN-Grupe",
-        "layer": 1,
-        "due_date": "2022-10-22T00:00:00.000Z",
-        "created_by": "Tony Stark"
-      }
-    ]
+    "data": {
+      "audits": [
+        {
+          "title": "Spontaner Audit in der C-Grupe",
+          "layer": 1,
+          "due_date": "2022-10-22T00:00:00.000Z",
+          "created_by": "Tony Stark"
+        },
+        {
+          "title": "Spontaner Audit in der TN-Grupe",
+          "layer": 1,
+          "due_date": "2022-10-22T00:00:00.000Z",
+          "created_by": "Tony Stark"
+        }
+      ]
+    }
   },
   "dataQuestions": {
-    "questions": [
-      {
-        "id": 1,
-        "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
-        "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
-        "category": "Arbeitsschutz",
-        "layer": 1,
-        "group": "C-Gruppe"
-      }
-    ]
+    "data": {
+      "questions": [
+        {
+          "id": 1,
+          "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+          "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
+          "category": "Arbeitsschutz",
+          "layer": 1,
+          "group": "C-Gruppe"
+        },
+        {
+          "id": 2,
+          "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+          "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
+          "category": "Arbeitsschutz",
+          "layer": 1,
+          "group": "C-Gruppe"
+        },
+        {
+          "id": 3,
+          "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+          "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
+          "category": "Arbeitsschutz",
+          "layer": 1,
+          "group": "C-Gruppe"
+        },
+        {
+          "id": 4,
+          "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+          "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
+          "category": "Arbeitsschutz",
+          "layer": 1,
+          "group": "C-Gruppe"
+        }
+      ]
+    }
   },
   "dataAnswers": {
     "answers": [
