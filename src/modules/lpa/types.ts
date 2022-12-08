@@ -7,11 +7,18 @@ export interface Questions {
     group: string
 }
 
-export interface History {
+export interface StructuredQuestions {
     id: number,
     title: string,
     description: string,
-    category: string,
-    layer: number,
-    group: string
+    listItems: [
+        {
+            type: string,
+            layer: string
+        },
+        {
+            type: string,
+            group: string
+        }
+    ]
 }
