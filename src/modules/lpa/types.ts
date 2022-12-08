@@ -11,14 +11,5 @@ export interface StructuredQuestions {
     id: number,
     title: string,
     description: string,
-    listItems: [
-        {
-            type: string,
-            layer: string
-        },
-        {
-            type: string,
-            group: string
-        }
-    ]
+    listItems: any
 }
