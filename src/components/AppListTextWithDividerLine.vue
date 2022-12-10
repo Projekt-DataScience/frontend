@@ -1,19 +1,25 @@
 <template>
   <div class="flex items-center">
-    <div v-if="type === 'normal' || type === undefined">
-      {{text}}
-    </div>
-    <div v-if="type === 'profile'">
-      <div class="flex items-center">
-          <img class="h-8 w-8 rounded-full" :src="imgPath" alt="">
-          <div class="ml-2">
-            <div class="text-gray-400 text-sm text-semibold">{{subtext}}</div>
-            <div class="text-base">{{text}}</div>
-          </div>
+    <div class="flex items-center">
+      <img
+        class="h-8 w-8 rounded-full mr-2"
+        :src="imgPath"
+        alt=""
+        v-if="imgPath"
+      />
+      <div>
+        <div class="text-gray-400 text-sm text-semibold" v-if="subtext">
+          {{ subtext }}
+        </div>
+        <div class="text-base">{{ text }}</div>
       </div>
     </div>
-    <div class="px-4" v-if="isLast === false">
-      <AppIconLibrary icon="divideLine" styling="h-4 text-primary-blue"></AppIconLibrary>
+
+    <div class="px-5" v-if="isLast === false">
+      <AppIconLibrary
+        icon="divideLine"
+        styling="h-4 text-primary-blue"
+      ></AppIconLibrary>
     </div>
   </div>
 </template>
@@ -25,7 +31,7 @@ import AppIconLibrary from "./AppIconLibrary.vue";
 export default defineComponent({
   name: "AppListTextWithDividerLine",
   components: {
-    AppIconLibrary
+    AppIconLibrary,
   },
   emits: {
     toggleSidebar: null,
@@ -38,20 +44,20 @@ export default defineComponent({
     },
     isLast: {
       type: Boolean,
-      required: true
+      required: true,
     },
     type: {
       type: String,
-      required: false
+      required: false,
     },
     imgPath: {
       type: String,
-      required: false
+      required: false,
     },
     subtext: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   methods: {},
 });
