@@ -5,10 +5,10 @@
       <LPASidebar currentPage="LPAAudit"></LPASidebar>
     </template>
     <template #header>
-      <div class="flex items-center">
-        <div class="m-6 font-semibold text-lg">Audit durchführen</div>
+      <div class="flex items-center m-6">
+        <div class="font-semibold text-lg">Audit durchführen</div>
         <div class="flex-auto">
-          <div class="flex justify-end my-6">
+          <div class="flex justify-end">
             <AppButtonPrimary
               class="mr-6"
               name="Abschließen"
@@ -20,20 +20,19 @@
           </div>
         </div>
       </div>
-    </template>
-    <template #content>
-      <div class="flex items-center">
+      <div class="flex items-center m-6">
         <div v-for="(item, index) in test" :key="index">
           <AppListTextWithDividerLine
             :text="item.text"
             :subtext="item.subtext"
             :imgPath="item.imgPath"
             :type="item.type"
-            :isLast="getStatus(item, test)"
+            :isLast="getIsLast(item, test)"
           ></AppListTextWithDividerLine>
         </div>
       </div>
     </template>
+    <template #content> Test </template>
   </AppPageLayout>
 </template>
 
@@ -46,7 +45,7 @@ import LPAAuditHeader from "../../../components/AppSearchAndFilterBar.vue";
 import AppButtonPrimary from "../../../components/AppButtonPrimary.vue";
 import AppButtonSecondary from "../../../components/AppButtonSecondary.vue";
 import AppListTextWithDividerLine from "../../../components/AppListTextWithDividerLine.vue";
-import { getStatus } from "../../../mixins/listMixin";
+import { getIsLast } from "../../../mixins/arrayMixin";
 
 export default defineComponent({
   name: "LPAAudit",
@@ -58,7 +57,7 @@ export default defineComponent({
     AppButtonSecondary,
     AppListTextWithDividerLine,
   },
-  mixins: [getStatus],
+  mixins: [getIsLast],
   data() {
     return {
       test: [
@@ -67,13 +66,26 @@ export default defineComponent({
           subtext: "Auditor",
           imgPath:
             "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-          type: "profile",
         },
         {
           text: "Peter Parker",
           subtext: "Befragter",
           imgPath:
             "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        },
+        {
+          text: "Layer 1",
+          subtext: "Layer",
+          type: "profile",
+        },
+        {
+          text: "Schweißerei",
+          subtext: "Gruppe",
+          type: "profile",
+        },
+        {
+          text: "Samstag, 10.12.2022",
+          subtext: "Fälligkeit",
           type: "profile",
         },
       ],

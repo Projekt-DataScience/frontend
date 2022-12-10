@@ -1,6 +1,6 @@
-export const getStatus = {
+export const getIsLast = {
     methods: {
-        getStatus(item: any, array: any) {
+        getIsLast(item: any, array: any) {
             if (item === array[array.length - 1]) {
                 return true;
             } else {
