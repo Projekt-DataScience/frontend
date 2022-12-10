@@ -7,7 +7,9 @@
           <div v-for="(item, index) in favourites" :key="index">
             <AppListContainer :isLast="getStatus(item, favourites)">
               <template #wrapperLeft>
-                <AppIconLibrary :icon="item.icon" styling="h-10 text-primary-blue"></AppIconLibrary>
+                <AppIconLibrary v-if="(item.available === true)" styling="text-primary-blue" :icon="item.icon">
+                </AppIconLibrary>
+                <AppIconLibrary v-else styling="h-10 text-gray-400" :icon="item.icon"></AppIconLibrary>
               </template>
               <template #wrapperContent>
                 <div>
@@ -32,7 +34,9 @@
           <div v-for="(item, index) in apps" :key="index">
             <AppListContainer :isLast="getStatus(item, apps)">
               <template #wrapperLeft>
-                <AppIconLibrary :icon="item.icon" styling="h-10 text-primary-blue"></AppIconLibrary>
+                <AppIconLibrary v-if="(item.available === true)" styling="text-primary-blue" :icon="item.icon">
+                </AppIconLibrary>
+                <AppIconLibrary v-else styling="h-10 text-gray-400" :icon="item.icon"></AppIconLibrary>
               </template>
               <template #wrapperContent>
                 <div>
@@ -94,14 +98,14 @@ export default defineComponent({
   },
   data() {
     return {
-      
+
     };
   },
   methods: {
-    getStatus(item: any, array: any){
-      if(item === array[array.length-1]){
+    getStatus(item: any, array: any) {
+      if (item === array[array.length - 1]) {
         return true
-      }else {
+      } else {
         return false
       }
     }
