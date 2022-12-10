@@ -207,7 +207,7 @@
         "icon_url": "/icons/lpa.png",
         "app_name": "Layered Process Audit",
         "title": "Spontaner Audit in der C-Gruppe",
-        "paramters": [
+        "parameters": [
           "Layer 1",
           "2022-10-22T00:00:00.000Z"
         ],
