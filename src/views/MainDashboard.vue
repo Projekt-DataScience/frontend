@@ -7,9 +7,9 @@
           <div v-for="(item, index) in favourites" :key="index">
             <AppListContainer :isLast="getStatus(item, favourites)">
               <template #wrapperLeft>
-                <AppIconLibrary v-if="(item.available === true)" styling="text-primary-blue" :icon="item.icon">
+                <AppIconLibrary v-if="(item.available === true)" styling="h-9 w-9 text-primary-blue mr-2" :icon="item.icon">
                 </AppIconLibrary>
-                <AppIconLibrary v-else styling="h-10 text-gray-400" :icon="item.icon"></AppIconLibrary>
+                <AppIconLibrary v-else styling="h-9 w-9 text-gray-400 mr-2" :icon="item.icon"></AppIconLibrary>
               </template>
               <template #wrapperContent>
                 <div>
@@ -19,7 +19,8 @@
               <template #wrapperRight>
 
                 <router-link :to="{ name: item.routerName }">
-                  <AppButtonSecondary name="Öffnen" class="mr-6"></AppButtonSecondary>
+                  <AppButtonSecondary v-if="(item.available === false)" name="Lizenz erwerben" class="mr-6"></AppButtonSecondary>
+                  <AppButtonPrimary v-bind:isActive="true" v-else name="Öffnen" class="mr-6"></AppButtonPrimary>
                 </router-link>
                 <AppButtonOption v-bind:is-vertical="true">
                 </AppButtonOption>
@@ -34,9 +35,9 @@
           <div v-for="(item, index) in apps" :key="index">
             <AppListContainer :isLast="getStatus(item, apps)">
               <template #wrapperLeft>
-                <AppIconLibrary v-if="(item.available === true)" styling="text-primary-blue" :icon="item.icon">
+                <AppIconLibrary v-if="(item.available === true)" styling="h-9 w-9 text-primary-blue mr-2" :icon="item.icon">
                 </AppIconLibrary>
-                <AppIconLibrary v-else styling="h-10 text-gray-400" :icon="item.icon"></AppIconLibrary>
+                <AppIconLibrary v-else styling="h-9 w-9 text-gray-400 mr-2" :icon="item.icon"></AppIconLibrary>
               </template>
               <template #wrapperContent>
                 <div>
@@ -46,7 +47,8 @@
               <template #wrapperRight>
 
                 <router-link :to="{ name: item.routerName }">
-                  <AppButtonSecondary name="Öffnen" class="mr-6"></AppButtonSecondary>
+                  <AppButtonSecondary v-if="(item.available === false)" name="Lizenz erwerben" class="mr-6"></AppButtonSecondary>
+                  <AppButtonPrimary v-bind:isActive="true" v-else name="Öffnen" class="mr-6"></AppButtonPrimary>
                 </router-link>
                 <AppButtonOption v-bind:is-vertical="true">
                 </AppButtonOption>
@@ -72,6 +74,7 @@ import AppListContainer from "../components/AppListContainer.vue";
 import AppButtonOption from "../components/AppButtonOption.vue";
 import AppButtonSecondary from "../components/AppButtonSecondary.vue";
 import AppIconLibrary from "../components/AppIconLibrary.vue";
+import AppButtonPrimary from "../components/AppButtonPrimary.vue";
 
 import { useApplications } from "../store/applications";
 
@@ -84,7 +87,8 @@ export default defineComponent({
     AppContainer,
     AppListContainer,
     MainHeader,
-    AppIconLibrary
+    AppIconLibrary,
+    AppButtonPrimary
   },
   setup() {
     const store = useApplications();
