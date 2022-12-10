@@ -10,15 +10,22 @@ export const useQuestions = defineStore('Questions', {
     getters: {
         getQuestions(state){
             for (let i = 0; i < state.questions.length; i++) {
-                state.structuredQuestions[i].id = state.questions[i].id;
-                state.structuredQuestions[i].title = state.questions[i].title;
-                state.structuredQuestions[i].description = state.questions[i].description;
-                state.structuredQuestions[i].listItems = [
-                    {type: "normal", text: state.questions[i].layer.toString()},
-                    {type: "normal", text: state.questions[i].group}
-                ]
+                state.structuredQuestions.push({
+                    id: state.questions[i].id,
+                    title: state.questions[i].title,
+                    description: state.questions[i].title,
+                    listItems: [
+                        {
+                            type: "normal",
+                            text: "Layer " + state.questions[i].layer.toString()
+                        },
+                        {
+                            type: "normal",
+                            text: state.questions[i].group
+                        }
+                    ]
+                })
             }
-
             return state.structuredQuestions
         },
     },
@@ -40,3 +47,5 @@ export const useQuestions = defineStore('Questions', {
     }
 }
 )
+
+/* */

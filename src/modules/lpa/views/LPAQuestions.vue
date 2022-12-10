@@ -20,10 +20,10 @@
             </div>
           </template>
           <template #wrapperContent>
-            <!--<AppListTextAndSubtext
+            <AppListTextAndSubtext
               :text="item.title"
               :subtext="item.listItems"
-            ></AppListTextAndSubtext>-->
+            ></AppListTextAndSubtext>
           </template>
           <template #wrapperRight>
             <LPAQuestionBar :green="22" :orange="22" :red="22"></LPAQuestionBar>
@@ -49,7 +49,7 @@ import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 
 import { useQuestions } from "../store/questions";
-import { Questions } from "../types";
+import { Questions, StructuredQuestions } from "../types";
 
 export default defineComponent({
   name: "LPAQuestions",
@@ -66,12 +66,11 @@ export default defineComponent({
   async mounted() {
     const store = useQuestions();
     await store.fetchQuestions();
-    this.questions = store.questions;
-    console.log(this.questions)
+    this.questions = store.getQuestions;
   },
   data(){
     return{
-      questions: [] as Questions[]
+      questions: [] as StructuredQuestions[]
     }
   },
   methods: {
