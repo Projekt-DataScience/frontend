@@ -128,12 +128,45 @@
         "duration": 10000,
         "recurrent_audit": true,
         "questions": [
-          1,
-          4,
-          5,
-          2
+          {
+            "id": 1,
+            "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+            "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
+            "category": "Arbeitsschutz",
+            "layer": 1,
+            "group": "C-Gruppe"
+          },
+          {
+            "id": 2,
+            "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+            "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
+            "category": "Arbeitsschutz",
+            "layer": 1,
+            "group": "C-Gruppe"
+          }
         ],
-        "answers": [],
+        "answers": [
+          {
+            "id": 23,
+            "audit_id": 1,
+            "question_id": 1,
+            "answer": "green",
+            "comment": "",
+            "description": "",
+            "layer": 1,
+            "group": "C-Gruppe"
+          },
+          {
+            "id": 24,
+            "audit_id": 1,
+            "question_id": 2,
+            "answer": "red",
+            "comment": "notausgang blockiert durch kran",
+            "description": "",
+            "layer": 0,
+            "group": "TN-Gruppe"
+          }
+        ],
         "assigend_group": "C-Gruppe",
         "assigned_layer": 1,
         "auditor": 5,

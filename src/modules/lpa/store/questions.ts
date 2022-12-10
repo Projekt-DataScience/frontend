@@ -1,14 +1,32 @@
 import { defineStore } from "pinia";
-import { Questions } from "../types";
+import { Questions, StructuredQuestions } from "../types";
 import axios from 'axios';
 
 export const useQuestions = defineStore('Questions', {
     state: () => ({
-        questions: [] as Questions[]
+        questions: [] as Questions[],
+        structuredQuestions: [] as StructuredQuestions[],
     }),
     getters: {
-        async getQuestions(state){
-            return state.questions
+        getQuestions(state){
+            for (let i = 0; i < state.questions.length; i++) {
+                state.structuredQuestions.push({
+                    id: state.questions[i].id,
+                    title: state.questions[i].title,
+                    description: state.questions[i].title,
+                    listItems: [
+                        {
+                            type: "normal",
+                            text: "Layer " + state.questions[i].layer.toString()
+                        },
+                        {
+                            type: "normal",
+                            text: state.questions[i].group
+                        }
+                    ]
+                })
+            }
+            return state.structuredQuestions
         },
     },
     actions: {
@@ -29,3 +47,5 @@ export const useQuestions = defineStore('Questions', {
     }
 }
 )
+
+/* */
