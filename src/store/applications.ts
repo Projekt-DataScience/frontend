@@ -63,11 +63,6 @@ export const useApplications = defineStore('Applications', {
         ] as Applications[]
     }),
     getters: {
-        /* 
-        getFavourites: (state) => {
-            return state.apps.filter(() => app.favourite === true)
-        },
-        */
         getApps (state) {
             return state.apps
         },
