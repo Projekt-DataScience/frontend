@@ -12,24 +12,22 @@
         <AppListContainer :isLast="getStatus(item, questions)">
           <template #wrapperLeft>
             <div class="mr-4">
-              <AppIconLibrary
-                icon="checkbox"
-                type="active"
-                styling="h-5 w-full text-gray-400"
-              ></AppIconLibrary>
+              <AppIconLibrary icon="checkbox" type="active" styling="h-5 w-full text-gray-400"></AppIconLibrary>
             </div>
           </template>
           <template #wrapperContent>
-            <AppListTextAndSubtext
-              :text="item.title"
-              :subtext="item.listItems"
-            ></AppListTextAndSubtext>
+            <AppListTextAndSubtext :text="item.title" :subtext="[
+              {
+                text: layerToString(item.layer)
+              },
+              {
+                text: item.group
+              }
+            ]"></AppListTextAndSubtext>
           </template>
           <template #wrapperRight>
             <LPAQuestionBar :green="22" :orange="22" :red="22"></LPAQuestionBar>
-            <AppButtonOption
-              v-bind:isVertical="false"
-            ></AppButtonOption>
+            <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
           </template>
         </AppListContainer>
       </div>
@@ -48,8 +46,7 @@ import LPAQuestionBar from "../components/LPAQuestionBar.vue";
 import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 
-import { useQuestions } from "../store/questions";
-import { Questions, StructuredQuestions } from "../types";
+import { Questions, useQuestions } from "../store/questions";
 
 export default defineComponent({
   name: "LPAQuestions",
@@ -66,11 +63,11 @@ export default defineComponent({
   async mounted() {
     const store = useQuestions();
     await store.fetchQuestions();
-    this.questions = store.getQuestions;
+    this.questions = store.questions;
   },
-  data(){
-    return{
-      questions: [] as StructuredQuestions[]
+  data() {
+    return {
+      questions: [] as Questions[]
     }
   },
   methods: {
@@ -81,13 +78,9 @@ export default defineComponent({
         return false;
       }
     },
-    fetchQuestions() {
-      const store = useQuestions();
-      console.log(store.questions);
-      return {
-        questions: store.questions,
-      };
-    },
+    layerToString(layer: number) {
+      return "Layer "+layer
+    }
   },
 });
 </script>
