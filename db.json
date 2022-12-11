@@ -169,7 +169,88 @@
             }
           ],
           "assigend_group": "B-Gruppe",
-          "assigned_layer": 3,
+          "assigned_layer": "Layer 3",
+          "auditor": [
+            {
+              "id": 1,
+              "first_name": "Tony",
+              "last_name": "Start",
+              "layer": 2,
+              "supervisor": 1,
+              "email": "tony.start@company.com",
+              "profile_picture": "Tony_Start_profilePic"
+            }
+          ],
+          "created_by": [
+            {
+              "id": 2,
+              "first_name": "Peter",
+              "last_name": "Park",
+              "layer": 2,
+              "supervisor": 1,
+              "email": "peter.park@company.com",
+              "profile_picture": "Peter_Park_profilePic"
+            }
+          ],
+          "audited_user": [
+            {
+              "id": 3,
+              "first_name": "Bruce",
+              "last_name": "Bann",
+              "layer": 3,
+              "supervisor": 2,
+              "email": "bruce.bann@company.com",
+              "profile_picture": "Bruce_Bann_profilePic"
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "due_date": "2022-10-22T00:00:00.000Z",
+          "duration": 10,
+          "recurrent_audit": true,
+          "questions": [
+            {
+              "id": 1,
+              "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+              "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
+              "category": "Arbeitsschutz",
+              "layer": 1,
+              "group": "C-Gruppe"
+            },
+            {
+              "id": 2,
+              "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+              "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
+              "category": "Arbeitsschutz",
+              "layer": 1,
+              "group": "C-Gruppe"
+            }
+          ],
+          "answers": [
+            {
+              "id": 23,
+              "audit_id": 1,
+              "question_id": 1,
+              "answer": "yellow",
+              "comment": "",
+              "description": "",
+              "layer": 1,
+              "group": "C-Gruppe"
+            },
+            {
+              "id": 24,
+              "audit_id": 1,
+              "question_id": 2,
+              "answer": "yellow",
+              "comment": "notausgang blockiert durch kran",
+              "description": "",
+              "layer": 0,
+              "group": "TN-Gruppe"
+            }
+          ],
+          "assigend_group": "B-Gruppe",
+          "assigned_layer": "Layer 3",
           "auditor": [
             {
               "id": 1,

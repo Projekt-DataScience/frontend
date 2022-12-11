@@ -3,17 +3,21 @@ export interface Audits {
     due_date: Date,
     duration: number,
     recurrent_audit: Boolean,
-    questions: any,
-    answers: any
+    questions: Questions[],
+    answers: Answers[],
     assigned_group: string,
-    assigned_layer: number,
-    auditor: any,
-    created_by: any,
-    audited_user: any
+    assigned_layer: string,
+    auditor: Users,
+    created_by: Users,
+    audited_user: Users
 }
 
 import { defineStore } from "pinia";
 import axios from 'axios';
+
+import { Questions } from "./questions";
+import { Answers } from "./answers";
+import { Users } from "../../../store/users";
 
 export const useAudits = defineStore('Audits', {
     state: () => ({
