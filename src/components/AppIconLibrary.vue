@@ -814,7 +814,7 @@
     </svg>
   </div>
   <div v-if="icon === 'lpaStatus'">
-    <div v-if="type === undefined">
+    <div v-if="type === 'gray'" class="text-gray-200">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="59"
@@ -828,7 +828,7 @@
         </g>
       </svg>
     </div>
-    <div v-if="type === 'green' || type === 'none'" class="text-cl-green">
+    <div v-if="type === 'green'" class="text-cl-green">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="59"

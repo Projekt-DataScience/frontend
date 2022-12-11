@@ -4,7 +4,7 @@ import { User } from "../../../interfaces/user"
 
 export interface Audit {
     id: number,
-    due_date: Date,
+    due_date: string,
     duration: number,
     recurrent_audit: Boolean,
     questions: Question[],
