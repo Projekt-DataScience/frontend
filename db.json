@@ -168,13 +168,13 @@
               "group": "TN-Gruppe"
             }
           ],
-          "assigend_group": "B-Gruppe",
+          "assigned_group": "B-Gruppe",
           "assigned_layer": "Layer 3",
           "auditor": [
             {
               "id": 1,
-              "first_name": "Tony",
-              "last_name": "Start",
+              "first_name": "Lex",
+              "last_name": "Luther",
               "layer": 2,
               "supervisor": 1,
               "email": "tony.start@company.com",
@@ -206,7 +206,7 @@
         },
         {
           "id": 1,
-          "due_date": "2022-10-22T00:00:00.000Z",
+          "due_date": "2023-10-22T00:00:00.000Z",
           "duration": 10,
           "recurrent_audit": true,
           "questions": [
@@ -249,7 +249,7 @@
               "group": "TN-Gruppe"
             }
           ],
-          "assigend_group": "B-Gruppe",
+          "assigned_group": "B-Gruppe",
           "assigned_layer": "Layer 3",
           "auditor": [
             {

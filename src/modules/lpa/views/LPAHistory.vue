@@ -90,7 +90,7 @@ export default defineComponent({
         else if (audit.answers[i].answer === "yellow") {
           status = "yellow";
         }
-        else {
+        else if (status !== "yellow") {
           status = "green";
         }
       }
@@ -99,16 +99,16 @@ export default defineComponent({
     getAuditText(audit: Audits) {
       var text = "";
       if (audit.recurrent_audit) {
-        text.concat("Geplanter Audit ");
+        text = text + "Geplanter Audit ";
       }
       else {
-        text.concat("Spontaner Audit ");
+        text = text + "Spontaner Audit ";
       }
-      text.concat("vom " + new Date(audit.due_date).toLocaleDateString('de-DE', { year: 'numeric', month: 'short', day: 'numeric' }));
-      text.concat("von " + audit.auditor.first_name + " " + audit.auditor.last_name);
+      text = text + "vom " + new Date(audit.due_date).toLocaleDateString('de-DE', { year: 'numeric', month: 'short', day: 'numeric' });
+      text = text + " von " + audit.auditor[0].first_name + " " + audit.auditor[0].last_name;
       return text;
     },
-    getAnzahlFragenString(questions: Questions[]){
+    getAnzahlFragenString(questions: Questions[]) {
       return "" + questions.length + " Fragen"
     },
     seconds2time(seconds: number) {
