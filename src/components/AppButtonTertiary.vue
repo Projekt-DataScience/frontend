@@ -20,7 +20,10 @@
         aria-haspopup="true"
         @click="$emit('buttonClick')"
       >
-        <div class="flex text-primary-blue">
+        <div v-if="isActive" class="flex text-primary-blue">
+          <div class="flex-initial font-semibold">{{name}}</div>
+        </div>
+        <div v-else class="flex text-gray-400">
           <div class="flex-initial font-semibold">{{name}}</div>
         </div>
       </button>
@@ -37,6 +40,11 @@ export default defineComponent({
     name: {
       type: String,
       required: true,
+    },
+    isActive: {
+      type: Boolean,
+      required: false,
+      default: true
     },
   },
   emits: {
