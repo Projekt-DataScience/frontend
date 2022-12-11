@@ -32,7 +32,30 @@
         </div>
       </div>
     </template>
-    <template #content> Test </template>
+    <template #content>
+      <div v-for="(item, index) in audit" :key="index">
+        <div v-for="(items, index) in item.questions" :key="index">
+        <AppListContainer :isLast="getIsLast(items, item.questions)">
+          <template #wrapperLeft>
+            <AppIconLibrary icon="lpaStatus" type="green" styling="h-10"></AppIconLibrary>
+          </template>
+          <template #wrapperContent>
+            <AppListTextAndSubtext
+              :text="items.title"
+              :subtext="[
+                {
+                  text: items.category
+                }
+              ]"
+            ></AppListTextAndSubtext>
+          </template>
+          <template #wrapperRight>
+            Button
+          </template>
+        </AppListContainer>
+      </div>
+      </div>
+    </template>
   </AppPageLayout>
 </template>
 
@@ -46,6 +69,12 @@ import AppButtonPrimary from "../../../components/AppButtonPrimary.vue";
 import AppButtonSecondary from "../../../components/AppButtonSecondary.vue";
 import AppListTextWithDividerLine from "../../../components/AppListTextWithDividerLine.vue";
 import { getIsLast } from "../../../mixins/arrayMixin";
+import AppListContainer from "../../../components/AppListContainer.vue"
+import AppIconLibrary from "../../../components/AppIconLibrary.vue";
+import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
+
+import { useAudit } from "../store/audit";
+import { Audit } from "../interfaces/audit"
 
 export default defineComponent({
   name: "LPAAudit",
@@ -56,10 +85,19 @@ export default defineComponent({
     AppButtonPrimary,
     AppButtonSecondary,
     AppListTextWithDividerLine,
+    AppListContainer,
+    AppIconLibrary,
+    AppListTextAndSubtext
+  },
+  async mounted() {
+    const store = useAudit();
+    await store.fetchAudit();
+    this.audit = store.audit;
   },
   mixins: [getIsLast],
   data() {
     return {
+      audit: [] as Audit[],
       test: [
         {
           text: "Tony Stark",
@@ -91,6 +129,5 @@ export default defineComponent({
       ],
     };
   },
-  mounted() {},
 });
 </script>

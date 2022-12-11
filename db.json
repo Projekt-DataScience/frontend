@@ -288,6 +288,70 @@
       ]
     }
   },
+  "dataAuditByID": {
+    "data": [
+      {
+        "id": 1,
+        "due_date": "2022-10-22T00:00:00.000Z",
+        "duration": 10000,
+        "recurrent_audit": true,
+        "questions": [
+          {
+            "id": 1,
+            "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+            "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
+            "category": "Arbeitsschutz",
+            "layer": 1,
+            "group": "C-Gruppe"
+          },
+          {
+            "id": 2,
+            "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+            "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
+            "category": "Arbeitsschutz",
+            "layer": 1,
+            "group": "C-Gruppe"
+          },
+          {
+            "id": 3,
+            "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+            "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
+            "category": "Arbeitsschutz",
+            "layer": 1,
+            "group": "C-Gruppe"
+          },
+          {
+            "id": 4,
+            "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+            "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
+            "category": "Arbeitsschutz",
+            "layer": 1,
+            "group": "C-Gruppe"
+          },
+          {
+            "id": 4,
+            "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+            "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
+            "category": "Arbeitsschutz",
+            "layer": 1,
+            "group": "C-Gruppe"
+          }
+        ],
+        "answers": [
+          
+        ],
+        "assigend_group": "C-Gruppe",
+        "assigned_layer": 1,
+        "auditor": [
+          {
+            
+          }
+        ],
+        "created_by": 10,
+        "audited_user": null
+      }
+    ]
+  },
   "dataPlannedAudits": {
     "audits": [
       {

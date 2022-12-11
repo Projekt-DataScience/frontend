@@ -814,6 +814,20 @@
     </svg>
   </div>
   <div v-if="icon === 'lpaStatus'">
+    <div v-if="type === undefined">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="59"
+        height="59"
+        viewBox="0 0 59 59"
+        :class="styling"
+      >
+        <g id="LPAEmojyNone" class="fill-none stroke-current" stroke-width="4">
+          <circle cx="29.5" cy="29.5" r="29.5" stroke="none" />
+          <circle cx="29.5" cy="29.5" r="27.5" fill="none" />
+        </g>
+      </svg>
+    </div>
     <div v-if="type === 'green' || type === 'none'" class="text-cl-green">
       <svg
         xmlns="http://www.w3.org/2000/svg"
