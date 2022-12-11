@@ -52,7 +52,7 @@
                         v-on:buttonClick="openPopup(item.id)"
                       ></AppButtonTertiary
                     ></router-link>-->
-                    <AppButtonTertiary name="Audit starten" v-on:buttonClick="openPopup(item.id)"></AppButtonTertiary>
+                    <AppButtonTertiary class="mr-4 ml-4" name="Audit starten" v-on:buttonClick="openPopup(item.id)"></AppButtonTertiary>
                     <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                   </template>
                   <template #wrapperContent>

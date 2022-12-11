@@ -12,10 +12,9 @@
           focus:ring-2
           focus:ring-primary-blue
           focus:ring-offset-2
-          pl-4
-          pr-4
           py-2
         "
+       
         id="user-menu-button"
         aria-expanded="false"
         aria-haspopup="true"

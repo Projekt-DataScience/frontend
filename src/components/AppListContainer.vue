@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center">
+  <div class="flex" :class="getAlignement()">
     <div class="flex-none mr-2" v-if="hasWrapperLeftSlot()">
       <slot name="wrapperLeft"></slot>
     </div>
@@ -30,7 +30,13 @@ export default defineComponent({
         type: Boolean,
         default: true,
         required: false
+    },
+    alignement: {
+      type: String,
+      default: "center",
+      required: false
     }
+
   },
   data() {
     return {
@@ -44,6 +50,9 @@ export default defineComponent({
     hasWrapperRightSlot() {
       return !!this.$slots.wrapperRight;
     },
+    getAlignement() {
+      return "items-"+this.alignement
+    }
   },
 });
 </script>
