@@ -1,18 +1,11 @@
 import { defineStore } from "pinia";
 import axios from 'axios';
-
-export interface Questions {
-    id: number,
-    title: string,
-    description: string,
-    category: string,
-    layer: number,
-    group: string
-}
+import { Audit } from "../interfaces/audit";
 
 export const useAudit = defineStore('Audit', {
     state: () => ({
-        questions: [] as Questions[],
+        audit: [] as Audit[],
+        currentAudit: 1
     }),
     getters: {
         
@@ -21,16 +14,13 @@ export const useAudit = defineStore('Audit', {
         async fetchAudit() {
             try {
                 const data = await axios.get(
-                    "http://localhost:3000/dataQuestions"
+                    "http://localhost:3000/dataAuditByID"
                 );
-                this.questions = data.data.data.questions;
+                this.audit = data.data.data;
             } catch (error) {
                 alert(error);
                 console.log(error);
             }
-        },
-        setQuestions(questions: any) {
-            this.questions = questions;
         },
     }
 }

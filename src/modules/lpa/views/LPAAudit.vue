@@ -33,21 +33,27 @@
       </div>
     </template>
     <template #content>
-      <div v-for="item in questions" :key="item.id">
-        <AppListContainer :isLast="getStatus(item)">
+      <div v-for="(item, index) in audit" :key="index">
+        <div v-for="(items, index) in item.questions" :key="index">
+        <AppListContainer :isLast="getIsLast(items, item.questions)">
           <template #wrapperLeft>
-            <AppIconLibrary icon="lpaStatus" :type="item.status" styling="h-10"></AppIconLibrary>
+            <AppIconLibrary icon="lpaStatus" type="green" styling="h-10"></AppIconLibrary>
           </template>
           <template #wrapperContent>
             <AppListTextAndSubtext
-              :text="item.name"
-              :subtext="item.listItem"
+              :text="items.title"
+              :subtext="[
+                {
+                  text: items.category
+                }
+              ]"
             ></AppListTextAndSubtext>
           </template>
           <template #wrapperRight>
             Button
           </template>
         </AppListContainer>
+      </div>
       </div>
     </template>
   </AppPageLayout>
@@ -67,6 +73,9 @@ import AppListContainer from "../../../components/AppListContainer.vue"
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
 
+import { useAudit } from "../store/audit";
+import { Audit } from "../interfaces/audit"
+
 export default defineComponent({
   name: "LPAAudit",
   components: {
@@ -80,9 +89,15 @@ export default defineComponent({
     AppIconLibrary,
     AppListTextAndSubtext
   },
+  async mounted() {
+    const store = useAudit();
+    await store.fetchAudit();
+    this.audit = store.audit;
+  },
   mixins: [getIsLast],
   data() {
     return {
+      audit: [] as Audit[],
       test: [
         {
           text: "Tony Stark",
@@ -114,6 +129,5 @@ export default defineComponent({
       ],
     };
   },
-  mounted() {},
 });
 </script>
