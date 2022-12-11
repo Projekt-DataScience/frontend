@@ -32,7 +32,24 @@
         </div>
       </div>
     </template>
-    <template #content> Test </template>
+    <template #content>
+      <div v-for="item in questions" :key="item.id">
+        <AppListContainer :isLast="getStatus(item)">
+          <template #wrapperLeft>
+            <AppIconLibrary icon="lpaStatus" :type="item.status" styling="h-10"></AppIconLibrary>
+          </template>
+          <template #wrapperContent>
+            <AppListTextAndSubtext
+              :text="item.name"
+              :subtext="item.listItem"
+            ></AppListTextAndSubtext>
+          </template>
+          <template #wrapperRight>
+            Button
+          </template>
+        </AppListContainer>
+      </div>
+    </template>
   </AppPageLayout>
 </template>
 
@@ -46,6 +63,9 @@ import AppButtonPrimary from "../../../components/AppButtonPrimary.vue";
 import AppButtonSecondary from "../../../components/AppButtonSecondary.vue";
 import AppListTextWithDividerLine from "../../../components/AppListTextWithDividerLine.vue";
 import { getIsLast } from "../../../mixins/arrayMixin";
+import AppListContainer from "../../../components/AppListContainer.vue"
+import AppIconLibrary from "../../../components/AppIconLibrary.vue";
+import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
 
 export default defineComponent({
   name: "LPAAudit",
@@ -56,6 +76,9 @@ export default defineComponent({
     AppButtonPrimary,
     AppButtonSecondary,
     AppListTextWithDividerLine,
+    AppListContainer,
+    AppIconLibrary,
+    AppListTextAndSubtext
   },
   mixins: [getIsLast],
   data() {
