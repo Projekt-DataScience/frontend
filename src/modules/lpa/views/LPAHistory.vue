@@ -8,19 +8,29 @@
       <AppSearchAndFilterBar></AppSearchAndFilterBar>
     </template>
     <template #content>
-      <div v-for="item in questions" :key="item.id">
-        <AppListContainer :isLast="getStatus(item)">
+      <div v-for="item in audits" :key="item.id">
+        <AppListContainer :isLast="getIsLast(item, audits)">
           <template #wrapperLeft>
-            <AppIconLibrary icon="lpaStatus" :type="item.status" styling="h-10"></AppIconLibrary>
+            <AppIconLibrary icon="lpaStatus" :type="getAuditStatus(item)" styling="h-10"></AppIconLibrary>
           </template>
           <template #wrapperContent>
-            <AppListTextAndSubtext
-              :text="item.name"
-              :subtext="item.listItems.slice(0,2)"
-            ></AppListTextAndSubtext>
+            <AppListTextAndSubtext :text="getAuditText(item)" :subtext="[
+              {
+                text: item.assigned_layer
+              },
+              {
+                text: item.assigned_group
+              },
+              {
+                text: getAnzahlFragenString(item.questions)
+              },
+              {
+                text: seconds2time(item.duration)
+              }
+            ]"></AppListTextAndSubtext>
           </template>
           <template #wrapperRight>
-            <LPAHistoryBar :auditList="item.listItems"></LPAHistoryBar>
+            <LPAHistoryBar :answers="item.answers"></LPAHistoryBar>
             <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
           </template>
         </AppListContainer>
@@ -39,6 +49,11 @@ import AppListContainer from "../../../components/AppListContainer.vue";
 import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 import LPAHistoryBar from "../components/LPAHistoryBar.vue";
+import { getIsLast } from "../../../mixins/arrayMixin";
+import { Audits, useAudits } from "../store/audits";
+import { Questions } from "../store/questions";
+import { Answers } from "../store/answers";
+import { Users } from "../../../store/users";
 
 export default defineComponent({
   name: "LPAHistory",
@@ -52,365 +67,73 @@ export default defineComponent({
     AppIconLibrary,
     LPAHistoryBar
   },
+
+  mixins: [getIsLast],
+
+  async mounted() {
+    const store = useAudits();
+    await store.fetchAudits();
+    this.audits = store.audits;
+  },
   data() {
     return {
-      questions: [
-        {
-          id: 0,
-          name: "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
-          status: "green",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 1,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-            {
-              id: 2,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 3,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-          ],
-        },
-        {
-          id: 1,
-          name: "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
-          status: "green",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 1,
-              type: "normal",
-              name: "C-Gruppe",
-              color: "green"
-            },
-            {
-              id: 2,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 3,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-            {
-              id: 4,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 5,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-          ]
-        },
-        {
-          id: 2,
-          name: "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
-          status: "yellow",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 1,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "yellow"
-            },
-            {
-              id: 2,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 3,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-            {
-              id: 4,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 5,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-          ]
-        },
-        {
-          id: 3,
-          name: "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
-          status: "green",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 1,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-          ],
-        },
-        {
-          id: 4,
-          name: "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
-          status: "green",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 1,
-              type: "normal",
-              name: "C-Gruppe",
-              color: "green"
-            },
-            {
-              id: 2,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 3,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-          ]
-        },
-        {
-          id: 5,
-          name: "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
-          status: "red",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 1,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-            {
-              id: 2,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 3,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-            {
-              id: 4,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 5,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-            {
-              id: 6,
-              type: "normal",
-              name: "Layer 1",
-              color: "red"
-            },
-            {
-              id: 7,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-            {
-              id: 8,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-            {
-              id: 9,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-            {
-              id: 10,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-          ],
-        },
-        {
-          id: 6,
-          name: "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
-          status: "green",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 1,
-              type: "normal",
-              name: "C-Gruppe",
-              color: "green"
-            },
-            {
-              id: 2,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 3,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-          ]
-        },
-        {
-          id: 7,
-          name: "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
-          status: "green",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 1,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-            {
-              id: 2,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 3,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-            {
-              id: 4,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 5,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-          ],
-        },
-        {
-          id: 8,
-          name: "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
-          status: "green",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 1,
-              type: "normal",
-              name: "C-Gruppe",
-              color: "green"
-            },
-            {
-              id: 2,
-              type: "normal",
-              name: "Layer 1",
-              color: "green"
-            },
-            {
-              id: 3,
-              type: "normal",
-              name: "TN-Gruppe",
-              color: "green"
-            },
-          ]
-        },
-      ],
-    };
+      audits: [] as Audits[]
+    }
   },
   methods: {
-    getStatus(item: any){
-      if(item === this.questions[this.questions.length-1]){
-        return true
-      }else {
-        return false
+    getAuditStatus(audit: Audits) {
+      var status = "";
+      for (let i = 0; i < audit.answers.length; i++) {
+        if (audit.answers[i].answer === "red") {
+          return "red";
+        }
+        else if (audit.answers[i].answer === "yellow") {
+          status = "yellow";
+        }
+        else if (status !== "yellow") {
+          status = "green";
+        }
       }
-    }
+      return status;
+    },
+    getAuditText(audit: Audits) {
+      var text = "";
+      if (audit.recurrent_audit) {
+        text = text + "Geplanter Audit ";
+      }
+      else {
+        text = text + "Spontaner Audit ";
+      }
+      text = text + "vom " + new Date(audit.due_date).toLocaleDateString('de-DE', { year: 'numeric', month: 'short', day: 'numeric' });
+      text = text + " von " + audit.auditor[0].first_name + " " + audit.auditor[0].last_name;
+      return text;
+    },
+    getAnzahlFragenString(questions: Questions[]) {
+      return "" + questions.length + " Fragen"
+    },
+    seconds2time(seconds: number) {
+      var hours = Math.floor(seconds / 3600);
+      var minutes = Math.floor((seconds - (hours * 3600)) / 60);
+      var seconds = seconds - (hours * 3600) - (minutes * 60);
+      var time = "";
+
+      if (hours != 0) {
+        time = hours + ":";
+      }
+      if (minutes != 0 || time !== "") {
+        var min = (minutes < 10 && time !== "") ? "0" + minutes : String(minutes);
+        time += min + ":";
+      }
+      if (time === "") {
+        time = seconds + "s";
+      }
+      else {
+        time += (seconds < 10) ? "0" + seconds : String(seconds);
+      }
+      return time;
+
+    },
   }
-});
+}
+);
 </script>
