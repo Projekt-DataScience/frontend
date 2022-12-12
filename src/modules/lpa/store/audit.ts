@@ -38,6 +38,31 @@ export const useAudit = defineStore('Audit', {
                 console.log(error);
             }
         },
+        updateAnswersByID(currentQuestionID: number, emojyType: string) {
+            for (let i = 0; i < this.audit[0].answers.length; i++) {
+                if (this.audit[0].answers[i].question_id == currentQuestionID) {
+                    this.audit[0].answers[i].answer = emojyType;
+                    i = this.audit[0].answers.length;
+                }else if(i == this.audit[0].answers.length-1){
+                    this.audit[0].answers.push({
+                        id: this.audit[0].answers.length,
+                        audit_id: this.audit[0].id,
+                        question_id: currentQuestionID,
+                        answer: emojyType,
+                        comment: "",
+                        description: "",
+                        layer: this.audit[0].assigned_layer,
+                        group: this.audit[0].assigned_group
+                    })
+                }
+            }
+        },
+        updateAnswersCommentByID(currentQuestionID: number, comment: string, description: string){
+
+        },
+        finishAudit(){
+            // alle nicht verwendeten comments und descriptions löschen
+        }
     }
 }
 )
