@@ -1,4 +1,22 @@
 <template>
+  <AppPopup v-if="visibleTest">
+    <div class="p-7 border-b-2 border-gray-200">
+      <!--<AppListTextAndSubtext :text="openAudits[0].name" :subtext="openAudits[0].listItems"></AppListTextAndSubtext>-->
+      Überschrift
+    </div>
+    <div class="p-7 border-b-2 border-gray-200">Test</div>
+    <div class="p-7 flex items-center">
+      <AppButtonPrimary
+        name="Audit starten"
+        v-bind:isActive="true"
+      ></AppButtonPrimary>
+      <router-link :to="dismissAudit()"><AppButtonSecondary
+        class="ml-5"
+        name="Abbrechen"
+        v-on:buttonClick="closePopup()"
+      ></AppButtonSecondary></router-link>
+    </div>
+  </AppPopup>
   <AppPageLayout>
     <template #sidebar>
       <!-- content for the sidebar slot -->
@@ -15,44 +33,52 @@
               v-bind:isActive="false"
             >
             </AppButtonPrimary>
-            <AppButtonSecondary class="mr-8" name="Abbrechen">
+            <AppButtonSecondary
+              class="mr-8"
+              name="Abbrechen"
+              v-on:buttonClick="dismissAudit()"
+            >
             </AppButtonSecondary>
           </div>
         </div>
       </div>
-      <div class="flex items-center m-6" v-for="(item, index) in audit" :key="index">
-          <!--Auditor-->
-          <AppListTextWithDividerLine
-            :text="getUserText(item.auditor[0])"
-            subtext="Auditor"
-            :imgPath="item.auditor[0].profile_picture"
-            v-bind:isLast="false"
-          ></AppListTextWithDividerLine>
-          <!--Befragter-->
-          <AppListTextWithDividerLine
-            :text="getUserText(audited_user[0])"
-            subtext="Befragter"
-            :imgPath="audited_user[0].profile_picture"
-            v-bind:isLast="false"
-          ></AppListTextWithDividerLine>
-          <!--Layer-->
-          <AppListTextWithDividerLine
-            :text="getLayer(item.assigned_layer)"
-            subtext="Layer"
-            v-bind:isLast="false"
-          ></AppListTextWithDividerLine>
-          <!--Gruppe-->
-          <AppListTextWithDividerLine
-            :text="item.assigned_group"
-            subtext="Gruppe"
-            v-bind:isLast="false"
-          ></AppListTextWithDividerLine>
-          <!--Fälligkeit-->
-          <AppListTextWithDividerLine
-            :text="getDate(item.due_date)"
-            subtext="Fälligkeit"
-            v-bind:isLast="true"
-          ></AppListTextWithDividerLine>
+      <div
+        class="flex items-center m-6"
+        v-for="(item, index) in audit"
+        :key="index"
+      >
+        <!--Auditor-->
+        <AppListTextWithDividerLine
+          :text="getUserText(item.auditor[0])"
+          subtext="Auditor"
+          :imgPath="item.auditor[0].profile_picture"
+          v-bind:isLast="false"
+        ></AppListTextWithDividerLine>
+        <!--Befragter-->
+        <AppListTextWithDividerLine
+          :text="getUserText(audited_user[0])"
+          subtext="Befragter"
+          :imgPath="audited_user[0].profile_picture"
+          v-bind:isLast="false"
+        ></AppListTextWithDividerLine>
+        <!--Layer-->
+        <AppListTextWithDividerLine
+          :text="getLayer(item.assigned_layer)"
+          subtext="Layer"
+          v-bind:isLast="false"
+        ></AppListTextWithDividerLine>
+        <!--Gruppe-->
+        <AppListTextWithDividerLine
+          :text="item.assigned_group"
+          subtext="Gruppe"
+          v-bind:isLast="false"
+        ></AppListTextWithDividerLine>
+        <!--Fälligkeit-->
+        <AppListTextWithDividerLine
+          :text="getDate(item.due_date)"
+          subtext="Fälligkeit"
+          v-bind:isLast="true"
+        ></AppListTextWithDividerLine>
       </div>
     </template>
     <template #content>
@@ -80,11 +106,13 @@
               <AppButtonTertiary
                 v-if="getQuestionStatus(items.id, item) === 'gray'"
                 name="Beantworten"
+                v-on:buttonClick="openPopup(item.id)"
               ></AppButtonTertiary>
               <div class="text-black" v-else>
                 <AppButtonTertiary
                   v-bind:isActive="false"
                   name="Ändern"
+                  v-on:buttonClick="openPopup(item.id)"
                 ></AppButtonTertiary>
               </div>
             </template>
@@ -109,6 +137,7 @@ import AppListContainer from "../../../components/AppListContainer.vue";
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
 import AppButtonTertiary from "../../../components/AppButtonTertiary.vue";
+import AppPopup from "../../../components/AppPopup.vue";
 
 import { useAudit } from "../store/audit";
 import { Audit } from "../interfaces/audit";
@@ -127,6 +156,7 @@ export default defineComponent({
     AppIconLibrary,
     AppListTextAndSubtext,
     AppButtonTertiary,
+    AppPopup,
   },
   async mounted() {
     const store = useAudit();
@@ -140,35 +170,8 @@ export default defineComponent({
     return {
       audit: [] as Audit[],
       audited_user: [] as User[],
-      test: [
-        {
-          text: "Tony Stark",
-          subtext: "Auditor",
-          imgPath:
-            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        {
-          text: "Peter Parker",
-          subtext: "Befragter",
-          imgPath:
-            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        {
-          text: "Layer 1",
-          subtext: "Layer",
-          type: "profile",
-        },
-        {
-          text: "Schweißerei",
-          subtext: "Gruppe",
-          type: "profile",
-        },
-        {
-          text: "Samstag, 10.12.2022",
-          subtext: "Fälligkeit",
-          type: "profile",
-        },
-      ],
+      visibleTest: false,
+      prevRoute: null,
     };
   },
   methods: {
@@ -194,11 +197,42 @@ export default defineComponent({
         year: "numeric",
         month: "short",
         day: "numeric",
+        weekday: "long",
       });
     },
-    getLayer(layer: number){
-      return "Layer " + layer
-    }
+    getLayer(layer: number) {
+      return "Layer " + layer;
+    },
+    openPopup(id: any) {
+      this.disableScroll();
+      this.visibleTest = true;
+    },
+    closePopup() {
+      this.visibleTest = false;
+      this.enableScroll();
+    },
+    disableScroll() {
+      // Get the current page scroll position
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      let scrollLeft =
+        window.pageXOffset || document.documentElement.scrollLeft;
+
+      // if any scroll is attempted, set this to the previous value
+      window.onscroll = function () {
+        window.scrollTo(scrollLeft, scrollTop);
+      };
+    },
+    enableScroll() {
+      window.onscroll = function () {};
+    },
+    dismissAudit() {
+      return this.$router.go(-1)
+    },
+    beforeRouteEnter(to: any, from:any, next:any) {
+      next((vm:any) => {
+        vm.prevRoute = from;
+      });
+    },
   },
 });
 </script>
