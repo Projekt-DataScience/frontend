@@ -18,7 +18,7 @@
         id="user-menu-button"
         aria-expanded="false"
         aria-haspopup="true"
-        @click="$emit('buttonClick')"
+        @click='passEvent'
       >
         <div v-if="isActive" class="flex text-primary-blue">
           <div class="flex-initial font-semibold">{{name}}</div>
@@ -41,6 +41,11 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    id: {
+      type: Number,
+      required: false,
+      default: null
+    },
     isActive: {
       type: Boolean,
       required: false,
@@ -56,7 +61,9 @@ export default defineComponent({
     };
   },
   methods: {
-    
+    passEvent(){
+      this.$emit('buttonClick',this.id)
+    }
   },
 });
 </script>

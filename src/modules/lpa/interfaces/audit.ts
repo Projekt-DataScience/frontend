@@ -10,7 +10,7 @@ export interface Audit {
     questions: Question[],
     answers: Answer[],
     assigned_group: string,
-    assigned_layer: string,
+    assigned_layer: number,
     auditor: User,
     created_by: User,
     audited_user: User

@@ -5,6 +5,6 @@ export interface Answer {
     answer: string,
     comment: string,
     description: string,
-    layer: string,
+    layer: number,
     group: string,
 }

@@ -311,7 +311,7 @@
         "questions": [
           {
             "id": 1,
-            "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+            "title": "1Haben alle ausgeine aktuelle Prüfkette?",
             "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
             "category": "Arbeitsschutz",
             "layer": 1,
@@ -319,7 +319,7 @@
           },
           {
             "id": 2,
-            "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+            "title": "2Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
             "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
             "category": "Arbeitsschutz",
             "layer": 1,
@@ -327,7 +327,7 @@
           },
           {
             "id": 3,
-            "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+            "title": "3Haben alle ausgewiesenen Messmittel Prüfkette?",
             "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
             "category": "Arbeitsschutz",
             "layer": 1,
@@ -335,7 +335,7 @@
           },
           {
             "id": 4,
-            "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+            "title": "4H ausgewiesenen Messmittel eine aktuelle Prüfkette?",
             "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
             "category": "Arbeitsschutz",
             "layer": 1,
@@ -343,7 +343,7 @@
           },
           {
             "id": 5,
-            "title": "Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?",
+            "title": "5Haben alle ausgewiesssmittel eine aktuelle Prüfkette?",
             "description": "ajsdlfö jasdk lfjasdklf öajds flasdjflk adsjföladsjflak sdfklasd jföl sjdk",
             "category": "Arbeitsschutz",
             "layer": 1,
@@ -360,16 +360,6 @@
             "description": "",
             "layer": 0,
             "group": "TN-Gruppe"
-          },
-          {
-            "id": 23,
-            "audit_id": 1,
-            "question_id": 1,
-            "answer": "green",
-            "comment": "",
-            "description": "",
-            "layer": 1,
-            "group": "C-Gruppe"
           },
           {
             "id": 23,
