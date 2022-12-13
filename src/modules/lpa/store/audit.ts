@@ -42,8 +42,6 @@ export const useAudit = defineStore('Audit', {
         async fetchUser() {
             var token =   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJleHBpcmVzIjoxNjcwOTc0OTM5Ljc3MDA0NCwiY29tcGFueV9pZCI6MSwicm9sZSI6IndvcmtlciJ9.iC__ijHirm9WAHuLTxr48a9hX5MOh6EW27kj_zgO8Io"
 
-
-
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
             };
