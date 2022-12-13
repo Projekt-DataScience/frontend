@@ -1,27 +1,11 @@
-export interface Audits {
-    id: number,
-    due_date: Date,
-    duration: number,
-    recurrent_audit: Boolean,
-    questions: Questions[],
-    answers: Answers[],
-    assigned_group: string,
-    assigned_layer: string,
-    auditor: Users,
-    created_by: Users,
-    audited_user: Users
-}
-
 import { defineStore } from "pinia";
 import axios from 'axios';
+import { Audit } from '../interfaces/audit'
 
-import { Questions } from "./questions";
-import { Answers } from "./answers";
-import { Users } from "../../../store/users";
 
-export const useAudits = defineStore('Audits', {
+export const useAuditHistory = defineStore('AuditHistory', {
     state: () => ({
-        audits: [] as Audits[],
+        audits: [] as Audit[],
     }),
     getters: {
         getAudits(state) {

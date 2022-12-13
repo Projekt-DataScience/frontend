@@ -2,9 +2,9 @@
   <AppPopup v-if="visibleTest">
     <div class="p-7 border-b-2 border-gray-200 flex items-center">
       <div>
-        <div>{{ questions[currentQuestionIndex].title }}</div>
+        <div>{{ questions[currentQuestionIndex].question }}</div>
         <div class="text-gray-400">
-          {{ questions[currentQuestionIndex].category }}
+          {{ questions[currentQuestionIndex].category.category_name }}
         </div>
       </div>
       <div class="flex-auto">
@@ -102,67 +102,64 @@
       </div>
       <div
         class="flex items-center m-6"
-        v-for="(item, index) in audit"
-        :key="index"
       >
         <!--Auditor-->
         <AppListTextWithDividerLine
-          :text="getUserText(item.auditor[0])"
+          :text="concateStrings(audit['auditor']['first_name'], audit['auditor']['last_name'])"
           subtext="Auditor"
-          :imgPath="item.auditor[0].profile_picture"
+          :imgPath="audit['auditor']['profile_picture_url']"
           v-bind:isLast="false"
         ></AppListTextWithDividerLine>
         <!--Befragter-->
         <AppListTextWithDividerLine
-          :text="getUserText(audited_user[0])"
+          :text="concateStrings(audited_user.first_name, audited_user.last_name)"
           subtext="Befragter"
-          :imgPath="audited_user[0].profile_picture"
+          :imgPath="audited_user.profile_picture_url"
           v-bind:isLast="false"
         ></AppListTextWithDividerLine>
         <!--Layer-->
         <AppListTextWithDividerLine
-          :text="getLayer(item.assigned_layer)"
+          :text="concateStrings('Layer', audit['assigned_layer']['layer_number'].toString())"
           subtext="Layer"
           v-bind:isLast="false"
         ></AppListTextWithDividerLine>
         <!--Gruppe-->
         <AppListTextWithDividerLine
-          :text="item.assigned_group"
+          :text="audit['assigned_group']['group_name']"
           subtext="Gruppe"
           v-bind:isLast="false"
         ></AppListTextWithDividerLine>
         <!--Fälligkeit-->
         <AppListTextWithDividerLine
-          :text="getDate(item.due_date)"
+          :text="getDate(audit.due_date)"
           subtext="Fälligkeit"
           v-bind:isLast="true"
         ></AppListTextWithDividerLine>
       </div>
     </template>
     <template #content>
-      <div v-for="(item, index) in audit" :key="index">
-        <div v-for="(items, innerIndex) in item.questions" :key="innerIndex">
-          <AppListContainer :isLast="getIsLast(items, item.questions)">
+        <div v-for="(items, innerIndex) in audit.questions" :key="innerIndex">
+          <AppListContainer :isLast="getIsLast(items, audit.questions)">
             <template #wrapperLeft>
               <AppIconLibrary
                 icon="lpaStatus"
-                :type="getQuestionStatus(items.id, item)"
+                :type="getQuestionStatus(audit.id, audit)"
                 styling="h-10"
               ></AppIconLibrary>
             </template>
             <template #wrapperContent>
               <AppListTextAndSubtext
-                :text="items.title"
+                :text="items.question"
                 :subtext="[
                   {
-                    text: items.category,
+                    text: items.category.category_name,
                   },
                 ]"
               ></AppListTextAndSubtext>
             </template>
             <template #wrapperRight>
               <AppButtonTertiary
-                v-if="getQuestionStatus(items.id, item) === 'gray'"
+                v-if="getQuestionStatus(items.id, audit) === 'gray'"
                 name="Beantworten"
                 :id="innerIndex"
                 v-on:buttonClick="openPopup($event)"
@@ -180,7 +177,6 @@
             </template>
           </AppListContainer>
         </div>
-      </div>
     </template>
   </AppPageLayout>
 </template>
@@ -227,17 +223,17 @@ export default defineComponent({
   },
   async mounted() {
     const store = useAudit();
-    await store.fetchAudit();
-    await store.fetchUser();
+    //await store.fetchAudit();
+    //await store.fetchUser();
     this.audit = store.audit;
     this.audited_user = store.audited_user;
-    this.setQuestions(this.audit[0]);
+    this.setQuestions(this.audit);
   },
   mixins: [getIsLast],
   data() {
     return {
-      audit: [] as Audit[],
-      audited_user: [] as User[],
+      audit: {} as Audit,
+      audited_user: {} as User,
       visibleTest: false,
       currentQuestion: [] as Question[],
       questions: [] as Question[],
@@ -260,8 +256,12 @@ export default defineComponent({
       }
       return "gray";
     },
-    getUserText(user: User) {
-      return user.first_name + " " + user.last_name;
+    concateStrings(...args: string[]) {
+      var tmp = ""
+      for(var i = 0; i < args.length; i++){
+        tmp = tmp + args[i] + " "
+      }
+      return tmp;
     },
     getDate(item: string) {
       return new Date(item).toLocaleDateString("de-DE", {

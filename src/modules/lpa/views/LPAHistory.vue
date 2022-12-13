@@ -21,9 +21,9 @@
               {
                 text: item.assigned_group
               },
-              {
+              /*{
                 text: getAnzahlFragenString(item.questions)
-              },
+              },*/
               {
                 text: seconds2time(item.duration)
               }
@@ -50,10 +50,9 @@ import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 import LPAHistoryBar from "../components/LPAHistoryBar.vue";
 import { getIsLast } from "../../../mixins/arrayMixin";
-import { Audits, useAudits } from "../store/audits";
+import { useAuditHistory } from "../store/auditHistory";
 import { Questions } from "../store/questions";
-import { Answers } from "../store/answers";
-import { Users } from "../../../store/users";
+import { Audit } from "../interfaces/audit"
 
 export default defineComponent({
   name: "LPAHistory",
@@ -71,17 +70,17 @@ export default defineComponent({
   mixins: [getIsLast],
 
   async mounted() {
-    const store = useAudits();
+    const store = useAuditHistory();
     await store.fetchAudits();
     this.audits = store.audits;
   },
   data() {
     return {
-      audits: [] as Audits[]
+      audits: [] as Audit[]
     }
   },
   methods: {
-    getAuditStatus(audit: Audits) {
+    getAuditStatus(audit: Audit) {
       var status = "";
       for (let i = 0; i < audit.answers.length; i++) {
         if (audit.answers[i].answer === "red") {
@@ -96,7 +95,7 @@ export default defineComponent({
       }
       return status;
     },
-    getAuditText(audit: Audits) {
+    getAuditText(audit: Audit) {
       var text = "";
       if (audit.recurrent_audit) {
         text = text + "Geplanter Audit ";

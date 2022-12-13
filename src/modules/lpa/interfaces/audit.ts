@@ -1,17 +1,25 @@
 import { Question } from "./question"
 import { Answer } from "./answer"
 import { User } from "../../../interfaces/user"
+import { Group } from "../../../interfaces/group"
+import { Layer } from "../../../interfaces/layer"
 
 export interface Audit {
-    id: number,
+    answers: Answer[],
+    assigned_group: Group,
+    assigned_group_id: number
+    assigned_layer: Layer,
+    assigned_layer_id: number,
+    audited_user: User,
+    audited_user_id: number,
+    auditor: User,
+    auditor_user_id: number,
+    complete_datetime: string,
+    created_by_user: User,
+    created_by_user_id: number,
     due_date: string,
     duration: number,
-    recurrent_audit: Boolean,
+    id: number,
     questions: Question[],
-    answers: Answer[],
-    assigned_group: string,
-    assigned_layer: number,
-    auditor: User,
-    created_by: User,
-    audited_user: User
+    recurrent_audit: boolean
 }
