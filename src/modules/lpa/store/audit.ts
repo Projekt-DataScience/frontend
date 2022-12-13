@@ -5,94 +5,7 @@ import { User } from "../../../interfaces/user"
 
 export const useAudit = defineStore('Audit', {
     state: () => ({
-        audit: {
-            due_date: "2022-12-22T00:00:00",
-            complete_datetime: "",
-            recurrent_audit: false,
-            audited_user_id: 1,
-            audited_user: {
-                supervisor_id: 1,
-                last_name: "Stahl",
-                password_hash: "",
-                company_id: 1,
-                layer_id: 1,
-                id: 1,
-                first_name: "Josef",
-                email: "josef@test.de",
-                profile_picture_url: "",
-                role_id: 3,
-                group_id: 1
-            },
-            assigned_group_id: 1,
-            id: 1,
-            duration: 0,
-            created_by_user_id: 1,
-            auditor_user_id: 1,
-            assigned_layer_id: 1,
-            assigned_group: {
-                company_id: 1,
-                group_name: "Fertigung",
-                id: 1
-            },
-            assigned_layer: {
-                id: 1,
-                layer_name: "Werkstatt",
-                company_id: 1,
-                layer_number: 0
-            },
-            created_by_user: {
-                supervisor_id: 1,
-                last_name: "Stahl",
-                password_hash: "",
-                company_id: 1,
-                layer_id: 1,
-                id: 1,
-                first_name: "Josef",
-                email: "josef@test.de",
-                profile_picture_url: "",
-                role_id: 3,
-                group_id: 1
-            },
-            auditor: {
-                supervisor_id: 1,
-                last_name: "Stahl",
-                password_hash: "",
-                company_id: 1,
-                layer_id: 1,
-                id: 1,
-                first_name: "Josef",
-                email: "josef@test.de",
-                profile_picture_url: "testtesttest",
-                role_id: 3,
-                group_id: 1
-            },
-            questions: [
-                {
-                    question: "Tropft Öl oder Ähnliches aus der Maschine?",
-                    description: "Tropft Öl oder Ähnliches aus der Maschine?",
-                    layer_id: 1,
-                    id: 59,
-                    category_id: 4,
-                    group_id: 1,
-                    layer: {
-                        id: 1,
-                        layer_name: "Werkstatt",
-                        company_id: 1,
-                        layer_number: 0
-                    },
-                    group: {
-                        company_id: 1,
-                        group_name: "Fertigung",
-                        id: 1
-                    },
-                    category: {
-                        category_name: "Qualität",
-                        id: 4
-                    }
-                },
-            ],
-            answers: [],
-        } as Audit,
+        audit: {} as Audit,
         currentAudit: 1,
         audited_user_id: 1,
         audited_user: {
@@ -116,7 +29,7 @@ export const useAudit = defineStore('Audit', {
     },
     actions: {
         async fetchAudit() {
-            /*try {
+            try {
                 const data = await axios.get(
                     "http://localhost:80/api/audit/lpa_audit/" + 1
                 );
@@ -124,19 +37,28 @@ export const useAudit = defineStore('Audit', {
             } catch (error) {
                 alert(error);
                 console.log(error);
-            }*/
+            }
         },
-        /*async fetchUser() {
+        async fetchUser() {
+            var token =   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJleHBpcmVzIjoxNjcwOTc0OTM5Ljc3MDA0NCwiY29tcGFueV9pZCI6MSwicm9sZSI6IndvcmtlciJ9.iC__ijHirm9WAHuLTxr48a9hX5MOh6EW27kj_zgO8Io"
+
+
+
+            const config = {
+                headers: { Authorization: `Bearer ${token}` }
+            };
+
             try {
                 const data = await axios.get(
-                    "http://localhost:3000/dataUserByID"
+                    "http://localhost:80/api/user_management/user/3",
+                    config
                 );
                 this.audited_user = data.data.data;
             } catch (error) {
                 alert(error);
                 console.log(error);
             }
-        },*/
+        },
         updateAnswersByID(currentQuestionID: number, emojyType: string) {
             for (let i = 0; i < this.audit[0].answers.length; i++) {
                 if (this.audit[0].answers[i].question_id == currentQuestionID) {
