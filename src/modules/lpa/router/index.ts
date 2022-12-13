@@ -4,6 +4,7 @@ import LPAAudit from '../views/LPAAudit.vue'
 import LPAHistory from '../views/LPAHistory.vue'
 import LPAConfiguration from '../views/LPAConfiguration.vue'
 import LPAAnalytics from '../views/LPAAnalytics.vue'
+import Test from '../views/Test.vue'
 
 export const lpaRoutes = [
     {
@@ -43,6 +44,11 @@ export const lpaRoutes = [
                 path: 'historie',
                 name: 'LPAHistory',
                 component: LPAHistory,
+            },
+            {
+                path: 'test',
+                name: 'Test',
+                component: Test,
             }
         ]
     }

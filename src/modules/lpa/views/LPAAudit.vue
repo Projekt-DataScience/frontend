@@ -1,168 +1,184 @@
 <template>
-  <AppPopup v-if="visibleTest">
-    <div class="p-7 border-b-2 border-gray-200 flex items-center">
-      <div>
-        <div>{{ questions[currentQuestionIndex].title }}</div>
-        <div class="text-gray-400">
-          {{ questions[currentQuestionIndex].category }}
-        </div>
-      </div>
-      <div class="flex-auto">
-        <AppButtonSecondary
-          class="ml-5 flex justify-end"
-          name="Schließen"
-          v-on:buttonClick="closePopup()"
-        ></AppButtonSecondary>
-      </div>
-    </div>
-    <div class="p-7 border-b-2 border-gray-200">
-      <button
-        class="flex items-center py-4 pr-4 w-full"
-        :class="getBorderStatus('green')"
-        @click="updateAnswers('green')"
-      >
-        <AppIconLibrary
-          icon="lpaStatus"
-          type="green"
-          styling="h-10"
-        ></AppIconLibrary>
-        <div>Alles in Ordnung</div>
-      </button>
-      <button
-        class="flex items-center py-4 pr-4 w-full"
-        :class="getBorderStatus('yellow')"
-        @click="updateAnswers('yellow')"
-      >
-        <AppIconLibrary
-          icon="lpaStatus"
-          type="yellow"
-          styling="h-10"
-        ></AppIconLibrary>
-        <div>Abweichung konnte sofort behoben werden</div>
-      </button>
-      <button
-        class="flex items-center py-4 pr-4 w-full"
-        :class="getBorderStatus('red')"
-        @click="updateAnswers('red')"
-      >
-        <AppIconLibrary
-          icon="lpaStatus"
-          type="red"
-          styling="h-10"
-        ></AppIconLibrary>
-        <div>Schwerwiegendes Problem</div>
-      </button>
-    </div>
-    <div class="p-7 border-b-2 border-gray-200" v-if="statusIsRed()">
-      {{test}}
-      <AppInputDropdown headline="Abweichungsgrund" name="description" :value="test" v-on:input="setTest($event)"></AppInputDropdown>
-      <div class="pt-6">
-        <AppInputBigTextField headline="Beschreibung der Abweichung" name="comment"></AppInputBigTextField>
-      </div>
-    </div>
-    <div class="p-7 flex items-center">
-      <AppButtonPrimary
-        name="Speichern"
-        v-bind:isActive="true"
-        v-on:buttonClick="saveAnswer()"
-      ></AppButtonPrimary>
-      <div class="flex-auto">
-        <AppButtonTertiary
-          class="ml-5 flex justify-left"
-          name="Überspringen"
-          v-on:buttonClick="getNewQuestion()"
-        ></AppButtonTertiary>
-      </div>
-    </div>
-  </AppPopup>
-  <AppPageLayout>
-    <template #sidebar>
-      <!-- content for the sidebar slot -->
-      <LPASidebar currentPage="LPAAudit"></LPASidebar>
-    </template>
-    <template #header>
-      <div class="flex items-center m-6">
-        <div class="font-semibold text-lg">Audit durchführen</div>
-        <div class="flex-auto">
-          <div class="flex justify-end">
-            <AppButtonPrimary
-              class="mr-6"
-              name="Abschließen"
-              v-bind:isActive="false"
-            >
-            </AppButtonPrimary>
-            <AppButtonSecondary
-              class="mr-8"
-              name="Abbrechen"
-              v-on:buttonClick="dismissAudit()"
-            >
-            </AppButtonSecondary>
+  <div v-if="dataReady">
+    <AppPopup v-if="visibleTest">
+      <div class="p-7 border-b-2 border-gray-200 flex items-center">
+        <div>
+          <div>{{ questions[currentQuestionIndex].question }}</div>
+          <div class="text-gray-400">
+            {{ questions[currentQuestionIndex].category.category_name }}
           </div>
         </div>
+        <div class="flex-auto">
+          <AppButtonSecondary
+            class="ml-5 flex justify-end"
+            name="Schließen"
+            v-on:buttonClick="closePopup()"
+          ></AppButtonSecondary>
+        </div>
       </div>
-      <div
-        class="flex items-center m-6"
-        v-for="(item, index) in audit"
-        :key="index"
-      >
-        <!--Auditor-->
-        <AppListTextWithDividerLine
-          :text="getUserText(item.auditor[0])"
-          subtext="Auditor"
-          :imgPath="item.auditor[0].profile_picture"
-          v-bind:isLast="false"
-        ></AppListTextWithDividerLine>
-        <!--Befragter-->
-        <AppListTextWithDividerLine
-          :text="getUserText(audited_user[0])"
-          subtext="Befragter"
-          :imgPath="audited_user[0].profile_picture"
-          v-bind:isLast="false"
-        ></AppListTextWithDividerLine>
-        <!--Layer-->
-        <AppListTextWithDividerLine
-          :text="getLayer(item.assigned_layer)"
-          subtext="Layer"
-          v-bind:isLast="false"
-        ></AppListTextWithDividerLine>
-        <!--Gruppe-->
-        <AppListTextWithDividerLine
-          :text="item.assigned_group"
-          subtext="Gruppe"
-          v-bind:isLast="false"
-        ></AppListTextWithDividerLine>
-        <!--Fälligkeit-->
-        <AppListTextWithDividerLine
-          :text="getDate(item.due_date)"
-          subtext="Fälligkeit"
-          v-bind:isLast="true"
-        ></AppListTextWithDividerLine>
+      <div class="p-7 border-b-2 border-gray-200">
+        <button
+          class="flex items-center py-4 pr-4 w-full"
+          :class="getBorderStatus('green')"
+          @click="updateAnswers('green')"
+        >
+          <AppIconLibrary
+            icon="lpaStatus"
+            type="green"
+            styling="h-10"
+          ></AppIconLibrary>
+          <div>Alles in Ordnung</div>
+        </button>
+        <button
+          class="flex items-center py-4 pr-4 w-full"
+          :class="getBorderStatus('yellow')"
+          @click="updateAnswers('yellow')"
+        >
+          <AppIconLibrary
+            icon="lpaStatus"
+            type="yellow"
+            styling="h-10"
+          ></AppIconLibrary>
+          <div>Abweichung konnte sofort behoben werden</div>
+        </button>
+        <button
+          class="flex items-center py-4 pr-4 w-full"
+          :class="getBorderStatus('red')"
+          @click="updateAnswers('red')"
+        >
+          <AppIconLibrary
+            icon="lpaStatus"
+            type="red"
+            styling="h-10"
+          ></AppIconLibrary>
+          <div>Schwerwiegendes Problem</div>
+        </button>
       </div>
-    </template>
-    <template #content>
-      <div v-for="(item, index) in audit" :key="index">
-        <div v-for="(items, innerIndex) in item.questions" :key="innerIndex">
-          <AppListContainer :isLast="getIsLast(items, item.questions)">
+      <div class="p-7 border-b-2 border-gray-200" v-if="statusIsRed()">
+        {{ test }}
+        <AppInputDropdown
+          headline="Abweichungsgrund"
+          name="description"
+          :value="test"
+          v-on:input="setTest($event)"
+        ></AppInputDropdown>
+        <div class="pt-6">
+          <AppInputBigTextField
+            headline="Beschreibung der Abweichung"
+            name="comment"
+          ></AppInputBigTextField>
+        </div>
+      </div>
+      <div class="p-7 flex items-center">
+        <AppButtonPrimary
+          name="Speichern"
+          v-bind:isActive="true"
+          v-on:buttonClick="saveAnswer()"
+        ></AppButtonPrimary>
+        <div class="flex-auto">
+          <AppButtonTertiary
+            class="ml-5 flex justify-left"
+            name="Überspringen"
+            v-on:buttonClick="getNewQuestion()"
+          ></AppButtonTertiary>
+        </div>
+      </div>
+    </AppPopup>
+    <AppPageLayout>
+      <template #sidebar>
+        <!-- content for the sidebar slot -->
+        <LPASidebar currentPage="LPAAudit"></LPASidebar>
+      </template>
+      <template #header>
+        <div class="flex items-center m-6">
+          <div class="font-semibold text-lg">Audit durchführen</div>
+          <div class="flex-auto">
+            <div class="flex justify-end">
+              <AppButtonPrimary
+                class="mr-6"
+                name="Abschließen"
+                v-bind:isActive="false"
+              >
+              </AppButtonPrimary>
+              <AppButtonSecondary
+                class="mr-8"
+                name="Abbrechen"
+                v-on:buttonClick="dismissAudit()"
+              >
+              </AppButtonSecondary>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center m-6">
+          <!--Auditor-->
+          <AppListTextWithDividerLine
+            :text="
+              concateStrings(
+                audit.auditor.first_name,
+                audit.auditor.last_name
+              )
+            "
+            subtext="Auditor"
+            :imgPath="audit.auditor.profile_picture_url"
+            v-bind:isLast="false"
+          ></AppListTextWithDividerLine>
+          <!--Befragter-->
+          <AppListTextWithDividerLine
+            :text="
+              concateStrings(audited_user.first_name, audited_user.last_name)
+            "
+            subtext="Befragter"
+            :imgPath="audited_user.profile_picture_url"
+            v-bind:isLast="false"
+          ></AppListTextWithDividerLine>
+          <!--Layer-->
+          <AppListTextWithDividerLine
+            :text="
+              concateStrings(
+                'Layer',
+                audit.assigned_layer.layer_number.toString()
+              )
+            "
+            subtext="Layer"
+            v-bind:isLast="false"
+          ></AppListTextWithDividerLine>
+          <!--Gruppe-->
+          <AppListTextWithDividerLine
+            :text="audit.assigned_group.group_name"
+            subtext="Gruppe"
+            v-bind:isLast="false"
+          ></AppListTextWithDividerLine>
+          <!--Fälligkeit-->
+          <AppListTextWithDividerLine
+            :text="getDate(audit.due_date)"
+            subtext="Fälligkeit"
+            v-bind:isLast="true"
+          ></AppListTextWithDividerLine>
+        </div>
+      </template>
+      <template #content>
+        <div v-for="(items, innerIndex) in audit.questions" :key="innerIndex">
+          <AppListContainer :isLast="getIsLast(items, audit.questions)">
             <template #wrapperLeft>
               <AppIconLibrary
                 icon="lpaStatus"
-                :type="getQuestionStatus(items.id, item)"
+                :type="getQuestionStatus(audit.id, audit)"
                 styling="h-10"
               ></AppIconLibrary>
             </template>
             <template #wrapperContent>
               <AppListTextAndSubtext
-                :text="items.title"
+                :text="items.question"
                 :subtext="[
                   {
-                    text: items.category,
+                    text: items.category.category_name,
                   },
                 ]"
               ></AppListTextAndSubtext>
             </template>
             <template #wrapperRight>
               <AppButtonTertiary
-                v-if="getQuestionStatus(items.id, item) === 'gray'"
+                v-if="getQuestionStatus(items.id, audit) === 'gray'"
                 name="Beantworten"
                 :id="innerIndex"
                 v-on:buttonClick="openPopup($event)"
@@ -180,9 +196,9 @@
             </template>
           </AppListContainer>
         </div>
-      </div>
-    </template>
-  </AppPageLayout>
+      </template>
+    </AppPageLayout>
+  </div>
 </template>
 
 <!--{{$route.params.id}}-->
@@ -201,7 +217,7 @@ import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue
 import AppButtonTertiary from "../../../components/AppButtonTertiary.vue";
 import AppPopup from "../../../components/AppPopup.vue";
 import AppInputBigTextField from "../../../components/AppInputBigTextField.vue";
-import AppInputDropdown from "../../../components/AppInputDropdown.vue"
+import AppInputDropdown from "../../../components/AppInputDropdown.vue";
 
 import { useAudit } from "../store/audit";
 import { Audit } from "../interfaces/audit";
@@ -223,7 +239,7 @@ export default defineComponent({
     AppButtonTertiary,
     AppPopup,
     AppInputBigTextField,
-    AppInputDropdown
+    AppInputDropdown,
   },
   async mounted() {
     const store = useAudit();
@@ -231,17 +247,19 @@ export default defineComponent({
     await store.fetchUser();
     this.audit = store.audit;
     this.audited_user = store.audited_user;
-    this.setQuestions(this.audit[0]);
+    this.setQuestions(this.audit);
+    this.dataReady = true;
   },
   mixins: [getIsLast],
   data() {
     return {
-      audit: [] as Audit[],
-      audited_user: [] as User[],
+      audit: {} as Audit,
+      audited_user: {} as User,
       visibleTest: false,
       currentQuestion: [] as Question[],
       questions: [] as Question[],
       currentQuestionIndex: 0,
+      dataReady: false,
       test: ""
     };
   },
@@ -260,8 +278,12 @@ export default defineComponent({
       }
       return "gray";
     },
-    getUserText(user: User) {
-      return user.first_name + " " + user.last_name;
+    concateStrings(...args: string[]) {
+      var tmp = "";
+      for (var i = 0; i < args.length; i++) {
+        tmp = tmp + args[i] + " ";
+      }
+      return tmp;
     },
     getDate(item: string) {
       return new Date(item).toLocaleDateString("de-DE", {
@@ -367,8 +389,8 @@ export default defineComponent({
         return false;
       }
     },
-    setTest(test:any){
-      this.test = test
+    setTest(event: any){
+      this.test = event;
     }
   },
 });
