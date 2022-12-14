@@ -1,5 +1,5 @@
 <template>
-  <label class="block text-base text-gray-500">{{ headline }}</label>
+  <!--<label class="block text-base text-gray-500">{{ headline }}</label>
   <select
     id="country"
     name="country"
@@ -20,10 +20,27 @@
     <option value="United States">United States</option>
     <option value="Canada">Canada</option>
     <option value="Mexico">Mexico</option>
+  </select>-->
+  <label class="block text-base text-gray-500">{{ headline }}</label>
+  <select @change="updateValue()" v-model="selectedOption" class="
+      block
+      w-full
+      max-w-lg
+      rounded-md
+      border-2 border-gray-300
+      shadow-sm
+      focus:border-indigo-500 focus:ring-indigo-500
+      sm:max-w-xs sm:text-sm
+      mt-1
+    ">
+    <option v-if="initialOption" :value="null">{{initialOption}}</option>
+    <option
+      v-for="(option, index) in options"
+      :key="index"
+      :value="option.id"
+    >{{option.description}}</option>
   </select>
 </template>
-
-
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
@@ -40,14 +57,37 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    value: {
-      type: String,
+    options: {
+      type: Object,
       required: true,
     },
+    initialOption: {
+      type: String,
+      required: false
+    }
   },
+  emits: {
+    input: null,
+  },
+  data(){
+    return{
+      selectedOption: "null"
+    }
+  },
+  /*data() {
+    return {
+      value: "test",
+      colors: [
+        {
+          options: ["red", "yellow", "green"],
+          selectedOption: "null",
+        },
+      ],
+    };
+  },*/
   methods: {
     updateValue() {
-      this.$emit("input", this.value);
+      this.$emit("input", this.selectedOption);
     },
   },
 });

@@ -50,7 +50,7 @@
         id="user-menu-button"
         aria-expanded="false"
         aria-haspopup="true"
-        @click="$emit('buttonClick')"
+        @click="checkActiveStatus()"
       >
         <div class="flex text-gray-400">
           <div><slot name="icon" v-if="hasIconSlot()"></slot></div>
@@ -89,6 +89,11 @@ export default defineComponent({
     hasIconSlot() {
       return !!this.$slots.icon;
     },
+    checkActiveStatus(){
+      if(this.isActive === true){
+        this.$emit('buttonClick')
+      }
+    }
   },
 });
 </script>

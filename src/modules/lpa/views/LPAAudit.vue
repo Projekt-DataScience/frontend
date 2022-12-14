@@ -55,12 +55,12 @@
         </button>
       </div>
       <div class="p-7 border-b-2 border-gray-200" v-if="statusIsRed()">
-        {{ test }}
         <AppInputDropdown
           headline="Abweichungsgrund"
           name="description"
-          :value="test"
-          v-on:input="setTest($event)"
+          :options="options"
+          initialOption="-- Grund wählen --"
+          v-on:input="setReasonByDropdown($event)"
         ></AppInputDropdown>
         <div class="pt-6">
           <AppInputBigTextField
@@ -72,7 +72,7 @@
       <div class="p-7 flex items-center">
         <AppButtonPrimary
           name="Speichern"
-          v-bind:isActive="true"
+          v-bind:isActive="getSaveButtonStatus()"
           v-on:buttonClick="saveAnswer()"
         ></AppButtonPrimary>
         <div class="flex-auto">
@@ -97,7 +97,7 @@
               <AppButtonPrimary
                 class="mr-6"
                 name="Abschließen"
-                v-bind:isActive="false"
+                v-bind:isActive="getFinishButtonStatus()"
               >
               </AppButtonPrimary>
               <AppButtonSecondary
@@ -113,10 +113,7 @@
           <!--Auditor-->
           <AppListTextWithDividerLine
             :text="
-              concateStrings(
-                audit.auditor.first_name,
-                audit.auditor.last_name
-              )
+              concateStrings(audit.auditor.first_name, audit.auditor.last_name)
             "
             subtext="Auditor"
             :imgPath="audit.auditor.profile_picture_url"
@@ -157,12 +154,12 @@
         </div>
       </template>
       <template #content>
-        <div v-for="(items, innerIndex) in audit.questions" :key="innerIndex">
+        <div v-for="(items, index) in audit.questions" :key="index">
           <AppListContainer :isLast="getIsLast(items, audit.questions)">
             <template #wrapperLeft>
               <AppIconLibrary
                 icon="lpaStatus"
-                :type="getQuestionStatus(audit.id, audit)"
+                :type="getQuestionStatus(items.id, audit)"
                 styling="h-10"
               ></AppIconLibrary>
             </template>
@@ -180,7 +177,7 @@
               <AppButtonTertiary
                 v-if="getQuestionStatus(items.id, audit) === 'gray'"
                 name="Beantworten"
-                :id="innerIndex"
+                :id="index"
                 v-on:buttonClick="openPopup($event)"
                 class="ml-4"
               ></AppButtonTertiary>
@@ -188,7 +185,7 @@
                 <AppButtonTertiary
                   v-bind:isActive="false"
                   name="Ändern"
-                  :id="innerIndex"
+                  :id="index"
                   v-on:buttonClick="openPopup($event)"
                   class="ml-4"
                 ></AppButtonTertiary>
@@ -223,6 +220,8 @@ import { useAudit } from "../store/audit";
 import { Audit } from "../interfaces/audit";
 import { User } from "../../../interfaces/user";
 import { Question } from "../interfaces/question";
+import { AnswerReason } from "../interfaces/answerReason";
+import { Answer } from "../interfaces/answer";
 
 export default defineComponent({
   name: "LPAAudit",
@@ -244,8 +243,10 @@ export default defineComponent({
   async mounted() {
     const store = useAudit();
     await store.fetchAudit();
+    //await store.fetchReasons();
     await store.fetchUser();
     this.audit = store.audit;
+    //this.options = store.reasons;
     this.audited_user = store.audited_user;
     this.setQuestions(this.audit);
     this.dataReady = true;
@@ -256,23 +257,41 @@ export default defineComponent({
       audit: {} as Audit,
       audited_user: {} as User,
       visibleTest: false,
-      currentQuestion: [] as Question[],
       questions: [] as Question[],
       currentQuestionIndex: 0,
       dataReady: false,
-      test: ""
+      test: "Initial",
+      options: [] as AnswerReason[],
+      selectedOption: "null",
+      tmpAnswer: {
+        question_id: 0,
+        answer: "gray",
+        comment: "",
+        description: "",
+      },
     };
   },
   methods: {
+    testMeth(tmpAnswer: any) {
+        if (tmpAnswer.answer === "red") {
+          return "red";
+        } else if (tmpAnswer.answer === "yellow") {
+          return "yellow";
+        } else if (tmpAnswer.answer === "green") {
+          return "green";
+        }
+    },
     getQuestionStatus(questionID: any, audit: Audit) {
-      for (let i = 0; i < audit.answers.length; i++) {
-        if (audit.answers[i].question_id === questionID) {
-          if (audit.answers[i].answer === "red") {
-            return "red";
-          } else if (audit.answers[i].answer === "yellow") {
-            return "yellow";
-          } else if (audit.answers[i].answer === "green") {
-            return "green";
+      if (audit.answers.length !== 0) {
+        for (let i = 0; i < audit.answers.length; i++) {
+          if (audit.answers[i].question_id === questionID) {
+            if (audit.answers[i].answer === "red") {
+              return "red";
+            } else if (audit.answers[i].answer === "yellow") {
+              return "yellow";
+            } else if (audit.answers[i].answer === "green") {
+              return "green";
+            }
           }
         }
       }
@@ -300,10 +319,34 @@ export default defineComponent({
       this.disableScroll();
       this.visibleTest = true;
       this.setCurrentQuestion(event);
+      this.resetTmpAnswer();
+      if (
+        this.getQuestionStatus(
+          this.questions[this.currentQuestionIndex].id,
+          this.audit
+        ) == "green"
+      ) {
+        this.tmpAnswer.answer = "green";
+      }else if(
+        this.getQuestionStatus(
+          this.questions[this.currentQuestionIndex].id,
+          this.audit
+        ) == "red"
+      ) {
+        this.tmpAnswer.answer = "red";
+      }else if(
+        this.getQuestionStatus(
+          this.questions[this.currentQuestionIndex].id,
+          this.audit
+        ) == "yellow"
+      ) {
+        this.tmpAnswer.answer = "yellow";
+      }
     },
     closePopup() {
       this.visibleTest = false;
       this.enableScroll();
+      this.resetTmpAnswer();
     },
     disableScroll() {
       // Get the current page scroll position
@@ -328,9 +371,10 @@ export default defineComponent({
     },
     setCurrentQuestion(index: any) {
       this.currentQuestionIndex = index;
-      console.log(this.currentQuestionIndex);
+      this.tmpAnswer.question_id = this.currentQuestionIndex;
     },
     getNewQuestion() {
+      this.resetTmpAnswer();
       let tmpIndex = this.currentQuestionIndex;
       //search the next unanswered question
       for (let i = 0; i < this.questions.length; i++) {
@@ -342,7 +386,7 @@ export default defineComponent({
         }
         //check if tmpIndex Question is answered
         if (
-          this.getQuestionStatus(this.questions[tmpIndex].id, this.audit[0]) ==
+          this.getQuestionStatus(this.questions[tmpIndex].id, this.audit) ==
           "gray"
         ) {
           this.setCurrentQuestion(tmpIndex);
@@ -352,45 +396,78 @@ export default defineComponent({
       // if all questions are answered
       return "none";
     },
-    saveAnswer() {
+    async saveAnswer() {
+      const store = useAudit();
+      await store.updateAnswersByID(
+        this.questions[this.currentQuestionIndex].id,
+        this.tmpAnswer.answer
+      );
+      this.audit = store.audit;
       if (this.getNewQuestion() == "none") {
         this.closePopup();
       }
+      this.resetTmpAnswer();
     },
     getBorderStatus(emojyType: String) {
       if (
         this.getQuestionStatus(
           this.questions[this.currentQuestionIndex].id,
-          this.audit[0]
-        ) == emojyType
+          this.audit
+        ) == emojyType || this.testMeth(this.tmpAnswer) == emojyType
       ) {
         return "border-2 border-gray-400 rounded-md bg-gray-200";
       }
       return null;
     },
-    async updateAnswers(emojyType: string) {
-      console.log("clicked");
-      const store = useAudit();
-      await store.updateAnswersByID(
-        this.questions[this.currentQuestionIndex].id,
-        emojyType
-      );
-      this.audit = store.audit;
+    updateAnswers(emojyType: string) {
+      this.tmpAnswer.answer = emojyType;
     },
     statusIsRed() {
       if (
         this.getQuestionStatus(
           this.questions[this.currentQuestionIndex].id,
-          this.audit[0]
-        ) == "red"
+          this.audit
+        ) == "red" || this.testMeth(this.tmpAnswer) == "red"
       ) {
         return true;
       } else {
         return false;
       }
     },
-    setTest(event: any){
-      this.test = event;
+    setReasonByDropdown(event: any) {
+      this.selectedOption = event;
+      console.log(this.selectedOption);
+    },
+    getFinishButtonStatus() {
+      for (let i = 0; i < this.audit.questions.length; i++) {
+        if (
+          this.getQuestionStatus(this.audit.questions[i].id, this.audit) ===
+          "gray"
+        ) {
+          return false;
+        }
+      }
+      return true;
+    },
+    getSaveButtonStatus() {
+      if (Object.keys(this.tmpAnswer).length !== 0) {
+        if (
+          this.tmpAnswer.answer === "green" ||
+          this.tmpAnswer.answer === "yellow"
+        ) {
+          return true;
+        } else if (
+          this.tmpAnswer.answer === "red" &&
+          this.tmpAnswer.description !== "" &&
+          this.tmpAnswer.comment !== ""
+        ) {
+          return true;
+        }
+      }
+      return false;
+    },
+    resetTmpAnswer(){
+      this.tmpAnswer = {question_id: 0,answer: "gray",comment: "",description: "",};
     }
   },
 });
