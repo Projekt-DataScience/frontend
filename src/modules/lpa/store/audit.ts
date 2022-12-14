@@ -71,11 +71,13 @@ export const useAudit = defineStore('Audit', {
                 console.log(error);
             }
         },
-        updateAnswersByID(currentQuestionID: number, emojyType: string) {
+        updateAnswersByID(currentQuestionID: number, emojyType: string, description: string, comment: string) {
             if (this.audit.answers.length !== 0) {
                 for (let i = 0; i < this.audit.answers.length; i++) {
                     if (this.audit.answers[i].question_id == currentQuestionID) {
                         this.audit.answers[i].answer = emojyType;
+                        this.audit.answers[i].description = description;
+                        this.audit.answers[i].comment = comment;
                         i = this.audit.answers.length;
                     } else if (i == this.audit.answers.length - 1) {
                         this.audit.answers.push({
@@ -83,8 +85,8 @@ export const useAudit = defineStore('Audit', {
                             audit_id: this.audit.id,
                             question_id: currentQuestionID,
                             answer: emojyType,
-                            comment: "",
-                            description: "",
+                            comment: comment,
+                            description: description,
                             assigned_layer: this.audit.assigned_layer,
                             assigned_group: this.audit.assigned_group
                         })
@@ -96,8 +98,8 @@ export const useAudit = defineStore('Audit', {
                     audit_id: this.audit.id,
                     question_id: currentQuestionID,
                     answer: emojyType,
-                    comment: "",
-                    description: "",
+                    comment: comment,
+                    description: description,
                     assigned_layer: this.audit.assigned_layer,
                     assigned_group: this.audit.assigned_group
                 })

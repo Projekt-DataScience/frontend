@@ -22,7 +22,7 @@
     <option value="Mexico">Mexico</option>
   </select>-->
   <label class="block text-base text-gray-500">{{ headline }}</label>
-  <select @change="updateValue()" v-model="selectedOption" class="
+  <select @change="updateValue($event)" v-model="selectedOption" class="
       block
       w-full
       max-w-lg
@@ -64,14 +64,19 @@ export default defineComponent({
     initialOption: {
       type: String,
       required: false
+    },
+    currentValue: {
+      type: String,
+      required: true
     }
   },
   emits: {
     input: null,
   },
-  data(){
-    return{
-      selectedOption: "null"
+  data() {
+    return {
+      selectedOption: this.getSelectedOption(),
+      isLoaded: false
     }
   },
   /*data() {
@@ -86,9 +91,16 @@ export default defineComponent({
     };
   },*/
   methods: {
-    updateValue() {
-      this.$emit("input", this.selectedOption);
+    updateValue(event: any) {
+      this.$emit("input", event.target.value);
     },
+    getSelectedOption(){
+      if(this.currentValue === ""){
+        return "null"
+      }else{
+        return this.currentValue
+      }
+    }
   },
 });
 </script>

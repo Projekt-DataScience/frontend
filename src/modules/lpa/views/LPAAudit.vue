@@ -59,13 +59,16 @@
           headline="Abweichungsgrund"
           name="description"
           :options="options"
-          initialOption="-- Grund wählen --"
+          initialOption="-- Grund auswählen --"
+          :currentValue="currentAnswer.description"
           v-on:input="setReasonByDropdown($event)"
         ></AppInputDropdown>
         <div class="pt-6">
           <AppInputBigTextField
             headline="Beschreibung der Abweichung"
             name="comment"
+            :text="currentAnswer.comment"
+            v-on:input="setLongTextComment($event)"
           ></AppInputBigTextField>
         </div>
       </div>
@@ -243,13 +246,15 @@ export default defineComponent({
   async mounted() {
     const store = useAudit();
     await store.fetchAudit();
-    //await store.fetchReasons();
+    await store.fetchReasons();
     await store.fetchUser();
     this.audit = store.audit;
-    //this.options = store.reasons;
+    this.options = store.reasons;
     this.audited_user = store.audited_user;
     this.setQuestions(this.audit);
     this.dataReady = true;
+
+    this.resetCurrentAnswer();
   },
   mixins: [getIsLast],
   data() {
@@ -263,23 +268,18 @@ export default defineComponent({
       test: "Initial",
       options: [] as AnswerReason[],
       selectedOption: "null",
-      tmpAnswer: {
-        question_id: 0,
-        answer: "gray",
-        comment: "",
-        description: "",
-      },
+      currentAnswer: {} as Answer,
     };
   },
   methods: {
-    testMeth(tmpAnswer: any) {
-        if (tmpAnswer.answer === "red") {
-          return "red";
-        } else if (tmpAnswer.answer === "yellow") {
-          return "yellow";
-        } else if (tmpAnswer.answer === "green") {
-          return "green";
-        }
+    testMeth(currentAnswer: any) {
+      if (currentAnswer.answer === "red") {
+        return "red";
+      } else if (currentAnswer.answer === "yellow") {
+        return "yellow";
+      } else if (currentAnswer.answer === "green") {
+        return "green";
+      }
     },
     getQuestionStatus(questionID: any, audit: Audit) {
       if (audit.answers.length !== 0) {
@@ -319,34 +319,19 @@ export default defineComponent({
       this.disableScroll();
       this.visibleTest = true;
       this.setCurrentQuestion(event);
-      this.resetTmpAnswer();
-      if (
-        this.getQuestionStatus(
-          this.questions[this.currentQuestionIndex].id,
-          this.audit
-        ) == "green"
-      ) {
-        this.tmpAnswer.answer = "green";
-      }else if(
-        this.getQuestionStatus(
-          this.questions[this.currentQuestionIndex].id,
-          this.audit
-        ) == "red"
-      ) {
-        this.tmpAnswer.answer = "red";
-      }else if(
-        this.getQuestionStatus(
-          this.questions[this.currentQuestionIndex].id,
-          this.audit
-        ) == "yellow"
-      ) {
-        this.tmpAnswer.answer = "yellow";
+      this.resetCurrentAnswer();
+      if (this.audit.answers.length !== 0) {
+        for (let i = 0; i < this.audit.answers.length; i++) {
+          if (this.audit.answers[i].question_id === this.audit.questions[this.currentQuestionIndex].id) {
+            this.currentAnswer = this.audit.answers[i]
+          }
+        }
       }
     },
     closePopup() {
       this.visibleTest = false;
       this.enableScroll();
-      this.resetTmpAnswer();
+      this.resetCurrentAnswer();
     },
     disableScroll() {
       // Get the current page scroll position
@@ -371,10 +356,10 @@ export default defineComponent({
     },
     setCurrentQuestion(index: any) {
       this.currentQuestionIndex = index;
-      this.tmpAnswer.question_id = this.currentQuestionIndex;
+      this.currentAnswer.question_id = this.audit.questions[this.currentQuestionIndex].id;
     },
     getNewQuestion() {
-      this.resetTmpAnswer();
+      this.resetCurrentAnswer();
       let tmpIndex = this.currentQuestionIndex;
       //search the next unanswered question
       for (let i = 0; i < this.questions.length; i++) {
@@ -396,47 +381,53 @@ export default defineComponent({
       // if all questions are answered
       return "none";
     },
-    async saveAnswer() {
+    saveAnswer() {
+      console.log(this.currentAnswer);
       const store = useAudit();
-      await store.updateAnswersByID(
-        this.questions[this.currentQuestionIndex].id,
-        this.tmpAnswer.answer
-      );
+      if (this.currentAnswer.answer === "red") {
+        store.updateAnswersByID(
+          this.currentAnswer.question_id,
+          this.currentAnswer.answer,
+          this.currentAnswer.description,
+          this.currentAnswer.comment
+        );
+      } else {
+        store.updateAnswersByID(
+          this.questions[this.currentQuestionIndex].id,
+          this.currentAnswer.answer,
+          "",
+          ""
+        );
+      }
       this.audit = store.audit;
       if (this.getNewQuestion() == "none") {
         this.closePopup();
       }
-      this.resetTmpAnswer();
+      this.resetCurrentAnswer();
     },
     getBorderStatus(emojyType: String) {
       if (
         this.getQuestionStatus(
           this.questions[this.currentQuestionIndex].id,
           this.audit
-        ) == emojyType || this.testMeth(this.tmpAnswer) == emojyType
+        ) == emojyType ||
+        this.testMeth(this.currentAnswer) == emojyType
       ) {
         return "border-2 border-gray-400 rounded-md bg-gray-200";
       }
       return null;
     },
     updateAnswers(emojyType: string) {
-      this.tmpAnswer.answer = emojyType;
+      this.currentAnswer.answer = emojyType;
     },
     statusIsRed() {
       if (
-        this.getQuestionStatus(
-          this.questions[this.currentQuestionIndex].id,
-          this.audit
-        ) == "red" || this.testMeth(this.tmpAnswer) == "red"
+        this.testMeth(this.currentAnswer) == "red"
       ) {
         return true;
       } else {
         return false;
       }
-    },
-    setReasonByDropdown(event: any) {
-      this.selectedOption = event;
-      console.log(this.selectedOption);
     },
     getFinishButtonStatus() {
       for (let i = 0; i < this.audit.questions.length; i++) {
@@ -450,25 +441,40 @@ export default defineComponent({
       return true;
     },
     getSaveButtonStatus() {
-      if (Object.keys(this.tmpAnswer).length !== 0) {
+      if (Object.keys(this.currentAnswer).length !== 0) {
         if (
-          this.tmpAnswer.answer === "green" ||
-          this.tmpAnswer.answer === "yellow"
+          this.currentAnswer.answer === "green" ||
+          this.currentAnswer.answer === "yellow"
         ) {
           return true;
         } else if (
-          this.tmpAnswer.answer === "red" &&
-          this.tmpAnswer.description !== "" &&
-          this.tmpAnswer.comment !== ""
+          this.currentAnswer.answer === "red" &&
+          this.currentAnswer.description !== "" &&
+          this.currentAnswer.comment !== ""
         ) {
           return true;
         }
       }
       return false;
     },
-    resetTmpAnswer(){
-      this.tmpAnswer = {question_id: 0,answer: "gray",comment: "",description: "",};
-    }
+    setReasonByDropdown(event: any) {
+      this.currentAnswer.description = event;
+    },
+    setLongTextComment(event: any) {
+      this.currentAnswer.comment = event;
+    },
+    resetCurrentAnswer() {
+      this.currentAnswer = {
+        id: 0,
+        audit_id: this.audit.id,
+        question_id: this.audit.questions[this.currentQuestionIndex].id,
+        answer: "gray",
+        comment: "",
+        description: "",
+        assigned_layer: this.audit.assigned_layer,
+        assigned_group: this.audit.assigned_group,
+      };
+    },
   },
 });
 </script>
