@@ -1,3 +1,6 @@
+import {Layer} from "../../../interfaces/layer"
+import { Group } from "../../../interfaces/group"
+
 export interface Answer {
     id: number,
     audit_id: number,
@@ -5,6 +8,6 @@ export interface Answer {
     answer: string,
     comment: string,
     description: string,
-    layer: number,
-    group: string,
+    assigned_group: Group,
+    assigned_layer: Layer
 }

@@ -55,24 +55,27 @@
         </button>
       </div>
       <div class="p-7 border-b-2 border-gray-200" v-if="statusIsRed()">
-        {{ test }}
         <AppInputDropdown
           headline="Abweichungsgrund"
           name="description"
-          :value="test"
-          v-on:input="setTest($event)"
+          :options="options"
+          initialOption="-- Grund auswählen --"
+          :currentValue="currentAnswer.description"
+          v-on:input="setReasonByDropdown($event)"
         ></AppInputDropdown>
         <div class="pt-6">
           <AppInputBigTextField
             headline="Beschreibung der Abweichung"
             name="comment"
+            :text="currentAnswer.comment"
+            v-on:input="setLongTextComment($event)"
           ></AppInputBigTextField>
         </div>
       </div>
       <div class="p-7 flex items-center">
         <AppButtonPrimary
           name="Speichern"
-          v-bind:isActive="true"
+          v-bind:isActive="getSaveButtonStatus()"
           v-on:buttonClick="saveAnswer()"
         ></AppButtonPrimary>
         <div class="flex-auto">
@@ -97,7 +100,7 @@
               <AppButtonPrimary
                 class="mr-6"
                 name="Abschließen"
-                v-bind:isActive="false"
+                v-bind:isActive="getFinishButtonStatus()"
               >
               </AppButtonPrimary>
               <AppButtonSecondary
@@ -113,10 +116,7 @@
           <!--Auditor-->
           <AppListTextWithDividerLine
             :text="
-              concateStrings(
-                audit.auditor.first_name,
-                audit.auditor.last_name
-              )
+              concateStrings(audit.auditor.first_name, audit.auditor.last_name)
             "
             subtext="Auditor"
             :imgPath="audit.auditor.profile_picture_url"
@@ -157,12 +157,12 @@
         </div>
       </template>
       <template #content>
-        <div v-for="(items, innerIndex) in audit.questions" :key="innerIndex">
+        <div v-for="(items, index) in audit.questions" :key="index">
           <AppListContainer :isLast="getIsLast(items, audit.questions)">
             <template #wrapperLeft>
               <AppIconLibrary
                 icon="lpaStatus"
-                :type="getQuestionStatus(audit.id, audit)"
+                :type="getQuestionStatus(items.id, audit)"
                 styling="h-10"
               ></AppIconLibrary>
             </template>
@@ -180,7 +180,7 @@
               <AppButtonTertiary
                 v-if="getQuestionStatus(items.id, audit) === 'gray'"
                 name="Beantworten"
-                :id="innerIndex"
+                :id="index"
                 v-on:buttonClick="openPopup($event)"
                 class="ml-4"
               ></AppButtonTertiary>
@@ -188,7 +188,7 @@
                 <AppButtonTertiary
                   v-bind:isActive="false"
                   name="Ändern"
-                  :id="innerIndex"
+                  :id="index"
                   v-on:buttonClick="openPopup($event)"
                   class="ml-4"
                 ></AppButtonTertiary>
@@ -223,6 +223,8 @@ import { useAudit } from "../store/audit";
 import { Audit } from "../interfaces/audit";
 import { User } from "../../../interfaces/user";
 import { Question } from "../interfaces/question";
+import { AnswerReason } from "../interfaces/answerReason";
+import { Answer } from "../interfaces/answer";
 
 export default defineComponent({
   name: "LPAAudit",
@@ -244,11 +246,15 @@ export default defineComponent({
   async mounted() {
     const store = useAudit();
     await store.fetchAudit();
+    await store.fetchReasons();
     await store.fetchUser();
     this.audit = store.audit;
+    this.options = store.reasons;
     this.audited_user = store.audited_user;
     this.setQuestions(this.audit);
     this.dataReady = true;
+
+    this.resetCurrentAnswer();
   },
   mixins: [getIsLast],
   data() {
@@ -256,23 +262,36 @@ export default defineComponent({
       audit: {} as Audit,
       audited_user: {} as User,
       visibleTest: false,
-      currentQuestion: [] as Question[],
       questions: [] as Question[],
       currentQuestionIndex: 0,
       dataReady: false,
-      test: ""
+      test: "Initial",
+      options: [] as AnswerReason[],
+      selectedOption: "null",
+      currentAnswer: {} as Answer,
     };
   },
   methods: {
+    testMeth(currentAnswer: any) {
+      if (currentAnswer.answer === "red") {
+        return "red";
+      } else if (currentAnswer.answer === "yellow") {
+        return "yellow";
+      } else if (currentAnswer.answer === "green") {
+        return "green";
+      }
+    },
     getQuestionStatus(questionID: any, audit: Audit) {
-      for (let i = 0; i < audit.answers.length; i++) {
-        if (audit.answers[i].question_id === questionID) {
-          if (audit.answers[i].answer === "red") {
-            return "red";
-          } else if (audit.answers[i].answer === "yellow") {
-            return "yellow";
-          } else if (audit.answers[i].answer === "green") {
-            return "green";
+      if (audit.answers.length !== 0) {
+        for (let i = 0; i < audit.answers.length; i++) {
+          if (audit.answers[i].question_id === questionID) {
+            if (audit.answers[i].answer === "red") {
+              return "red";
+            } else if (audit.answers[i].answer === "yellow") {
+              return "yellow";
+            } else if (audit.answers[i].answer === "green") {
+              return "green";
+            }
           }
         }
       }
@@ -300,10 +319,19 @@ export default defineComponent({
       this.disableScroll();
       this.visibleTest = true;
       this.setCurrentQuestion(event);
+      this.resetCurrentAnswer();
+      if (this.audit.answers.length !== 0) {
+        for (let i = 0; i < this.audit.answers.length; i++) {
+          if (this.audit.answers[i].question_id === this.audit.questions[this.currentQuestionIndex].id) {
+            this.currentAnswer = this.audit.answers[i]
+          }
+        }
+      }
     },
     closePopup() {
       this.visibleTest = false;
       this.enableScroll();
+      this.resetCurrentAnswer();
     },
     disableScroll() {
       // Get the current page scroll position
@@ -328,9 +356,10 @@ export default defineComponent({
     },
     setCurrentQuestion(index: any) {
       this.currentQuestionIndex = index;
-      console.log(this.currentQuestionIndex);
+      this.currentAnswer.question_id = this.audit.questions[this.currentQuestionIndex].id;
     },
     getNewQuestion() {
+      this.resetCurrentAnswer();
       let tmpIndex = this.currentQuestionIndex;
       //search the next unanswered question
       for (let i = 0; i < this.questions.length; i++) {
@@ -342,7 +371,7 @@ export default defineComponent({
         }
         //check if tmpIndex Question is answered
         if (
-          this.getQuestionStatus(this.questions[tmpIndex].id, this.audit[0]) ==
+          this.getQuestionStatus(this.questions[tmpIndex].id, this.audit) ==
           "gray"
         ) {
           this.setCurrentQuestion(tmpIndex);
@@ -353,45 +382,99 @@ export default defineComponent({
       return "none";
     },
     saveAnswer() {
+      console.log(this.currentAnswer);
+      const store = useAudit();
+      if (this.currentAnswer.answer === "red") {
+        store.updateAnswersByID(
+          this.currentAnswer.question_id,
+          this.currentAnswer.answer,
+          this.currentAnswer.description,
+          this.currentAnswer.comment
+        );
+      } else {
+        store.updateAnswersByID(
+          this.questions[this.currentQuestionIndex].id,
+          this.currentAnswer.answer,
+          "",
+          ""
+        );
+      }
+      this.audit = store.audit;
       if (this.getNewQuestion() == "none") {
         this.closePopup();
       }
+      this.resetCurrentAnswer();
     },
     getBorderStatus(emojyType: String) {
       if (
         this.getQuestionStatus(
           this.questions[this.currentQuestionIndex].id,
-          this.audit[0]
-        ) == emojyType
+          this.audit
+        ) == emojyType ||
+        this.testMeth(this.currentAnswer) == emojyType
       ) {
         return "border-2 border-gray-400 rounded-md bg-gray-200";
       }
       return null;
     },
-    async updateAnswers(emojyType: string) {
-      console.log("clicked");
-      const store = useAudit();
-      await store.updateAnswersByID(
-        this.questions[this.currentQuestionIndex].id,
-        emojyType
-      );
-      this.audit = store.audit;
+    updateAnswers(emojyType: string) {
+      this.currentAnswer.answer = emojyType;
     },
     statusIsRed() {
       if (
-        this.getQuestionStatus(
-          this.questions[this.currentQuestionIndex].id,
-          this.audit[0]
-        ) == "red"
+        this.testMeth(this.currentAnswer) == "red"
       ) {
         return true;
       } else {
         return false;
       }
     },
-    setTest(event: any){
-      this.test = event;
-    }
+    getFinishButtonStatus() {
+      for (let i = 0; i < this.audit.questions.length; i++) {
+        if (
+          this.getQuestionStatus(this.audit.questions[i].id, this.audit) ===
+          "gray"
+        ) {
+          return false;
+        }
+      }
+      return true;
+    },
+    getSaveButtonStatus() {
+      if (Object.keys(this.currentAnswer).length !== 0) {
+        if (
+          this.currentAnswer.answer === "green" ||
+          this.currentAnswer.answer === "yellow"
+        ) {
+          return true;
+        } else if (
+          this.currentAnswer.answer === "red" &&
+          this.currentAnswer.description !== "" &&
+          this.currentAnswer.comment !== ""
+        ) {
+          return true;
+        }
+      }
+      return false;
+    },
+    setReasonByDropdown(event: any) {
+      this.currentAnswer.description = event;
+    },
+    setLongTextComment(event: any) {
+      this.currentAnswer.comment = event;
+    },
+    resetCurrentAnswer() {
+      this.currentAnswer = {
+        id: 0,
+        audit_id: this.audit.id,
+        question_id: this.audit.questions[this.currentQuestionIndex].id,
+        answer: "gray",
+        comment: "",
+        description: "",
+        assigned_layer: this.audit.assigned_layer,
+        assigned_group: this.audit.assigned_group,
+      };
+    },
   },
 });
 </script>

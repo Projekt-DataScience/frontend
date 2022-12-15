@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import axios from 'axios';
 import { Audit } from "../interfaces/audit";
-import { User } from "../../../interfaces/user"
+import { User } from "../../../interfaces/user";
+import { AnswerReason } from "../interfaces/answerReason"
 
 export const useAudit = defineStore('Audit', {
     state: () => ({
@@ -20,7 +21,9 @@ export const useAudit = defineStore('Audit', {
             profile_picture_url: 'string',
             role_id: 1,
             group_id: 1
-        } as User
+        } as User,
+        reasons: [] as AnswerReason[],
+
     }),
     getters: {
         getListItems() {
@@ -31,7 +34,7 @@ export const useAudit = defineStore('Audit', {
         async fetchAudit() {
             try {
                 const data = await axios.get(
-                    "http://localhost:80/api/audit/lpa_audit/" + 1
+                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_audit/" + 6
                 );
                 this.audit = data.data;
             } catch (error) {
@@ -39,8 +42,19 @@ export const useAudit = defineStore('Audit', {
                 console.log(error);
             }
         },
+        async fetchReasons() {
+            try {
+                const data = await axios.get(
+                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_answer/reason"
+                );
+                this.reasons = data.data;
+            } catch (error) {
+                alert(error);
+                console.log(error);
+            }
+        },
         async fetchUser() {
-            var token =   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJleHBpcmVzIjoxNjcwOTc0OTM5Ljc3MDA0NCwiY29tcGFueV9pZCI6MSwicm9sZSI6IndvcmtlciJ9.iC__ijHirm9WAHuLTxr48a9hX5MOh6EW27kj_zgO8Io"
+            var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJleHBpcmVzIjoxNjcwOTc0OTM5Ljc3MDA0NCwiY29tcGFueV9pZCI6MSwicm9sZSI6IndvcmtlciJ9.iC__ijHirm9WAHuLTxr48a9hX5MOh6EW27kj_zgO8Io"
 
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
@@ -57,23 +71,38 @@ export const useAudit = defineStore('Audit', {
                 console.log(error);
             }
         },
-        updateAnswersByID(currentQuestionID: number, emojyType: string) {
-            for (let i = 0; i < this.audit[0].answers.length; i++) {
-                if (this.audit[0].answers[i].question_id == currentQuestionID) {
-                    this.audit[0].answers[i].answer = emojyType;
-                    i = this.audit[0].answers.length;
-                } else if (i == this.audit[0].answers.length - 1) {
-                    this.audit[0].answers.push({
-                        id: this.audit[0].answers.length,
-                        audit_id: this.audit[0].id,
-                        question_id: currentQuestionID,
-                        answer: emojyType,
-                        comment: "",
-                        description: "",
-                        assigned_layer: this.audit[0].assigned_layer,
-                        assigned_group: this.audit[0].assigned_group
-                    })
+        updateAnswersByID(currentQuestionID: number, emojyType: string, description: string, comment: string) {
+            if (this.audit.answers.length !== 0) {
+                for (let i = 0; i < this.audit.answers.length; i++) {
+                    if (this.audit.answers[i].question_id == currentQuestionID) {
+                        this.audit.answers[i].answer = emojyType;
+                        this.audit.answers[i].description = description;
+                        this.audit.answers[i].comment = comment;
+                        i = this.audit.answers.length;
+                    } else if (i == this.audit.answers.length - 1) {
+                        this.audit.answers.push({
+                            id: this.audit.answers.length,
+                            audit_id: this.audit.id,
+                            question_id: currentQuestionID,
+                            answer: emojyType,
+                            comment: comment,
+                            description: description,
+                            assigned_layer: this.audit.assigned_layer,
+                            assigned_group: this.audit.assigned_group
+                        })
+                    }
                 }
+            } else {
+                this.audit.answers.push({
+                    id: this.audit.answers.length,
+                    audit_id: this.audit.id,
+                    question_id: currentQuestionID,
+                    answer: emojyType,
+                    comment: comment,
+                    description: description,
+                    assigned_layer: this.audit.assigned_layer,
+                    assigned_group: this.audit.assigned_group
+                })
             }
         },
         updateAnswersCommentByID(currentQuestionID: number, comment: string, description: string) {
