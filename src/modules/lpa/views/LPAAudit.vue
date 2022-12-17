@@ -244,7 +244,14 @@ export default defineComponent({
     AppInputDropdown,
   },
   async mounted() {
+    this.enableScroll();
     const store = useAudit();
+    // Überprüfen, ob bereits ein Audit gestartet wurde
+    // Falls nicht, zurückkehren zur vorherigen Seite
+    if(store.currentAuditActive === false){
+      this.$router.go(-1);
+    }
+    // Falls ein aktueller Audit gestartet wurde
     await store.fetchAudit();
     await store.fetchReasons();
     await store.fetchUser();

@@ -1,87 +1,123 @@
 <template>
-  <AppPopup v-if="visibleTest">
-    <div class="p-7 border-b-2 border-gray-200">
-      <AppListTextAndSubtext :text="openAudits[0].name" :subtext="openAudits[0].listItems"></AppListTextAndSubtext>
-    </div>
-    <div class="p-7 border-b-2 border-gray-200">
-      Test
-    </div>
-    <div class="p-7 flex items-center">
-      <AppButtonPrimary name="Audit starten" v-bind:isActive="true"></AppButtonPrimary>
-      <AppButtonSecondary class="ml-5" name="Abbrechen" v-on:buttonClick="closePopup()"></AppButtonSecondary>
-    </div>
-  </AppPopup>
-  <AppPageLayout>
-    <template #sidebar>
-      <!-- content for the sidebar slot -->
-      <LPASidebar currentPage="LPADashboard"></LPASidebar>
-    </template>
-    <template #header>
-      <AppSearchAndFilterBar>
-        <template #wrapperRight>
-          <AppButtonPrimary class="mr-6" name="Audit erstellen" v-bind:isActive="true">
-            <template #icon>
-              <AppIconLibrary icon="plus" styling="mr-2 pr-0.5 py-0.5"></AppIconLibrary>
-            </template>
-          </AppButtonPrimary>
-        </template>
-      </AppSearchAndFilterBar>
-    </template>
-    <template #content>
-      <div class="grid grid-cols-2 gap-6">
-        <div class="col-span-1">
-          <AppContainer containerName="Auditscore">
-            <template #content> Noch kein Inhalt </template>
-          </AppContainer>
-        </div>
-        <div class="col-span-1">
-          <AppContainer containerName="Fragenanalyse">
-            <template #content> Noch kein Inhalt </template>
-          </AppContainer>
-        </div>
-        <div class="col-span-2">
-          <AppContainer containerName="Offene Audits">
-            <template #content>
-              <div v-for="item in openAudits" :key="item.id">
-                <AppListContainer :isLast="getStatus(item, openAudits)">
-                  <template #wrapperRight>
-                    <!--<router-link
+  <div v-if="dataReady">
+    <AppPopup v-if="visibleTest">
+      <div class="p-7 border-b-2 border-gray-200">
+        <!--<AppListTextAndSubtext
+          :text="openAudits[0].name"
+          :subtext="openAudits[0].listItems"
+        ></AppListTextAndSubtext>-->
+      </div>
+      <div class="p-7 border-b-2 border-gray-200">Test</div>
+      <div class="p-7 flex items-center">
+        <AppButtonPrimary
+          name="Audit starten"
+          v-bind:isActive="true"
+          v-on:buttonClick="startNewAudit(3, 6)"
+        ></AppButtonPrimary>
+        <AppButtonSecondary
+          class="ml-5"
+          name="Abbrechen"
+          v-on:buttonClick="closePopup()"
+        ></AppButtonSecondary>
+      </div>
+    </AppPopup>
+    <AppPageLayout>
+      <template #sidebar>
+        <!-- content for the sidebar slot -->
+        <LPASidebar currentPage="LPADashboard"></LPASidebar>
+      </template>
+      <template #header>
+        <AppSearchAndFilterBar>
+          <template #wrapperRight>
+            <AppButtonPrimary
+              class="mr-6"
+              name="Audit erstellen"
+              v-bind:isActive="true"
+            >
+              <template #icon>
+                <AppIconLibrary
+                  icon="plus"
+                  styling="mr-2 pr-0.5 py-0.5"
+                ></AppIconLibrary>
+              </template>
+            </AppButtonPrimary>
+          </template>
+        </AppSearchAndFilterBar>
+      </template>
+      <template #content>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="col-span-1">
+            <AppContainer containerName="Auditscore">
+              <template #content> Noch kein Inhalt </template>
+            </AppContainer>
+          </div>
+          <div class="col-span-1">
+            <AppContainer containerName="Fragenanalyse">
+              <template #content> Noch kein Inhalt </template>
+            </AppContainer>
+          </div>
+          <div class="col-span-2">
+            <AppContainer containerName="Offene Audits">
+              <template #content>
+                <div v-for="item in openAudits" :key="item.id">
+                  <AppListContainer :isLast="getStatus(item, openAudits)">
+                    <template #wrapperRight>
+                      <!--<router-link
                       :to="{ name: 'LPAAudit', params: { id: item.id } }"
                       ><AppButtonTertiary
                         name="Audit starten"
                         v-on:buttonClick="openPopup(item.id)"
                       ></AppButtonTertiary
                     ></router-link>-->
-                    <AppButtonTertiary class="mr-4 ml-4" name="Audit starten" v-on:buttonClick="openPopup(item.id)"></AppButtonTertiary>
-                    <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
-                  </template>
-                  <template #wrapperContent>
-                    <AppListTextAndSubtext :text="item.name" :subtext="item.listItems"></AppListTextAndSubtext>
-                  </template>
-                </AppListContainer>
-              </div>
-            </template>
-          </AppContainer>
+                      <AppButtonTertiary
+                        class="mr-4 ml-4"
+                        name="Audit starten"
+                        v-on:buttonClick="openPopup(item.id)"
+                      ></AppButtonTertiary>
+                      <AppButtonOption
+                        v-bind:isVertical="false"
+                      ></AppButtonOption>
+                    </template>
+                    <template #wrapperContent>
+                      <AppListTextAndSubtext
+                        :text="item.due_date"
+                        :subtext="[
+                          {
+                            text: item.due_date
+                          }
+                        ]"
+                      ></AppListTextAndSubtext>
+                    </template>
+                  </AppListContainer>
+                </div>
+              </template>
+            </AppContainer>
+          </div>
+          <div class="col-span-2">
+            <AppContainer containerName="Geplante Audits">
+              <template #content>
+                <div v-for="item in plannedAudits" :key="item.id">
+                  <AppListContainer :isLast="getStatus(item, plannedAudits)">
+                    <template #wrapperRight>
+                      <AppButtonOption
+                        v-bind:isVertical="false"
+                      ></AppButtonOption>
+                    </template>
+                    <template #wrapperContent>
+                      <AppListTextAndSubtext
+                        :text="item.name"
+                        :subtext="item.listItems"
+                      ></AppListTextAndSubtext>
+                    </template>
+                  </AppListContainer>
+                </div>
+              </template>
+            </AppContainer>
+          </div>
         </div>
-        <div class="col-span-2">
-          <AppContainer containerName="Geplante Audits">
-            <template #content>
-              <div v-for="item in plannedAudits" :key="item.id">
-                <AppListContainer :isLast="getStatus(item, plannedAudits)">
-                  <template #wrapperRight>
-                    <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
-                  </template>
-                  <template #wrapperContent>
-                    <AppListTextAndSubtext :text="item.name" :subtext="item.listItems"></AppListTextAndSubtext>
-                  </template>
-                </AppListContainer>
-              </div>
-            </template>
-          </AppContainer>
-        </div>
-      </div>
-    </template>
-  </AppPageLayout>
+      </template>
+    </AppPageLayout>
+  </div>
 </template>
 
 <script lang="ts">
@@ -99,6 +135,9 @@ import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 import AppPopup from "../../../components/AppPopup.vue";
 import AppButtonSecondary from "../../../components/AppButtonSecondary.vue";
 
+import { useAudit } from "../store/audit";
+import { Audit } from "../interfaces/audit";
+
 export default defineComponent({
   name: "LPADashboard",
   components: {
@@ -113,75 +152,19 @@ export default defineComponent({
     AppButtonPrimary,
     AppIconLibrary,
     AppPopup,
-    AppButtonSecondary
+    AppButtonSecondary,
+  },
+  async mounted() {
+    this.enableScroll();
+    const store = useAudit();
+    await store.fetchOpenAudits();
+    this.openAudits = store.openAudits;
+    this.dataReady = true;
   },
   data() {
     return {
-      openAudits: [
-        {
-          id: 0,
-          name: "Spontanter Audit in der C-Gruppe",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              text: "Layer 1",
-            },
-            {
-              id: 1,
-              type: "normal",
-              text: "Fälligkeit: 22.11.2022",
-            },
-            {
-              id: 2,
-              type: "normal",
-              text: "5 Fragen",
-            },
-          ],
-        },
-        {
-          id: 1,
-          name: "Spontanter Audit in der C-Gruppe",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              text: "Layer 1",
-            },
-            {
-              id: 1,
-              type: "normal",
-              text: "Fälligkeit: 22.11.2022",
-            },
-            {
-              id: 2,
-              type: "normal",
-              text: "5 Fragen",
-            },
-          ],
-        },
-        {
-          id: 2,
-          name: "Spontanter Audit in der C-Gruppe",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              text: "Layer 1",
-            },
-            {
-              id: 1,
-              type: "normal",
-              text: "Fälligkeit: 22.11.2022",
-            },
-            {
-              id: 2,
-              type: "normal",
-              text: "5 Fragen",
-            },
-          ],
-        },
-      ],
+      dataReady: false,
+      openAudits: [] as Audit[],
       plannedAudits: [
         {
           id: 0,
@@ -247,25 +230,23 @@ export default defineComponent({
           ],
         },
       ],
-      visibleTest: false
+      visibleTest: false,
     };
-  },
-  mounted() {
-    this.enableScroll();
   },
   methods: {
     openPopup(id: any) {
       this.disableScroll();
       this.visibleTest = true;
     },
-    closePopup(){
+    closePopup() {
       this.visibleTest = false;
       this.enableScroll();
     },
     disableScroll() {
       // Get the current page scroll position
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+      let scrollLeft =
+        window.pageXOffset || document.documentElement.scrollLeft;
 
       // if any scroll is attempted, set this to the previous value
       window.onscroll = function () {
@@ -273,14 +254,19 @@ export default defineComponent({
       };
     },
     enableScroll() {
-      window.onscroll = function () { };
+      window.onscroll = function () {};
     },
-    getStatus(item: any, array: any){
-      if(item === array[array.length-1]){
-        return true
-      }else {
-        return false
+    getStatus(item: any, array: any) {
+      if (item === array[array.length - 1]) {
+        return true;
+      } else {
+        return false;
       }
+    },
+    startNewAudit(audited_user: number, audit_id: number){
+      const store = useAudit();
+      store.startNewAudit(audited_user,audit_id);
+      this.$router.push('/lpa/audit');
     }
   },
 });
