@@ -32,7 +32,7 @@ export const useAudit = defineStore('Audit', {
     },
     actions: {
         async fetchAudit() {
-            var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJleHBpcmVzIjoxNjcxMjE1MjQ4LjIyNjA2MzMsImNvbXBhbnlfaWQiOjEsInJvbGUiOiJ3b3JrZXIifQ.UkKrt1qQuDXrEilZy0Z5Y1BbRxwGXbc3hyrEIcpPr8w"
+            var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJleHBpcmVzIjoxNjcxMjkzMzIyLjUzMTI1NTcsImNvbXBhbnlfaWQiOjEsInJvbGUiOiJ3b3JrZXIifQ.vRZEq6C4M_iC2y1Mx-waLcP3bwgtuNCeGt5zW5fxHnU"
 
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
