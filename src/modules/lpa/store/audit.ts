@@ -8,42 +8,20 @@ import authHeader from "../../../services/auth-header";
 export const useAudit = defineStore('Audit', {
     state: () => ({
         audit: {} as Audit,
-        currentAudit: 1,
-        audited_user_id: 1,
-        audited_user: {
-            supervisor_id: 1,
-            last_name: 'Seliger',
-            password_hash: '',
-            company_id: 1,
-            layer_id: 1,
-            id: 1,
-            first_name: 'Raphael',
-            email: '',
-            profile_picture_url: 'string',
-            role_id: 1,
-            group_id: 1
-        } as User,
+        currentAuditID: 0,
+        currentAuditActive: false,
+        currentUser: 3,
+        audited_user_id: 0,
+        audited_user: {} as User,
         reasons: [] as AnswerReason[],
+        openAudits: [] as Audit[]
 
     }),
-    getters: {
-        getListItems() {
-
-        }
-    },
     actions: {
         async fetchAudit() {
-            // var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJleHBpcmVzIjoxNjcxMjkzMzIyLjUzMTI1NTcsImNvbXBhbnlfaWQiOjEsInJvbGUiOiJ3b3JrZXIifQ.vRZEq6C4M_iC2y1Mx-waLcP3bwgtuNCeGt5zW5fxHnU"
-
-            // const config = {
-            //     headers: { Authorization: `Bearer ${token}` }
-            // };
-
-            // const config = authHeader();
-
             try {
                 const data = await axios.get(
-                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_audit/" + 4,
+                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_audit/" + this.currentAuditID,
                     authHeader()
                 );
                 this.audit = data.data;
@@ -68,7 +46,7 @@ export const useAudit = defineStore('Audit', {
 
             try {
                 const data = await axios.get(
-                    "http://localhost:80/api/user_management/user/3",
+                    "http://localhost:80/api/user_management/user/" + this.currentUser,
                     authHeader()
                 );
                 this.audited_user = data.data.data;
@@ -111,11 +89,26 @@ export const useAudit = defineStore('Audit', {
                 })
             }
         },
-        updateAnswersCommentByID(currentQuestionID: number, comment: string, description: string) {
-
+        async fetchOpenAudits(){
+            try {
+                const data = await axios.get(
+                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_audit/open/" + this.currentUser,
+                    authHeader()
+                );
+                this.openAudits = data.data;
+            } catch (error) {
+                alert(error);
+                console.log(error);
+            }
+        },
+        startNewAudit(audited_user_id: number, currentAuditID: number){
+            this.audited_user_id = audited_user_id;
+            this.currentAuditID = currentAuditID;
+            this.currentAuditActive = true;
         },
         finishAudit() {
             // alle nicht verwendeten comments und descriptions löschen
+            this.currentAuditActive = false;
         }
     }
 }
