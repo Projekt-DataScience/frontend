@@ -1,7 +1,8 @@
 <template>
-    <label :for="label" class="block text-base text-gray-500">{{headline}}</label>
+    <label :for="label" class="block text-base text-gray-500">{{ headline }}</label>
     <input :type="type" :name="name" :id="id" :autocomplete="autocomplete"
-        class="mt-1 block w-full rounded-md border-gray-300 border-2 shadow-sm focus:border-primary-blue focus:ring-primary-blue sm:text-sm" />
+        class="mt-1 block w-full rounded-md border-gray-300 border-2 shadow-sm focus:border-primary-blue focus:ring-primary-blue sm:text-sm"
+        :value="text" @input="updateValue($event)" />
 </template>
 
 
@@ -28,7 +29,7 @@ export default defineComponent({
         label: {
             type: String,
             required: true
-        }, 
+        },
         type: {
             type: String,
             required: true
@@ -36,8 +37,19 @@ export default defineComponent({
         autocomplete: {
             type: String,
             required: true
+        },
+        text: {
+            type: String,
+            required: true,
         }
-        
-    }
+    },
+    emits: {
+        input: null,
+    },
+    methods: {
+        updateValue(event: any) {
+            this.$emit("input", event.target.value);
+        },
+    },
 });
 </script>

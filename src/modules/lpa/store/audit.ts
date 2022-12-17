@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Audit } from "../interfaces/audit";
 import { User } from "../../../interfaces/user";
 import { AnswerReason } from "../interfaces/answerReason"
+import authHeader from "../../../services/auth-header";
 
 export const useAudit = defineStore('Audit', {
     state: () => ({
@@ -32,15 +33,18 @@ export const useAudit = defineStore('Audit', {
     },
     actions: {
         async fetchAudit() {
-            var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJleHBpcmVzIjoxNjcxMjkzMzIyLjUzMTI1NTcsImNvbXBhbnlfaWQiOjEsInJvbGUiOiJ3b3JrZXIifQ.vRZEq6C4M_iC2y1Mx-waLcP3bwgtuNCeGt5zW5fxHnU"
+            // var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJleHBpcmVzIjoxNjcxMjkzMzIyLjUzMTI1NTcsImNvbXBhbnlfaWQiOjEsInJvbGUiOiJ3b3JrZXIifQ.vRZEq6C4M_iC2y1Mx-waLcP3bwgtuNCeGt5zW5fxHnU"
 
-            const config = {
-                headers: { Authorization: `Bearer ${token}` }
-            };
+            // const config = {
+            //     headers: { Authorization: `Bearer ${token}` }
+            // };
+
+            // const config = authHeader();
+
             try {
                 const data = await axios.get(
                     import.meta.env.VITE_GW_AUDIT_URL + "lpa_audit/" + 4,
-                    config
+                    authHeader()
                 );
                 this.audit = data.data;
             } catch (error) {
@@ -51,7 +55,8 @@ export const useAudit = defineStore('Audit', {
         async fetchReasons() {
             try {
                 const data = await axios.get(
-                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_answer/reason"
+                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_answer/reason", 
+                    authHeader()
                 );
                 this.reasons = data.data;
             } catch (error) {
@@ -60,16 +65,11 @@ export const useAudit = defineStore('Audit', {
             }
         },
         async fetchUser() {
-            var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJleHBpcmVzIjoxNjcwOTc0OTM5Ljc3MDA0NCwiY29tcGFueV9pZCI6MSwicm9sZSI6IndvcmtlciJ9.iC__ijHirm9WAHuLTxr48a9hX5MOh6EW27kj_zgO8Io"
-
-            const config = {
-                headers: { Authorization: `Bearer ${token}` }
-            };
 
             try {
                 const data = await axios.get(
                     "http://localhost:80/api/user_management/user/3",
-                    config
+                    authHeader()
                 );
                 this.audited_user = data.data.data;
             } catch (error) {
