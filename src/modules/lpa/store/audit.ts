@@ -32,9 +32,15 @@ export const useAudit = defineStore('Audit', {
     },
     actions: {
         async fetchAudit() {
+            var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJleHBpcmVzIjoxNjcxMjE1MjQ4LjIyNjA2MzMsImNvbXBhbnlfaWQiOjEsInJvbGUiOiJ3b3JrZXIifQ.UkKrt1qQuDXrEilZy0Z5Y1BbRxwGXbc3hyrEIcpPr8w"
+
+            const config = {
+                headers: { Authorization: `Bearer ${token}` }
+            };
             try {
                 const data = await axios.get(
-                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_audit/" + 6
+                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_audit/" + 4,
+                    config
                 );
                 this.audit = data.data;
             } catch (error) {
