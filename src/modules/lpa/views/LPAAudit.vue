@@ -150,7 +150,7 @@
           ></AppListTextWithDividerLine>
           <!--Fälligkeit-->
           <AppListTextWithDividerLine
-            :text="getDate(audit.due_date)"
+            :text="stringToDateLongWeekday(audit.due_date)"
             subtext="Fälligkeit"
             v-bind:isLast="true"
           ></AppListTextWithDividerLine>
@@ -201,7 +201,6 @@
   </div>
 </template>
 
-<!--{{$route.params.id}}-->
 <script lang="ts">
 import { defineComponent } from "vue";
 import AppPageLayout from "../../../components/AppPageLayout.vue";
@@ -211,6 +210,7 @@ import AppButtonPrimary from "../../../components/AppButtonPrimary.vue";
 import AppButtonSecondary from "../../../components/AppButtonSecondary.vue";
 import AppListTextWithDividerLine from "../../../components/AppListTextWithDividerLine.vue";
 import { getIsLast } from "../../../mixins/arrayMixin";
+import { concateStringMixin, stringToDateMixin } from "../../../mixins/stringMixin";
 import AppListContainer from "../../../components/AppListContainer.vue";
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
@@ -244,14 +244,16 @@ export default defineComponent({
     AppInputDropdown,
   },
   async mounted() {
+    // enable scroll if disabled from page before
     this.enableScroll();
+
+    // check if audit already started. If not, return to previous page
     const store = useAudit();
-    // Überprüfen, ob bereits ein Audit gestartet wurde
-    // Falls nicht, zurückkehren zur vorherigen Seite
     if(store.currentAuditActive === false){
       this.$router.go(-1);
     }
-    // Falls ein aktueller Audit gestartet wurde
+    
+    // init data for audit page
     await store.fetchAudit();
     await store.fetchReasons();
     await store.fetchUser();
@@ -260,10 +262,9 @@ export default defineComponent({
     this.audited_user = store.audited_user;
     this.setQuestions(this.audit);
     this.dataReady = true;
-
     this.resetCurrentAnswer();
   },
-  mixins: [getIsLast],
+  mixins: [getIsLast, stringToDateMixin, concateStringMixin],
   data() {
     return {
       audit: {} as Audit,
@@ -303,24 +304,6 @@ export default defineComponent({
         }
       }
       return "gray";
-    },
-    concateStrings(...args: string[]) {
-      var tmp = "";
-      for (var i = 0; i < args.length; i++) {
-        tmp = tmp + args[i] + " ";
-      }
-      return tmp;
-    },
-    getDate(item: string) {
-      return new Date(item).toLocaleDateString("de-DE", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        weekday: "long",
-      });
-    },
-    getLayer(layer: number) {
-      return "Layer " + layer;
     },
     openPopup(event: any) {
       this.disableScroll();
