@@ -101,10 +101,11 @@
                 class="mr-6"
                 name="Abschließen"
                 v-bind:isActive="getFinishButtonStatus()"
+                v-on:buttonClick="finishAudit()"
               >
               </AppButtonPrimary>
               <AppButtonSecondary
-                class="mr-8"
+                class="mr-4"
                 name="Abbrechen"
                 v-on:buttonClick="dismissAudit()"
               >
@@ -210,7 +211,10 @@ import AppButtonPrimary from "../../../components/AppButtonPrimary.vue";
 import AppButtonSecondary from "../../../components/AppButtonSecondary.vue";
 import AppListTextWithDividerLine from "../../../components/AppListTextWithDividerLine.vue";
 import { getIsLast } from "../../../mixins/arrayMixin";
-import { concateStringMixin, stringToDateMixin } from "../../../mixins/stringMixin";
+import {
+  concateStringMixin,
+  stringToDateMixin,
+} from "../../../mixins/stringMixin";
 import AppListContainer from "../../../components/AppListContainer.vue";
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
@@ -249,10 +253,10 @@ export default defineComponent({
 
     // check if audit already started. If not, return to previous page
     const store = useAudit();
-    if(store.currentAuditActive === false){
-      this.$router.go(-1);
+    if (store.currentAuditActive === false) {
+      this.dismissAudit();
     }
-    
+
     // init data for audit page
     await store.fetchAudit();
     await store.fetchReasons();
@@ -263,6 +267,9 @@ export default defineComponent({
     this.setQuestions(this.audit);
     this.dataReady = true;
     this.resetCurrentAnswer();
+
+    // set first timer with context overview
+    this.startTimer("overview");
   },
   mixins: [getIsLast, stringToDateMixin, concateStringMixin],
   data() {
@@ -277,10 +284,16 @@ export default defineComponent({
       options: [] as AnswerReason[],
       selectedOption: "null",
       currentAnswer: {} as Answer,
+      currentDuration: {
+        context: "",
+        startTime: new Date(),
+        endTime: new Date(),
+        duration: 0,
+      },
     };
   },
   methods: {
-    testMeth(currentAnswer: any) {
+    getAnswerStatus(currentAnswer: any) {
       if (currentAnswer.answer === "red") {
         return "red";
       } else if (currentAnswer.answer === "yellow") {
@@ -310,10 +323,14 @@ export default defineComponent({
       this.visibleTest = true;
       this.setCurrentQuestion(event);
       this.resetCurrentAnswer();
+      this.endAndResetTimer(this.audit.questions[this.currentQuestionIndex].id.toString());
       if (this.audit.answers.length !== 0) {
         for (let i = 0; i < this.audit.answers.length; i++) {
-          if (this.audit.answers[i].question_id === this.audit.questions[this.currentQuestionIndex].id) {
-            this.currentAnswer = this.audit.answers[i]
+          if (
+            this.audit.answers[i].question_id ===
+            this.audit.questions[this.currentQuestionIndex].id
+          ) {
+            this.currentAnswer = this.audit.answers[i];
           }
         }
       }
@@ -322,6 +339,7 @@ export default defineComponent({
       this.visibleTest = false;
       this.enableScroll();
       this.resetCurrentAnswer();
+      this.endAndResetTimer("overview");
     },
     disableScroll() {
       // Get the current page scroll position
@@ -338,7 +356,7 @@ export default defineComponent({
       window.onscroll = function () {};
     },
     dismissAudit() {
-      //this.$router.push('/lpa/')
+      // return to previous page
       this.$router.go(-1);
     },
     setQuestions(audit: Audit) {
@@ -346,7 +364,8 @@ export default defineComponent({
     },
     setCurrentQuestion(index: any) {
       this.currentQuestionIndex = index;
-      this.currentAnswer.question_id = this.audit.questions[this.currentQuestionIndex].id;
+      this.currentAnswer.question_id =
+        this.audit.questions[this.currentQuestionIndex].id;
     },
     getNewQuestion() {
       this.resetCurrentAnswer();
@@ -365,6 +384,7 @@ export default defineComponent({
           "gray"
         ) {
           this.setCurrentQuestion(tmpIndex);
+          this.endAndResetTimer(this.audit.questions[this.currentQuestionIndex].id.toString());
           return;
         }
       }
@@ -372,7 +392,6 @@ export default defineComponent({
       return "none";
     },
     saveAnswer() {
-      console.log(this.currentAnswer);
       const store = useAudit();
       if (this.currentAnswer.answer === "red") {
         store.updateAnswersByID(
@@ -390,10 +409,10 @@ export default defineComponent({
         );
       }
       this.audit = store.audit;
+      //reset timer, check if open answer and reset current answer
       if (this.getNewQuestion() == "none") {
         this.closePopup();
       }
-      this.resetCurrentAnswer();
     },
     getBorderStatus(emojyType: String) {
       if (
@@ -401,9 +420,9 @@ export default defineComponent({
           this.questions[this.currentQuestionIndex].id,
           this.audit
         ) == emojyType ||
-        this.testMeth(this.currentAnswer) == emojyType
+        this.getAnswerStatus(this.currentAnswer) == emojyType
       ) {
-        return "border-2 border-gray-400 rounded-md bg-gray-200";
+        return "border-2 border-gray-400 rounded-md bg-gray-200 m-[-2px]";
       }
       return null;
     },
@@ -411,9 +430,7 @@ export default defineComponent({
       this.currentAnswer.answer = emojyType;
     },
     statusIsRed() {
-      if (
-        this.testMeth(this.currentAnswer) == "red"
-      ) {
+      if (this.getAnswerStatus(this.currentAnswer) == "red") {
         return true;
       } else {
         return false;
@@ -465,6 +482,35 @@ export default defineComponent({
         assigned_group: this.audit.assigned_group,
       };
     },
+    startTimer(context: string) {
+      //start timer
+      this.currentDuration.startTime = new Date();
+      this.currentDuration.context = context;
+    },
+    endAndResetTimer(context: string) {
+      //end timer
+      this.currentDuration.endTime = new Date();
+      this.currentDuration.duration = this.currentDuration.endTime.valueOf() - this.currentDuration.startTime.valueOf();
+
+      // strip the ms
+      this.currentDuration.duration /= 1000;
+
+      // get seconds
+      this.currentDuration.duration = Math.round(this.currentDuration.duration);
+
+      // update store
+      const store = useAudit();
+      store.updateDurations(this.currentDuration.context, this.currentDuration.duration);
+
+      // reset timer
+      this.startTimer(context);
+    },
+    async finishAudit(){
+      this.endAndResetTimer('overview');
+      const store = useAudit();
+      await store.finishAudit();
+      this.dismissAudit();
+    }
   },
 });
 </script>
