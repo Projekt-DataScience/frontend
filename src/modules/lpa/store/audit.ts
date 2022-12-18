@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Audit } from "../interfaces/audit";
 import { User } from "../../../interfaces/user";
 import { AnswerReason } from "../interfaces/answerReason"
+import { Duration } from "../interfaces/duration";
 import authHeader from "../../../services/auth-header";
 
 export const useAudit = defineStore('Audit', {
@@ -14,7 +15,9 @@ export const useAudit = defineStore('Audit', {
         audited_user_id: 0,
         audited_user: {} as User,
         reasons: [] as AnswerReason[],
-        openAudits: [] as Audit[]
+        openAudits: [] as Audit[],
+        durations: [] as Duration[],
+        employees: [] as User[]
 
     }),
     actions: {
@@ -33,7 +36,7 @@ export const useAudit = defineStore('Audit', {
         async fetchReasons() {
             try {
                 const data = await axios.get(
-                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_answer/reason", 
+                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_answer/reason",
                     authHeader()
                 );
                 this.reasons = data.data;
@@ -46,7 +49,7 @@ export const useAudit = defineStore('Audit', {
 
             try {
                 const data = await axios.get(
-                    "http://localhost:80/api/user_management/user/" + this.currentUser,
+                    import.meta.env.VITE_GW_USERMANAGEMENT_URL + "user/" + this.currentUser,
                     authHeader()
                 );
                 this.audited_user = data.data.data;
@@ -89,7 +92,13 @@ export const useAudit = defineStore('Audit', {
                 })
             }
         },
-        async fetchOpenAudits(){
+        updateDurations(context: string, duration: number) {
+            this.durations.push({
+                context: context,
+                duration: duration
+            })
+        },
+        async fetchOpenAudits() {
             try {
                 const data = await axios.get(
                     import.meta.env.VITE_GW_AUDIT_URL + "lpa_audit/open/" + this.currentUser,
@@ -101,14 +110,51 @@ export const useAudit = defineStore('Audit', {
                 console.log(error);
             }
         },
-        startNewAudit(audited_user_id: number, currentAuditID: number){
+        startNewAudit(audited_user_id: number, currentAuditID: number) {
             this.audited_user_id = audited_user_id;
             this.currentAuditID = currentAuditID;
             this.currentAuditActive = true;
+            this.durations = [];
         },
-        finishAudit() {
-            // alle nicht verwendeten comments und descriptions löschen
+        async finishAudit() {
+            // delete all unused descriptions and comments
+            for (let i = 0; i < this.audit.answers.length; i++) {
+                if(this.audit.answers[i].answer === "green" || this.audit.answers[i].answer === "yellow"){
+                    this.audit.answers[i].description = "";
+                    this.audit.answers[i].comment = "";
+                }
+            }
+
+            // fetch to gateway
+            try {
+                const response = await axios.post(
+                    import.meta.env.VITE_GW_AUDIT_URL + 'lpa_audit/complete/'+this.audit.id, 
+                    {
+                        audited_user_id: this.audited_user.id,
+                        answers: this.audit.answers,
+                        durations: this.durations
+                    },
+                    authHeader()
+                );
+            } catch (error) {
+                alert(error);
+                console.log(error);
+            }
+
+            // audit reset
             this.currentAuditActive = false;
+        },
+        async fetchEmployees(group_id: number, layer_id: number){
+            try {
+                const data = await axios.get(
+                    import.meta.env.VITE_GW_USERMANAGEMENT_URL + "groups/employee/" + group_id + "/" + layer_id,
+                    authHeader()
+                );
+                this.employees = data.data.data;
+            } catch (error) {
+                alert(error);
+                console.log(error);
+            }
         }
     }
 }

@@ -7,7 +7,16 @@
           :subtext="openAudits[0].listItems"
         ></AppListTextAndSubtext>-->
       </div>
-      <div class="p-7 border-b-2 border-gray-200">Test</div>
+      <div class="p-7 border-b-2 border-gray-200">
+        <AppInputDropdown
+          headline="Abweichungsgrund"
+          name="description"
+          :options="employees"
+          initialOption="-- Grund auswählen --"
+          :currentValue="audited_user_id.toString()"
+          v-on:input="setAuditedUser($event)"
+        ></AppInputDropdown>
+      </div>
       <div class="p-7 flex items-center">
         <AppButtonPrimary
           name="Audit starten"
@@ -59,7 +68,7 @@
           <div class="col-span-2">
             <AppContainer containerName="Offene Audits">
               <template #content>
-                <div v-for="item in openAudits" :key="item.id">
+                <div v-for="(item, index) in openAudits" :key="index"> 
                   <AppListContainer :isLast="getStatus(item, openAudits)">
                     <template #wrapperRight>
                       <!--<router-link
@@ -72,7 +81,8 @@
                       <AppButtonTertiary
                         class="mr-4 ml-4"
                         name="Audit starten"
-                        v-on:buttonClick="openPopup(item.id)"
+                        :id="index"
+                        v-on:buttonClick="openPopup($event)"
                       ></AppButtonTertiary>
                       <AppButtonOption
                         v-bind:isVertical="false"
@@ -134,9 +144,11 @@ import AppButtonPrimary from "../../../components/AppButtonPrimary.vue";
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 import AppPopup from "../../../components/AppPopup.vue";
 import AppButtonSecondary from "../../../components/AppButtonSecondary.vue";
+import AppInputDropdown from "../../../components/AppInputDropdown.vue";
 
 import { useAudit } from "../store/audit";
 import { Audit } from "../interfaces/audit";
+import { User } from "../../../interfaces/user";
 
 export default defineComponent({
   name: "LPADashboard",
@@ -153,11 +165,14 @@ export default defineComponent({
     AppIconLibrary,
     AppPopup,
     AppButtonSecondary,
+    AppInputDropdown
   },
   async mounted() {
     this.enableScroll();
     const store = useAudit();
     await store.fetchOpenAudits();
+    //await store.fetchEmployees(this.openAudits[this.currentOpenAuditID].assigned_layer_id,this.openAudits[this.currentOpenAuditID].assigned_group_id);
+    this.employees = store.employees;
     this.openAudits = store.openAudits;
     this.dataReady = true;
   },
@@ -165,6 +180,9 @@ export default defineComponent({
     return {
       dataReady: false,
       openAudits: [] as Audit[],
+      currentOpenAuditID: 0,
+      employees: [] as User[],
+      audited_user_id: 0,
       plannedAudits: [
         {
           id: 0,
@@ -234,9 +252,16 @@ export default defineComponent({
     };
   },
   methods: {
-    openPopup(id: any) {
+    async openPopup(event: any) {
       this.disableScroll();
       this.visibleTest = true;
+      this.setCurrentOpenAuditID(event);
+      const store = useAudit();
+      await store.fetchEmployees(this.openAudits[this.currentOpenAuditID].assigned_layer_id,this.openAudits[this.currentOpenAuditID].assigned_group_id);
+      this.employees = store.employees;
+    },
+    setCurrentOpenAuditID(event: any){
+      this.currentOpenAuditID = this.openAudits[event].id;
     },
     closePopup() {
       this.visibleTest = false;
@@ -267,6 +292,9 @@ export default defineComponent({
       const store = useAudit();
       store.startNewAudit(audited_user,audit_id);
       this.$router.push('/lpa/audit');
+    },
+    setAuditedUser(event: any){
+      this.audited_user_id = event;
     }
   },
 });

@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import { truncateStringMixin } from "../mixins/truncateStringMixin";
+import { truncateStringMixin } from "../mixins/stringMixin";
 import AppIconLibrary from "./AppIconLibrary.vue";
 
 export default defineComponent({
