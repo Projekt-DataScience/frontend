@@ -105,7 +105,7 @@
               >
               </AppButtonPrimary>
               <AppButtonSecondary
-                class="mr-4"
+                class=""
                 name="Abbrechen"
                 v-on:buttonClick="dismissAudit()"
               >
