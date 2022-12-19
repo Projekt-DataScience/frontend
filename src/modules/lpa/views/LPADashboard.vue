@@ -1,5 +1,6 @@
 <template>
   <div v-if="dataReady">
+    <div v-if="checkIfLoggedIn()"></div>
     <AppPopup v-if="visibleTest">
       <div class="p-7 border-b-2 border-gray-200">
         <!--<AppListTextAndSubtext
@@ -21,7 +22,7 @@
         <AppButtonPrimary
           name="Audit starten"
           v-bind:isActive="true"
-          v-on:buttonClick="startNewAudit(3, 6)"
+          v-on:buttonClick="startNewAudit(3, currentOpenAuditID)"
         ></AppButtonPrimary>
         <AppButtonSecondary
           class="ml-5"
@@ -149,6 +150,7 @@ import AppInputDropdown from "../../../components/AppInputDropdown.vue";
 import { useAudit } from "../store/audit";
 import { Audit } from "../interfaces/audit";
 import { User } from "../../../interfaces/user";
+import AuthService from "../../../services/auth.service";
 
 export default defineComponent({
   name: "LPADashboard",
@@ -252,6 +254,13 @@ export default defineComponent({
     };
   },
   methods: {
+    checkIfLoggedIn(){
+      if(AuthService.loggedIn === true){
+        return true
+      }else{
+        return false
+      }
+    },
     async openPopup(event: any) {
       this.disableScroll();
       this.visibleTest = true;

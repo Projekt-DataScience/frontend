@@ -1,6 +1,16 @@
 import axios from 'axios';
 import { CachedUser, LoginUser, RegisterUser } from './types';
 
+export interface ValidateJWT {
+    result: number,
+    payload: {
+        user_id: number,
+        expires: number,
+        company_id: number,
+        role: string
+    }
+}
+
 const API_URL = import.meta.env.VITE_GW_USERMANAGEMENT_URL;
 
 class AuthService {
@@ -73,6 +83,32 @@ class AuthService {
             // alert(error);
             console.log("validateJWT return false");
             this.loggedIn = false;
+        }
+    }
+
+    async checkIfLoggedIn(){
+        var tmp = await this.validateToken() as ValidateJWT;
+
+        if(tmp.result === 1){
+            this.loggedIn = true;
+        }else{
+            this.loggedIn = false;
+        }
+    }
+
+    async validateToken(){
+        var cachedUser = (JSON.parse(localStorage.getItem('user') || '{}'));
+        try {
+            const response = await axios.post(
+                API_URL + 'validateJWT', {
+                jwt: cachedUser.token
+            }) as ValidateJWT;
+
+            return response
+
+        } catch (error) {
+            //alert(error);
+            console.log("validateJWT return false");
         }
     }
 }

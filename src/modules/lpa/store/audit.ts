@@ -6,6 +6,13 @@ import { AnswerReason } from "../interfaces/answerReason"
 import { Duration } from "../interfaces/duration";
 import authHeader from "../../../services/auth-header";
 
+export interface PushAnswer {
+    question_id: number,
+    answer_reason_id: number | null,
+    comment: string,
+    answer: number
+}
+
 export const useAudit = defineStore('Audit', {
     state: () => ({
         audit: {} as Audit,
@@ -17,8 +24,8 @@ export const useAudit = defineStore('Audit', {
         reasons: [] as AnswerReason[],
         openAudits: [] as Audit[],
         durations: [] as Duration[],
-        employees: [] as User[]
-
+        employees: [] as User[],
+        pushAnswer: [] as PushAnswer[]
     }),
     actions: {
         async fetchAudit() {
@@ -117,6 +124,9 @@ export const useAudit = defineStore('Audit', {
             this.durations = [];
         },
         async finishAudit() {
+            // clear pushAnswers
+            this.pushAnswer = []
+
             // delete all unused descriptions and comments
             for (let i = 0; i < this.audit.answers.length; i++) {
                 if(this.audit.answers[i].answer === "green" || this.audit.answers[i].answer === "yellow"){
@@ -125,17 +135,54 @@ export const useAudit = defineStore('Audit', {
                 }
             }
 
+            // generate push answer array
+            for (let i = 0; i < this.audit.answers.length; i++) {
+                // replace String with number
+                var answer = 0;
+                if(this.audit.answers[i].answer === "green"){
+                    answer = 0;
+                }else if(this.audit.answers[i].answer === "yellow"){
+                    answer = 1;
+                }else if (this.audit.answers[i].answer === "red"){
+                    answer = 2;
+                }else{
+                    console.log("Nicht alle Antworten wurden beantwortet!");
+                    return;
+                }
+
+                // replace answer_reason_id with integer
+                var tmpReason: number | null = 0;
+                if(this.audit.answers[i].answer !== "red"){
+                    tmpReason = 0;
+                }else{
+                    tmpReason = parseInt(this.audit.answers[i].description);
+                }
+
+                // push new entry
+                this.pushAnswer.push({
+                    question_id: this.audit.answers[i].question_id,
+                    answer_reason_id: tmpReason,
+                    comment: this.audit.answers[i].comment,
+                    answer: answer
+                })
+            }
+
+            var body = {
+                audited_user_id: this.audited_user.id,
+                answers: this.pushAnswer,
+                durations: this.durations
+            }
+
+            console.log(body);
+
             // fetch to gateway
             try {
                 const response = await axios.post(
                     import.meta.env.VITE_GW_AUDIT_URL + 'lpa_audit/complete/'+this.audit.id, 
-                    {
-                        audited_user_id: this.audited_user.id,
-                        answers: this.audit.answers,
-                        durations: this.durations
-                    },
+                    body,
                     authHeader()
                 );
+                console.log(response);
             } catch (error) {
                 alert(error);
                 console.log(error);
