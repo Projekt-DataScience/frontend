@@ -1,6 +1,6 @@
 <template>
   <!-- Profile dropdown -->
-  <div class="relative">
+  <div class="relative group">
     <div>
       <button
         type="button"
@@ -9,13 +9,12 @@
           max-w-xs
           items-center
           rounded-full
-          bg-white
           text-sm
           focus:outline-none
           focus:ring-2
           focus:ring-primary-blue
           focus:ring-offset-2
-          
+          h-12 w-12
         "
         id="user-menu-button"
         aria-expanded="false"
@@ -24,67 +23,53 @@
       >
         <span class="sr-only">Open user menu</span>
         <img
-          class="h-8 w-8 rounded-full"
+          class="h-full w-full rounded-full p-2"
           src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
           alt=""
         />
       </button>
     </div>
-    <div
-      class="
-        hidden
-        absolute
-        right-0
-        z-10
-        mt-2
-        w-48
-        origin-top-right
-        rounded-md
-        bg-white
-        py-1
-        shadow-lg
-        ring-1 ring-black ring-opacity-5
-        focus:outline-none
-      "
-      role="menu"
-      aria-orientation="vertical"
-      aria-labelledby="user-menu-button"
-      tabindex="-1"
-      v-bind:class="{ active: profileIsActive }"
-    >
-      <!-- Active: "bg-gray-100", Not Active: "" -->
-      <a
-        href="#"
-        class="block px-4 py-2 text-sm text-gray-700"
-        role="menuitem"
+      <div
+        class="
+          absolute
+          right-0
+          hidden
+          group-hover:block
+          z-10
+          w-52
+          origin-top-right
+          rounded-md
+          bg-white
+          py-1
+          shadow-lg
+          ring-1 ring-black ring-opacity-5
+          focus:outline-none
+        "
+        role="menu"
+        aria-orientation="vertical"
+        aria-labelledby="user-menu-button"
         tabindex="-1"
-        id="user-menu-item-0"
-        >Your Profile</a
+        :class="getActiveStatus(profileIsActive)"
       >
+        <div class="">
+          <!-- Active: "bg-gray-100", Not Active: "" -->
+        
+        <button @click="handleSettingsToggle()" class="block px-4 py-2 text-sm text-gray-700">
+          Einstellungen
+        </button>
 
-      <a
-        href="#"
-        class="block px-4 py-2 text-sm text-gray-700"
-        role="menuitem"
-        tabindex="-1"
-        id="user-menu-item-1"
-        >Settings</a
-      >
+        <button @click="handleLogoutToggle()" class="block px-4 py-2 text-sm text-gray-700">
+          Ausloggen
+        </button>
 
-      <a
-        href="#"
-        class="block px-4 py-2 text-sm text-gray-700"
-        role="menuitem"
-        tabindex="-1"
-        id="user-menu-item-2"
-        >Sign out</a
-      >
-    </div>
+        </div>
+      </div>
   </div>
 </template>
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
+import authService from "../services/auth.service";
 
 export default defineComponent({
   name: "AppButtonProfile",
@@ -95,7 +80,26 @@ export default defineComponent({
     };
   },
   methods: {
-    handleProfileToggle() {},
+    handleProfileToggle() {
+      if (this.profileIsActive === true) {
+        this.profileIsActive = false;
+      } else {
+        this.profileIsActive = true;
+      }
+    },
+    getActiveStatus(isActive: Boolean) {
+      if (isActive) {
+        return "block";
+      } else {
+        return "hidden";
+      }
+    },
+    handleSettingsToggle(){
+      
+    },
+    handleLogoutToggle(){
+      authService.logout();
+    }
   },
 });
 </script>

@@ -27,6 +27,12 @@ module.exports = {
       'sans': ['Montserrat', 'sans-serif'],
     }
   },
+  variants: {
+    extend: {
+        display: ["group-hover"],
+        visibility: ["group-hover"]
+    },
+},
   plugins: [
     require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),

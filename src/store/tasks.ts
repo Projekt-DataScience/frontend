@@ -28,7 +28,7 @@ export const useTasks = defineStore('Tasks', {
                 );
                 this.tasks = data.data.data.tasks;
             } catch (error) {
-                alert(error);
+                //alert(error);
                 console.log(error);
             }
         },
