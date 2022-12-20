@@ -39,7 +39,6 @@ import AppInputTextField from "../components/AppInputTextField.vue";
 import { LoginUser } from "../services/types";
 import { useAuth } from "../store/auth";
 import AuthService from "../services/auth.service"
-import hashCode from "../services/hash";
 import router from "../router";
 
 
@@ -65,13 +64,7 @@ export default defineComponent({
             const store = useAuth();
             await store.login(this.loginUser);
             
-            
-            
-            if (store.checkLogin() == true) {
-                console.log(AuthService.login(this.loginUser))
-                this.$router.push("/lpa/audit")                
-            }
-            else console.log("FALSCHE ZUGANGSDATEN!!!")
+            this.$router.push('/');
         },
         setLoginUserEmail(event: any) {
             this.loginUser.email = event;

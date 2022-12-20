@@ -99,6 +99,7 @@ export default defineComponent({
     },
     handleLogoutToggle(){
       authService.logout();
+      this.$router.push('/Login');
     }
   },
 });
