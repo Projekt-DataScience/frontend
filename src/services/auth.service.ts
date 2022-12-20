@@ -1,20 +1,13 @@
 import axios from 'axios';
-import { CachedUser, LoginUser, RegisterUser } from './types';
-
-export interface ValidateJWT {
-    result: number,
-    payload: {
-        user_id: number,
-        expires: number,
-        company_id: number,
-        role: string
-    }
-}
+import { CachedUser, LoginUser, RegisterUser, ValidatedUser } from './types';
+import { useUser } from '../store/users';
 
 const API_URL = import.meta.env.VITE_GW_USERMANAGEMENT_URL;
 
 class AuthService {
-    loggedIn = false;
+    validatedUser = {} as ValidatedUser;
+    //store = useUser();
+    //loggedIn = false;
     async login(user: LoginUser) {
         // return axios
         //   .post(API_URL + 'login', {
@@ -29,6 +22,8 @@ class AuthService {
         //     ;
         //   });
 
+        const store = useUser();
+
         try {
             const response = await axios.post(
                 API_URL + 'login', {
@@ -38,6 +33,20 @@ class AuthService {
 
             if (response.data.token) {
                 localStorage.setItem('user', JSON.stringify(response.data));
+
+                let cachedUser: CachedUser = response.data;
+                console.log("TestUserToken: " + cachedUser.token)
+                
+
+                // this.validateJWT(cachedUser);
+
+                 store.setLoggedIn(true);                
+                
+                // Ab Hier nur zum testen:
+                //this.checkIfLoggedIn()
+
+
+
             }
             return response.data;
 
@@ -64,53 +73,49 @@ class AuthService {
     }
 
     async validateJWT(cachedUser: CachedUser) {
-        console.log("Hier beginnt validateJWT" )
+        // console.log("Hier beginnt validateJWT mit Token: ")
         try {
-            const response = await axios.post(
-                API_URL + 'validateJWT', {
-                jwt: cachedUser.token
-            });
+            // const response = await axios.post(
+            //     API_URL + 'validateJWT', {
+            //     jwt: cachedUser.token
+            // });
 
-            console.log("validateJWT RESPONSE: " + response.data )
+            const response = await axios.post(
+                API_URL + 'validateJWT/?jwt=' + cachedUser.token
+            );
+
+            //console.log("validateJWT RESPONSE: " + response.data )
 
             if (response.data.result === 1) {
-                console.log("validateJWT return true")
-                this.loggedIn = true;
+                // console.log("validateJWT return true");
+                this.validatedUser = response.data;
+                //this.store.validatedUser = response.data;
+                console.log("#########ValidatedUser user_ID: " + response.data.payload.user_id)
             }
-            this.loggedIn = false;
+
 
         } catch (error) {
             // alert(error);
-            console.log("validateJWT return false");
-            this.loggedIn = false;
-        }
-    }
-
-    async checkIfLoggedIn(){
-        var tmp = await this.validateToken() as ValidateJWT;
-
-        if(tmp.result === 1){
-            this.loggedIn = true;
-        }else{
-            this.loggedIn = false;
-        }
-    }
-
-    async validateToken(){
-        var cachedUser = (JSON.parse(localStorage.getItem('user') || '{}'));
-        try {
-            const response = await axios.post(
-                API_URL + 'validateJWT', {
-                jwt: cachedUser.token
-            }) as ValidateJWT;
-
-            return response
-
-        } catch (error) {
-            //alert(error);
+            return false;
             console.log("validateJWT return false");
         }
     }
+
+    // async checkIfLoggedIn() {
+
+    //     var cachedUser: CachedUser = (JSON.parse(localStorage.getItem('user') || '{}'));
+    //     await this.validateJWT(cachedUser);
+
+    //     //await this.get_validatedUser()
+    //     console.log("validatedUser.result in auth.service = " + this.validatedUser.result)
+    //     if (this.validatedUser.result == 1) {
+    //         //this.loggedIn = true;
+    //          return true;
+    //     } else {
+    //         //this.loggedIn = false;
+    //         return false;
+    //     }
+    // }
 }
 
 export default new AuthService();

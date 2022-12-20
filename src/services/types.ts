@@ -19,3 +19,15 @@ export interface LoginUser {
     email: string,
     password_hash: string,
 }
+
+export interface ValidatedUser {
+    result: number,
+    payload: ValidatedPayload
+}
+
+export interface ValidatedPayload {
+    user_id: number,
+    expires: number,
+    company_id: number,
+    role: string
+}
