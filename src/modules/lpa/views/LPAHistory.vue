@@ -16,10 +16,10 @@
           <template #wrapperContent>
             <AppListTextAndSubtext :text="getAuditText(item)" :subtext="[
               {
-                text: item.assigned_layer
+                text: item.assigned_layer.layer_name
               },
               {
-                text: item.assigned_group
+                text: item.assigned_group.group_name
               },
               /*{
                 text: getAnzahlFragenString(item.questions)
@@ -71,7 +71,7 @@ export default defineComponent({
 
   async mounted() {
     const store = useAuditHistory();
-    await store.fetchAudits();
+    await store.fetchCompletedAudits();
     this.audits = store.audits;
   },
   data() {
@@ -104,7 +104,7 @@ export default defineComponent({
         text = text + "Spontaner Audit ";
       }
       text = text + "vom " + new Date(audit.due_date).toLocaleDateString('de-DE', { year: 'numeric', month: 'short', day: 'numeric' });
-      text = text + " von " + audit.auditor[0].first_name + " " + audit.auditor[0].last_name;
+      text = text + " von " + audit.auditor.first_name + " " + audit.auditor.last_name;
       return text;
     },
     getAnzahlFragenString(questions: Questions[]) {
