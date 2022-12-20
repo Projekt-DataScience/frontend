@@ -25,7 +25,7 @@
         </div>
 
         <div class="flex w-3/4 h-screen">
-            <img :src="welcomeImagePath" alt="WelcomeImage" class="object-cover">
+            <img :src="welcomeImagePath" alt="WelcomeImage" class="object-cover h-full w-full">
         </div>
 
     </div>
