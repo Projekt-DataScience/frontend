@@ -6,6 +6,9 @@ export const mainRoutes = [
         path: '/',
         name: 'MainDashboard',
         component: Dashboard,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/Login',
