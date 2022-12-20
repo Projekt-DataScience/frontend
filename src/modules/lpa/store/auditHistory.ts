@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from 'axios';
 import { Audit } from '../interfaces/audit'
+import authHeader from "../../../services/auth-header";
 
 
 export const useAuditHistory = defineStore('AuditHistory', {
@@ -8,17 +9,18 @@ export const useAuditHistory = defineStore('AuditHistory', {
         audits: [] as Audit[],
     }),
     getters: {
-        getAudits(state) {
+        getCompletedAudits(state) {
             return state.audits
         },
     },
     actions: {
-        async fetchAudits() {
+        async fetchCompletedAudits() {
             try {
-                const data = await axios.get(
-                    "http://localhost:3000/dataAudits"
+                const response = await axios.get(
+                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_audit/complete",
+                    authHeader()
                 );
-                this.audits = data.data.data.audits;
+                this.audits = response.data;
             } catch (error) {
                 alert(error);
                 console.log(error);
