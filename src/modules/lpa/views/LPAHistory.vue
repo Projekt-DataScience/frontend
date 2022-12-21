@@ -21,9 +21,9 @@
               {
                 text: item.assigned_group.group_name
               },
-              /*{
+              {
                 text: getAnzahlFragenString(item.questions)
-              },*/
+              },
               {
                 text: seconds2time(item.duration)
               }
@@ -51,8 +51,8 @@ import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 import LPAHistoryBar from "../components/LPAHistoryBar.vue";
 import { getIsLast } from "../../../mixins/arrayMixin";
 import { useAuditHistory } from "../store/auditHistory";
-import { Questions } from "../store/questions";
 import { Audit } from "../interfaces/audit"
+import { Question } from "../interfaces/question";
 
 export default defineComponent({
   name: "LPAHistory",
@@ -83,10 +83,10 @@ export default defineComponent({
     getAuditStatus(audit: Audit) {
       var status = "";
       for (let i = 0; i < audit.answers.length; i++) {
-        if (audit.answers[i].answer === "red") {
+        if (audit.answers[i].answer == 2) {
           return "red";
         }
-        else if (audit.answers[i].answer === "yellow") {
+        else if (audit.answers[i].answer == 1) {
           status = "yellow";
         }
         else if (status !== "yellow") {
@@ -107,7 +107,7 @@ export default defineComponent({
       text = text + " von " + audit.auditor.first_name + " " + audit.auditor.last_name;
       return text;
     },
-    getAnzahlFragenString(questions: Questions[]) {
+    getAnzahlFragenString(questions: Question[]) {
       return "" + questions.length + " Fragen"
     },
     seconds2time(seconds: number) {

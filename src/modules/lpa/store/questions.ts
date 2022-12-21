@@ -1,18 +1,10 @@
-export interface Questions {
-    id: number,
-    title: string,
-    description: string,
-    category: string,
-    layer: number,
-    group: string
-}
-
 import { defineStore } from "pinia";
 import axios from 'axios';
+import { Question } from "../interfaces/question";
 
 export const useQuestions = defineStore('Questions', {
     state: () => ({
-        questions: [] as Questions[],
+        questions: [] as Question[],
     }),
     getters: {
         getQuestions(state) {
