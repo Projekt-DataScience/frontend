@@ -83,10 +83,10 @@ export default defineComponent({
     getAuditStatus(audit: Audit) {
       var status = "";
       for (let i = 0; i < audit.answers.length; i++) {
-        if (audit.answers[i].answer == 2) {
+        if (audit.answers[i].answer === "2") {
           return "red";
         }
-        else if (audit.answers[i].answer == 1) {
+        else if (audit.answers[i].answer === "1") {
           status = "yellow";
         }
         else if (status !== "yellow") {

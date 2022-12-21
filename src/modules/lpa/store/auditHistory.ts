@@ -26,7 +26,7 @@ export const useAuditHistory = defineStore('AuditHistory', {
                 console.log(error);
             }
         },
-        setaudits(audits: any) {
+        setaudits(audits: Audit[]) {
             this.audits = audits;
         },
     }

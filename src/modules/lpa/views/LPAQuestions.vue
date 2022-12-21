@@ -16,17 +16,22 @@
             </div>
           </template>
           <template #wrapperContent>
-            <AppListTextAndSubtext :text="item.title" :subtext="[
+            <AppListTextAndSubtext :text="item.question" :subtext="[
               {
-                text: layerToString(item.layer)
+                text: item.layer.layer_name
               },
               {
-                text: item.group
+                text: item.group.group_name
               }
             ]"></AppListTextAndSubtext>
           </template>
           <template #wrapperRight>
-            <LPAQuestionBar :green="22" :orange="22" :red="22"></LPAQuestionBar>
+
+            <!-- <LPAHistoryBar :answers="answers[index]"></LPAHistoryBar> -->
+
+            <!-- Die Component sollte eig hier sein, aber aus Zeitgründen wird die HistoryBar verwendet
+              <LPAQuestionBar :green="22" :orange="22" :red="22"></LPAQuestionBar> 
+            -->
             <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
           </template>
         </AppListContainer>
@@ -46,7 +51,10 @@ import LPAQuestionBar from "../components/LPAQuestionBar.vue";
 import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
 import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 
-import { Questions, useQuestions } from "../store/questions";
+import { useQuestions } from "../store/questions";
+import { useAnswers } from "../store/answers";
+import { Question } from "../interfaces/question";
+import { Answer } from "../interfaces/answer";
 
 export default defineComponent({
   name: "LPAQuestions",
@@ -61,13 +69,19 @@ export default defineComponent({
     AppIconLibrary,
   },
   async mounted() {
-    const store = useQuestions();
-    await store.fetchQuestions();
-    this.questions = store.questions;
+    const questionStore = useQuestions();
+    await questionStore.fetchQuestions();
+    this.questions = questionStore.questions;
+
+    // const answerStore = useAnswers();
+    // await answerStore.fetchAnswers(this.questions, 10);
+    // this.answers = answerStore.answers;
+    
   },
   data() {
     return {
-      questions: [] as Questions[]
+      questions: [] as Question[],
+      answers: [] as Answer[]
     }
   },
   methods: {
@@ -79,7 +93,10 @@ export default defineComponent({
       }
     },
     layerToString(layer: number) {
-      return "Layer "+layer
+      return "Layer " + layer
+    },
+    getLastAnswers(id: number) {
+
     }
   },
 });

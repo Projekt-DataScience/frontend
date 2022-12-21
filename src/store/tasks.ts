@@ -1,39 +1,34 @@
-export interface Tasks {
-    icon: string,
-    app_name: string,
-    title: string,
-    parameter: string,
-    date: Date,
-    action: string
-}
+
 
 import { defineStore } from "pinia";
 import axios from "axios";
+import { Task } from "../interfaces/task";
+import authHeader from "../services/auth-header";
 
 export const useTasks = defineStore('Tasks', {
     state: () => ({
-        tasks: [] as Tasks[],
+        tasks: [] as Task[],
     }),
     getters: {
         getTasks(state) {
             return state.tasks
         },
-
     },
     actions: {
         async fetchTasks() {
             try {
-                const data = await axios.get(
-                    "http://localhost:3000/dataTasks"
+                const response = await axios.post(
+                    import.meta.env.VITE_GW_TASKS_URL + "get-tasks/",
+                    authHeader()
                 );
-                this.tasks = data.data.data.tasks;
+                this.tasks = response.data.tasks;
             } catch (error) {
-                //alert(error);
+                alert(error);
                 console.log(error);
             }
         },
-        setTasks(tasks: any) {
-            this.tasks = this.tasks;
+        setTasks(tasks: Task[]) {
+            this.tasks = tasks;
         },
 
     }
