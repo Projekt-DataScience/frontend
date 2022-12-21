@@ -223,7 +223,7 @@ import AppPopup from "../../../components/AppPopup.vue";
 import AppInputBigTextField from "../../../components/AppInputBigTextField.vue";
 import AppInputDropdown from "../../../components/AppInputDropdown.vue";
 
-import { useAudit } from "../store/audit";
+import { useAudit } from "../store/audits";
 import { Audit } from "../interfaces/audit";
 import { User } from "../../../interfaces/user";
 import { Question } from "../interfaces/question";

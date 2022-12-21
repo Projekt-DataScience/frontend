@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from 'axios';
 import { Question } from "../interfaces/question";
+import authHeader from "../../../services/auth-header";
 
 export const useQuestions = defineStore('Questions', {
     state: () => ({
@@ -14,16 +15,17 @@ export const useQuestions = defineStore('Questions', {
     actions: {
         async fetchQuestions() {
             try {
-                const data = await axios.get(
-                    "http://localhost:3000/dataQuestions"
+                const response = await axios.get(
+                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_question",
+                    authHeader()
                 );
-                this.questions = data.data.data.questions;
+                this.questions = response.data;
             } catch (error) {
                 alert(error);
                 console.log(error);
             }
         },
-        setQuestions(questions: any) {
+        setQuestions(questions: Question[]) {
             this.questions = questions;
         },
     }

@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { defineComponent} from "vue";
-import { useAudit } from "../store/audit";
+import { useAudit } from "../store/audits";
 import { Audit } from "../interfaces/audit";
 import { isTemplateNode } from "@vue/compiler-core";
 import { User } from "../../../interfaces/user";

@@ -5,7 +5,7 @@ export interface Answer {
     id: number,
     audit_id: number,
     question_id: number,
-    answer: number,
+    answer: string,
     comment: string,
     description: string,
     assigned_group: Group,

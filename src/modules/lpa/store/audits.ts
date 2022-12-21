@@ -30,11 +30,11 @@ export const useAudit = defineStore('Audit', {
     actions: {
         async fetchAudit() {
             try {
-                const data = await axios.get(
+                const response = await axios.get(
                     import.meta.env.VITE_GW_AUDIT_URL + "lpa_audit/" + this.currentAuditID,
                     authHeader()
                 );
-                this.audit = data.data;
+                this.audit = response.data;
             } catch (error) {
                 alert(error);
                 console.log(error);
@@ -42,11 +42,11 @@ export const useAudit = defineStore('Audit', {
         },
         async fetchReasons() {
             try {
-                const data = await axios.get(
+                const response = await axios.get(
                     import.meta.env.VITE_GW_AUDIT_URL + "lpa_answer/reason",
                     authHeader()
                 );
-                this.reasons = data.data;
+                this.reasons = response.data;
             } catch (error) {
                 alert(error);
                 console.log(error);
@@ -55,11 +55,11 @@ export const useAudit = defineStore('Audit', {
         async fetchUser() {
 
             try {
-                const data = await axios.get(
+                const response = await axios.get(
                     import.meta.env.VITE_GW_USERMANAGEMENT_URL + "user/" + this.currentUser,
                     authHeader()
                 );
-                this.audited_user = data.data.data;
+                this.audited_user = response.data.data;
             } catch (error) {
                 alert(error);
                 console.log(error);

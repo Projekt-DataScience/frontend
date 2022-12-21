@@ -82,7 +82,7 @@
                   {
                     text: new Date(item.date).toLocaleDateString('de-DE', { year: 'numeric', month: 'short', day: 'numeric' })
                   }
-                ]" :action="item.action">
+                ]" :action="item.parameter">
                 </TaskList>
               </template>
               <template #wrapperRight>
@@ -109,7 +109,8 @@ import AppButtonPrimary from "../components/AppButtonPrimary.vue";
 import TaskList from "../components/TaskList.vue";
 
 import { useApplications } from "../store/applications";
-import { Tasks, useTasks } from "../store/tasks";
+import { useTasks } from "../store/tasks";
+import { Task } from "../interfaces/task";
 
 
 export default defineComponent({
@@ -139,7 +140,7 @@ export default defineComponent({
   },
   data() {
     return {
-      tasks: [] as Tasks[]
+      tasks: [] as Task[]
     };
   },
   methods: {
