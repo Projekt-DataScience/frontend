@@ -45,7 +45,7 @@ export const stringToDateMixin = {
 
 export const changeAppName= {
     methods: {
-        shortAppNameToLong(str: string) {
+        getLongNameForApp(str: string) {
             if (str === "lpa") {
                 return "Layered Process Audit"
             }
