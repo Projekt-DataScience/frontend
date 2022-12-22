@@ -18,7 +18,8 @@ export const useTasks = defineStore('Tasks', {
         async fetchTasks() {
             try {
                 const response = await axios.post(
-                    import.meta.env.VITE_GW_TASKS_URL + "get-tasks/", {} ,
+                    import.meta.env.VITE_GW_TASKS_URL + "get-tasks/", 
+                    {} ,
                     authHeader()
                 );
                 this.tasks = response.data.tasks;
