@@ -4,13 +4,16 @@
     </div>
     <div>
         <div>{{ text }}</div>
-        <div class="flex text-gray-400 text-sm font-base mt-1" >
-        <div v-for="(item, index) in subtext " :key="index">
-            <AppListTextWithDividerLine :text="item.text" :isLast="getStatus(item, subtext)"></AppListTextWithDividerLine>
+        <div class="flex text-gray-400 text-sm font-base mt-1">
+            <div v-for="(item, index) in subtext " :key="index">
+                <AppListTextWithDividerLine :text="item.text" :isLast="getStatus(item, subtext)">
+                </AppListTextWithDividerLine>
+            </div>
         </div>
     </div>
-    </div>
-    <AppButtonTertiary class="mt-2" name="Audit starten"></AppButtonTertiary>
+    <router-link to="/lpa" tag="button">
+    <AppButtonTertiary class="mt-2" name="Zur Auditübersicht"></AppButtonTertiary>
+    </router-link>
 </template>
         
 <script lang="ts">
@@ -22,9 +25,9 @@ import AppListTextWithDividerLine from "./AppListTextWithDividerLine.vue";
 export default defineComponent({
     name: "TaskList",
     components: {
-    AppListTextWithDividerLine,
-    AppButtonTertiary
-},
+        AppListTextWithDividerLine,
+        AppButtonTertiary
+    },
     props: {
         subtext: {
             type: Object,
