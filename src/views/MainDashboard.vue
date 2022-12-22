@@ -1,5 +1,6 @@
 <template>
   <MainHeader></MainHeader>
+  <!-- Hier muss das Grid angepasst werden -->
   <div class="grid gap-6 grid-cols-3 m-6">
     <div class="grid gap-6 grid-cols-1 col-span-2">
       <AppContainer container-name="Favoriten">
