@@ -76,7 +76,7 @@
                 </div>
               </template>
               <template #wrapperContent>
-                <TaskList :title="shortAppNameToLong(item.app_name)" :text="item.title" :subtext="[
+                <TaskList :title="getLongNameForApp(item.app_name)" :text="item.title" :subtext="[
                   {
                     text: concateStrings('Layer', item.parameter)   
                   },
