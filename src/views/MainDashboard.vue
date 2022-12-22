@@ -75,9 +75,9 @@
                 </div>
               </template>
               <template #wrapperContent>
-                <TaskList :title="item.app_name" :text="item.title" :subtext="[
+                <TaskList :title="shortAppNameToLong(item.app_name)" :text="item.title" :subtext="[
                   {
-                    text: item.parameter
+                    text: concateStrings('Layer', item.parameter)   
                   },
                   {
                     text: new Date(item.date).toLocaleDateString('de-DE', { year: 'numeric', month: 'short', day: 'numeric' })
@@ -86,7 +86,7 @@
                 </TaskList>
               </template>
               <template #wrapperRight>
-                <LPAQuestionBar :green="22" :orange="22" :red="22"></LPAQuestionBar>
+                <!-- <LPAQuestionBar :green="22" :orange="22" :red="22"></LPAQuestionBar> -->
                 <AppButtonOption class="mt-2" v-bind:isVertical="false"></AppButtonOption>
               </template>
             </AppListContainer>
@@ -112,9 +112,12 @@ import { useApplications } from "../store/applications";
 import { useTasks } from "../store/tasks";
 import { Task } from "../interfaces/task";
 
+import { concateStringMixin, changeAppName } from "../mixins/stringMixin";
+
 
 export default defineComponent({
   name: "MainDashboard",
+  mixins: [concateStringMixin, changeAppName],
   components: {
     AppButtonOption,
     AppButtonSecondary,
