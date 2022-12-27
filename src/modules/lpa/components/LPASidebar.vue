@@ -76,7 +76,7 @@
             v-else
             routerName="LPAConfiguration"
           ></AppNavigationItem>
-          <div class="fixed z-20 bottom-0 items-end group">
+          <div class="fixed z-40 bottom-0 items-end group">
             <button
               type="button"
               class="

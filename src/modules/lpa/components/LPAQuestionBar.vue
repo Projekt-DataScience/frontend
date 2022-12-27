@@ -1,8 +1,8 @@
 <template>
     <div class="flex h-3 w-28 mr-4 rounded gap-1" id="barChart">
-        <div class="h-3 bg-green-500" :style="`width: ${greenWidth}px !important;`"></div>
-        <div class="h-3 bg-orange-500" :style="`width: ${orangeWidth}px !important;`"></div>
-        <div class="h-3 bg-red-500" :style="`width: ${redWidth}px !important;`"></div>
+        <div class="h-3 bg-cl-green" :style="`width: ${greenWidth}px !important;`"></div>
+        <div class="h-3 bg-cl-yellow" :style="`width: ${yellowWidth}px !important;`"></div>
+        <div class="h-3 bg-cl-red" :style="`width: ${redWidth}px !important;`"></div>
     </div>
 </template>
 
@@ -20,7 +20,7 @@ export default defineComponent({
         type: Number,
         required: true
     },
-    orange: {
+    yellow: {
         type: Number,
         required: true
     },
@@ -36,10 +36,10 @@ export default defineComponent({
     return {
       total: 0,
       greenPercentage: 0,
-      orangePercentage: 0,
+      yellowPercentage: 0,
       redPercentage: 0,
       greenWidth: 0,
-      orangeWidth: 0,
+      yellowWidth: 0,
       redWidth: 0
     }
   },
@@ -48,16 +48,16 @@ export default defineComponent({
          const element = document.getElementById("barChart");
 
          if(element instanceof HTMLElement){
-            this.total = this.green + this.orange + this.red;
-            this.greenPercentage = this.green * this.total / 100;
-            this.orangePercentage = this.orange * this.total / 100;
-            this.redPercentage = this.red * this.total / 100;
+            this.total = this.green + this.yellow + this.red;
+            this.greenPercentage = this.green * 100 / this.total;
+            this.yellowPercentage = this.yellow * 100 / this.total;
+            this.redPercentage = this.red * 100 / this.total;
 
             const targetWidth = element.offsetWidth;
 
-            this.greenWidth = 100 * this.greenPercentage / targetWidth;
-            this.orangeWidth = 100 * this.orangePercentage / targetWidth;
-            this.redWidth = 100 * this.redPercentage / targetWidth;
+            this.greenWidth = this.greenPercentage * targetWidth;
+            this.yellowWidth = this.yellowPercentage * targetWidth;
+            this.redWidth = this.redPercentage * targetWidth;
          }
      }
   },
