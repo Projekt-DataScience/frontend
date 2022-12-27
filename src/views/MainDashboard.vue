@@ -93,6 +93,9 @@
             </AppListContainer>
           </div>
         </template>
+        <template #footer>
+            <AppButtonTertiary name="Alle anzeigen"></AppButtonTertiary>
+          </template>
       </AppContainer>
     </div>
   </div>
@@ -108,6 +111,7 @@ import AppButtonSecondary from "../components/AppButtonSecondary.vue";
 import AppIconLibrary from "../components/AppIconLibrary.vue";
 import AppButtonPrimary from "../components/AppButtonPrimary.vue";
 import TaskList from "../components/TaskList.vue";
+import AppButtonTertiary from "../components/AppButtonTertiary.vue";
 
 import { useApplications } from "../store/applications";
 import { useTasks } from "../store/tasks";
@@ -127,7 +131,8 @@ export default defineComponent({
     MainHeader,
     AppIconLibrary,
     AppButtonPrimary,
-    TaskList
+    TaskList,
+    AppButtonTertiary
   },
   setup() {
     const applicationStore = useApplications();
@@ -140,11 +145,20 @@ export default defineComponent({
   async mounted() {
     const taskStore = useTasks();
     await taskStore.fetchTasks();
-    this.tasks = taskStore.getTasks;
+    this.allTasks = taskStore.getTasks;
+    if(this.allTasks.length > this.maxTasks){
+      for (let i = 0; i < this.maxTasks; i++) {
+        this.tasks.push(this.allTasks[i]);
+      }
+    }else{
+      this.tasks = this.allTasks;
+    }
   },
   data() {
     return {
-      tasks: [] as Task[]
+      tasks: [] as Task[],
+      allTasks: [] as Task[],
+      maxTasks: 3
     };
   },
   methods: {
