@@ -19,7 +19,10 @@
       @click="handleNotificationToggle()"
     >
       <span class="sr-only">View notifications</span>
-      <AppIconLibrary icon="bell" styling="h-7 text-gray-400"></AppIconLibrary>
+      <div class="flex items-center">
+        <AppIconLibrary icon="bell" styling="h-7 text-gray-400"></AppIconLibrary>
+        <div class="text-lg font-semibold ml-2 text-primary-blue">{{ allTasks.length }}</div>
+      </div>
     </button>
     <div
       class="
