@@ -1,13 +1,21 @@
 import { User } from "../../../interfaces/user"
 import { Group } from "../../../interfaces/group"
 import { Layer } from "../../../interfaces/layer"
+import { Question } from "./question"
+import { Answer } from "./answer"
 
 export interface OpenAudit {
     id: number,
-    created_by_user_id: User,
-    auditor_user_id: User,
-    assigned_layer: Layer,
     due_date: string,
-    recurrent_audit: false,
-    assigned_group: Group
+    complete_datetime: string,
+    duration: number,
+    recurrent_audit: boolean,
+    created_by_user: User,
+    audited_user: number,
+    auditor: User,
+    assigned_group: Group,
+    assigned_layer: Layer,
+    questions: Question[],
+    answers: Answer[]
+
 }
