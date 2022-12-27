@@ -36,7 +36,7 @@
           hidden
           group-hover:block
           z-10
-          w-52
+          w-96
           origin-top-right
           rounded-md
           bg-white
@@ -53,15 +53,24 @@
       >
         <div class="">
           <!-- Active: "bg-gray-100", Not Active: "" -->
+        <div class="px-6 py-6">
+          <AppButtonThemeToggle></AppButtonThemeToggle>
+        </div>
         
-        <button @click="handleSettingsToggle()" class="block px-4 py-2 text-sm text-gray-700">
-          Einstellungen
+        
+        <button @click="handleSettingsToggle()" class="block px-6 text-sm text-gray-700">
+          <div class="flex items-center text-gray-400">
+            <AppIconLibrary styling="h-7 w-7" icon="configuration"></AppIconLibrary>
+            <div class="ml-4 text-sm font-semibold">Einstellungen</div>
+          </div>
         </button>
 
-        <button @click="handleLogoutToggle()" class="block px-4 py-2 text-sm text-gray-700">
-          Ausloggen
+        <button @click="handleLogoutToggle()" class="block px-6 mb-6 mt-4 text-sm text-gray-700">
+          <div class="flex items-center text-gray-400">
+            <AppIconLibrary styling="h-7 w-7" icon="logout"></AppIconLibrary>
+            <div class="ml-4 text-sm font-semibold">Ausloggen</div>
+          </div>
         </button>
-
         </div>
       </div>
   </div>
@@ -70,10 +79,12 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 import authService from "../services/auth.service";
+import AppButtonThemeToggle from "./AppButtonThemeToggle.vue";
+import AppIconLibrary from "./AppIconLibrary.vue";
 
 export default defineComponent({
   name: "AppButtonProfile",
-  components: {},
+  components: {AppButtonThemeToggle, AppIconLibrary},
   data() {
     return {
       profileIsActive: false,

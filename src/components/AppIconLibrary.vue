@@ -967,6 +967,149 @@
       </svg>
     </div>
   </div>
+  <div v-if="icon === 'light'">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="27.551"
+      height="27.55"
+      viewBox="0 0 27.551 27.55"
+      :class="styling"
+    >
+      <g id="AppLight" transform="translate(0 -0.003)">
+        <path
+          id="Pfad_114"
+          data-name="Pfad 114"
+          d="M103.321,183.46a.94.94,0,0,0-.94.94v2.673a.94.94,0,1,0,1.88,0V184.4A.94.94,0,0,0,103.321,183.46Z"
+          transform="translate(-89.547 -160.46)"
+          class="fill-current"
+        />
+        <path
+          id="Pfad_115"
+          data-name="Pfad 115"
+          d="M103.321,4.557a.94.94,0,0,0,.94-.94V.943a.94.94,0,0,0-1.88,0V3.616A.94.94,0,0,0,103.321,4.557Z"
+          transform="translate(-89.547)"
+          class="fill-current"
+        />
+        <path
+          id="Pfad_116"
+          data-name="Pfad 116"
+          d="M32.153,159.989l-1.891,1.89a.94.94,0,0,0,1.329,1.33l1.891-1.89a.94.94,0,1,0-1.329-1.33Z"
+          transform="translate(-26.228 -139.691)"
+          class="fill-current"
+        />
+        <path
+          id="Pfad_117"
+          data-name="Pfad 117"
+          d="M160.649,33.76a.937.937,0,0,0,.665-.275L163.2,31.6a.94.94,0,1,0-1.329-1.33l-1.891,1.89a.94.94,0,0,0,.665,1.605Z"
+          transform="translate(-139.689 -26.228)"
+          class="fill-current"
+        />
+        <path
+          id="Pfad_118"
+          data-name="Pfad 118"
+          d="M4.553,103.335a.94.94,0,0,0-.94-.94H.94a.94.94,0,1,0,0,1.88H3.613A.94.94,0,0,0,4.553,103.335Z"
+          transform="translate(0 -89.557)"
+          class="fill-current"
+        />
+        <path
+          id="Pfad_119"
+          data-name="Pfad 119"
+          d="M187.066,102.395h-2.674a.94.94,0,0,0,0,1.88h2.674a.94.94,0,1,0,0-1.88Z"
+          transform="translate(-160.456 -89.557)"
+          class="fill-current"
+        />
+        <path
+          id="Pfad_120"
+          data-name="Pfad 120"
+          d="M32.159,33.486a.94.94,0,0,0,1.329-1.33l-1.89-1.89A.94.94,0,0,0,30.27,31.6Z"
+          transform="translate(-26.234 -26.229)"
+          class="fill-current"
+        />
+        <path
+          id="Pfad_121"
+          data-name="Pfad 121"
+          d="M161.32,159.989a.94.94,0,0,0-1.33,1.329l1.89,1.89a.94.94,0,1,0,1.33-1.329Z"
+          transform="translate(-139.695 -139.691)"
+          class="fill-current"
+        />
+        <path
+          id="Pfad_122"
+          data-name="Pfad 122"
+          d="M58.833,51.518a7.318,7.318,0,1,0,7.318,7.318A7.326,7.326,0,0,0,58.833,51.518Zm0,12.755a5.437,5.437,0,1,1,5.438-5.437A5.443,5.443,0,0,1,58.833,64.273Z"
+          transform="translate(-45.058 -45.057)"
+          class="fill-current"
+        />
+      </g>
+    </svg>
+  </div>
+  <div v-if="icon === 'dark'">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20.001"
+      height="22"
+      viewBox="0 0 20.001 22"
+      :class="styling"
+    >
+      <path
+        id="AppDark"
+        d="M12.5,3a9,9,0,1,0,5.927,15.773A9.5,9.5,0,0,1,13.519,3.057,9.107,9.107,0,0,0,12.5,3Zm-11,9A11.007,11.007,0,0,1,15.978,1.561a1,1,0,0,1,.254,1.771A7.5,7.5,0,0,0,20.5,17a1,1,0,0,1,.8,1.6A11,11,0,0,1,1.5,12Z"
+        transform="translate(-1.5 -1)"
+        class="fill-current"
+        fill-rule="evenodd"
+      />
+    </svg>
+  </div>
+  <div v-if="icon === 'logout'">
+    <svg
+      id="AppLogout"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      width="27.218"
+      height="27.218"
+      viewBox="0 0 27.218 27.218"
+      :class="styling"
+    >
+      <defs>
+        <clipPath id="clip-path">
+          <rect
+            id="Rechteck_413"
+            data-name="Rechteck 413"
+            width="27.218"
+            height="27.218"
+            transform="translate(0 0)"
+            class="fill-none"
+          />
+        </clipPath>
+      </defs>
+      <path
+        id="Pfad_364"
+        data-name="Pfad 364"
+        d="M13.609,12.524v0Z"
+        class="fill-current"
+      />
+      <g id="Gruppe_422" data-name="Gruppe 422">
+        <g id="Gruppe_421" data-name="Gruppe 421" clip-path="url(#clip-path)">
+          <line
+            id="Linie_152"
+            data-name="Linie 152"
+            y2="11.524"
+            transform="translate(13.609 1)"
+            class="fill-none stroke-current stroke-2"
+            stroke-linecap="round"
+            stroke-miterlimit="10"
+          />
+          <path
+            id="Pfad_365"
+            data-name="Pfad 365"
+            d="M5.576,3.9a12.61,12.61,0,1,0,16.265.17"
+            class="fill-none stroke-current stroke-2"
+            stroke-linecap="round"
+            stroke-miterlimit="10"
+          />
+        </g>
+      </g>
+    </svg>
+  </div>
 </template>
 
 <script lang="ts">

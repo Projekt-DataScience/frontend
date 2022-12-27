@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center text-sm pt-1 font-base">
+    <div class="flex items-center text-sm pt-1 font-base text-gray-600">
         {{ title }}
     </div>
     <div>
