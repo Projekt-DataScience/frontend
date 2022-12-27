@@ -111,12 +111,13 @@
                             ),
                           },
                           {
-                            text: concateStrings('Ersteller: ',
+                            text: concateStrings(
+                              'Ersteller: ',
                               item.created_by_user.first_name,
                               ' ',
                               item.created_by_user.last_name
-                            )
-                          }
+                            ),
+                          },
                         ]"
                       ></AppListTextAndSubtext>
                       <AppListTextAndSubtext
@@ -148,12 +149,13 @@
                             ),
                           },
                           {
-                            text: concateStrings('Ersteller: ',
+                            text: concateStrings(
+                              'Ersteller: ',
                               item.created_by_user.first_name,
                               ' ',
                               item.created_by_user.last_name
-                            )
-                          }
+                            ),
+                          },
                         ]"
                       ></AppListTextAndSubtext>
                     </template>
@@ -174,8 +176,36 @@
                     </template>
                     <template #wrapperContent>
                       <AppListTextAndSubtext
-                        :text="item.name"
-                        :subtext="item.listItems"
+                        :text="
+                          concateStrings(
+                            'Audit in der ',
+                            item.group.group_name,
+                            ' durch ',
+                            item.auditor.first_name,
+                            ' ',
+                            item.auditor.last_name
+                          )
+                        "
+                        :subtext="[
+                          {
+                            text: concateStrings(
+                              'Layer ',
+                              item.layer.layer_number.toString()
+                            ),
+                          },
+                          {
+                            text: concateRhythm(
+                              item.recurrence_type,
+                              item.values
+                            ),
+                          },
+                          {
+                            text: concateStrings(
+                              item.question_count.toString(),
+                              ' Fragen'
+                            ),
+                          },
+                        ]"
                       ></AppListTextAndSubtext>
                     </template>
                   </AppListContainer>
@@ -210,6 +240,7 @@ import { Audit } from "../interfaces/audit";
 import { User } from "../../../interfaces/user";
 import AuthService from "../../../services/auth.service";
 import { concateStringMixin } from "../../../mixins/stringMixin";
+import { PlannedAudit } from "../interfaces/plannedAudit";
 
 export default defineComponent({
   name: "LPADashboard",
@@ -232,9 +263,11 @@ export default defineComponent({
     this.enableScroll();
     const store = useAudit();
     await store.fetchOpenAudits();
+    await store.fetchPlannedAudits();
     //await store.fetchEmployees(this.openAudits[this.currentOpenAuditID].assigned_layer_id,this.openAudits[this.currentOpenAuditID].assigned_group_id);
     this.employees = store.employees;
     this.openAudits = store.openAudits;
+    this.plannedAudits = store.plannedAudits;
     this.dataReady = true;
   },
   mixins: [concateStringMixin],
@@ -246,71 +279,7 @@ export default defineComponent({
       currentOpenAuditID: 0,
       employees: [] as User[],
       audited_user_id: 0,
-      plannedAudits: [
-        {
-          id: 0,
-          name: "Audit in der C-Gruppe durch Auditor Tony Stark",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              text: "Layer 1",
-            },
-            {
-              id: 1,
-              type: "normal",
-              text: "Wöchentlich: Di, Do",
-            },
-            {
-              id: 2,
-              type: "normal",
-              text: "5 Fragen",
-            },
-          ],
-        },
-        {
-          id: 1,
-          name: "Audit in der C-Gruppe durch Auditor Tony Stark",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              text: "Layer 1",
-            },
-            {
-              id: 1,
-              type: "normal",
-              text: "Monatlich: 1. Woche",
-            },
-            {
-              id: 2,
-              type: "normal",
-              text: "5 Fragen",
-            },
-          ],
-        },
-        {
-          id: 2,
-          name: "Audit in der C-Gruppe durch Auditor Tony Stark",
-          listItems: [
-            {
-              id: 0,
-              type: "normal",
-              text: "Layer 1",
-            },
-            {
-              id: 1,
-              type: "normal",
-              text: "Jährlich: Jan, Feb",
-            },
-            {
-              id: 2,
-              type: "normal",
-              text: "5 Fragen",
-            },
-          ],
-        },
-      ],
+      plannedAudits: [] as PlannedAudit[],
       visibleTest: false,
     };
   },
@@ -361,6 +330,17 @@ export default defineComponent({
     },
     setAuditedUser(event: any) {
       this.audited_user_id = event;
+    },
+    concateRhythm(type: string, values: string[]) {
+      if (type === "weekly") {
+        return values.length + "x wöchentlich"
+      } else if (type === "monthly") {
+        return values.length + "x monatlich"
+      } else if (type === "yearly") {
+        return values.length + "x jährlich"
+      } else {
+        return "unknown";
+      }
     },
   },
 });

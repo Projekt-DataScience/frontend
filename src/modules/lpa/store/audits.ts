@@ -4,6 +4,7 @@ import { Audit } from "../interfaces/audit";
 import { User } from "../../../interfaces/user";
 import { AnswerReason } from "../interfaces/answerReason"
 import { Duration } from "../interfaces/duration";
+import { PlannedAudit } from "../interfaces/plannedAudit";
 import authHeader from "../../../services/auth-header";
 
 export interface PushAnswer {
@@ -25,7 +26,8 @@ export const useAudit = defineStore('Audit', {
         openAudits: [] as Audit[],
         durations: [] as Duration[],
         employees: [] as User[],
-        pushAnswer: [] as PushAnswer[]
+        pushAnswer: [] as PushAnswer[],
+        plannedAudits: [] as PlannedAudit[]
     }),
     actions: {
         async fetchAudit() {
@@ -112,6 +114,18 @@ export const useAudit = defineStore('Audit', {
                     authHeader()
                 );
                 this.openAudits = data.data;
+            } catch (error) {
+                alert(error);
+                console.log(error);
+            }
+        },
+        async fetchPlannedAudits() {
+            try {
+                const data = await axios.get(
+                    import.meta.env.VITE_GW_AUDIT_URL + "planned/user/" + this.currentUser,
+                    authHeader()
+                );
+                this.plannedAudits = data.data;
             } catch (error) {
                 alert(error);
                 console.log(error);
