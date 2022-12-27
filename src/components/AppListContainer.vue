@@ -1,5 +1,5 @@
 <template>
-  <div class="flex" :class="getAlignement()">
+  <div class="flex items-center" :class="getAlignement()">
     <div class="flex-none mr-2" v-if="hasWrapperLeftSlot()">
       <slot name="wrapperLeft"></slot>
     </div>
