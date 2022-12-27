@@ -1,0 +1,14 @@
+<svg id="AppLogout" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="27.218" height="27.218" viewBox="0 0 27.218 27.218">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rechteck_413" data-name="Rechteck 413" width="27.218" height="27.218" transform="translate(0 0)" fill="none"/>
+    </clipPath>
+  </defs>
+  <path id="Pfad_364" data-name="Pfad 364" d="M13.609,12.524v0Z" fill="#7b808a"/>
+  <g id="Gruppe_422" data-name="Gruppe 422">
+    <g id="Gruppe_421" data-name="Gruppe 421" clip-path="url(#clip-path)">
+      <line id="Linie_152" data-name="Linie 152" y2="11.524" transform="translate(13.609 1)" fill="none" stroke="#000" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>
+      <path id="Pfad_365" data-name="Pfad 365" d="M5.576,3.9a12.61,12.61,0,1,0,16.265.17" fill="none" stroke="#000" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

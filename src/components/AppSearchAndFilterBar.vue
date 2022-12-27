@@ -57,12 +57,12 @@
     <div class="flex-auto">
         <div class="flex justify-end mr-4">
             <div class="ml-4 flex items-center md:ml-5">
-            <slot name="wrapperRight" v-if="hasWrapperRight()"></slot>
-            <!--Notification Button-->
-            <AppButtonNotification></AppButtonNotification>
+              <slot name="wrapperRight" v-if="hasWrapperRight()"></slot>
+              <!--
+              <AppButtonNotification></AppButtonNotification>
 
-            <!-- Profile dropdown -->
-            <AppButtonProfile class="ml-5 mr-5"></AppButtonProfile>
+              
+              <AppButtonProfile class="ml-5 mr-5"></AppButtonProfile>-->
           </div>
         </div>
     </div>

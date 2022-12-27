@@ -35,7 +35,7 @@ export const useApplications = defineStore('Applications', {
             {
                 name: "Werkzeugausgabe",
                 icon: "wa",
-                favourite: true,
+                favourite: false,
                 available: false,
                 routerName: "Login"
             },
