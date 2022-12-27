@@ -1,0 +1,41 @@
+import { Layer } from "../../../interfaces/layer"
+import { Group } from "../../../interfaces/group"
+
+export interface AnswerByQuestion {
+    green: [
+        {
+            id: number,
+            audit_id: number,
+            question_id: number,
+            answer: string,
+            comment: string,
+            reason: {
+                description: string
+            },
+        }
+    ],
+    yellow: [
+        {
+            id: number,
+            audit_id: number,
+            question_id: number,
+            answer: string,
+            comment: string,
+            reason: {
+                description: string
+            },
+        }
+    ],
+    red: [
+        {
+            id: number,
+            audit_id: number,
+            question_id: number,
+            answer: string,
+            comment: string,
+            reason: {
+                description: string
+            },
+        }
+    ]
+}

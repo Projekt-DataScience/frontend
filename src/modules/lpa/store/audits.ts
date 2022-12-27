@@ -167,7 +167,7 @@ export const useAudit = defineStore('Audit', {
                 // replace answer_reason_id with integer
                 var tmpReason: number | null = 0;
                 if(this.audit.answers[i].answer !== "red"){
-                    tmpReason = 0;
+                    tmpReason = null;
                 }else{
                     tmpReason = parseInt(this.audit.answers[i].description);
                 }

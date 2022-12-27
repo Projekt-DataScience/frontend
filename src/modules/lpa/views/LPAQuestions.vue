@@ -30,8 +30,9 @@
             <!-- <LPAHistoryBar :answers="answers[index]"></LPAHistoryBar> -->
 
             <!-- Die Component sollte eig hier sein, aber aus Zeitgründen wird die HistoryBar verwendet
-              <LPAQuestionBar :green="22" :orange="22" :red="22"></LPAQuestionBar> 
+               
             -->
+            <LPAQuestionBar :green="item.answers.green.length" :yellow="item.answers.yellow.length" :red="item.answers.red.length"></LPAQuestionBar>
             <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
           </template>
         </AppListContainer>
@@ -55,6 +56,7 @@ import { useQuestions } from "../store/questions";
 import { useAnswers } from "../store/answers";
 import { Question } from "../interfaces/question";
 import { Answer } from "../interfaces/answer";
+import { QuestionAndAnswers } from "../interfaces/questionAndAnswers";
 
 export default defineComponent({
   name: "LPAQuestions",
@@ -71,7 +73,8 @@ export default defineComponent({
   async mounted() {
     const questionStore = useQuestions();
     await questionStore.fetchQuestions();
-    this.questions = questionStore.questions;
+    await questionStore.fetchAnswersPerQuestion();
+    this.questions = questionStore.questionsAndAnswers;
 
     // const answerStore = useAnswers();
     // await answerStore.fetchAnswers(this.questions, 10);
@@ -80,7 +83,7 @@ export default defineComponent({
   },
   data() {
     return {
-      questions: [] as Question[],
+      questions: [] as QuestionAndAnswers[],
       answers: [] as Answer[]
     }
   },
