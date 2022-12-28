@@ -627,6 +627,7 @@ export default defineComponent({
         parseInt(this.createAuditCurrentGroup),
         parseInt(this.createAuditCurrentNumber)
       );
+      this.closePopupCreateAudit();
     },
   },
 });
