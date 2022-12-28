@@ -1,8 +1,10 @@
 <template>
   <div class="w-full rounded-xl border-2 border-gray-200">
-    <div class="border-b-2 border-gray-200 px-6 py-4">
-      <slot v-if="hasHeaderSlot()" name="header"></slot>
-      <div v-else class="text-md font-semibold">{{ containerName }}</div>
+    <div v-if="hasHeaderSlot()" class="border-b-2 border-gray-200">
+      <slot name="header"></slot>
+    </div>
+    <div v-else class="border-b-2 border-gray-200 px-6 py-4">
+      <div class="text-md font-semibold">{{ containerName }}</div>
     </div>
     <div class="px-6 py-4">
       <slot name="content"></slot>

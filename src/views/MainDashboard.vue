@@ -95,7 +95,7 @@
       <AppContainer container-name="Aktuelle Aufgaben">
         <template #header>
           <div
-            class="flex items-center"
+            class="flex items-center px-6 py-4"
           >
             <div class="text-md font-semibold">Aktuelle Aufgaben</div>
             <div class="flex-auto">
