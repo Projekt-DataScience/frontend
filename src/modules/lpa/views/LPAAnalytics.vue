@@ -193,9 +193,9 @@ export default defineComponent({
             borderRadius: 0,
             dataLabels: {
               total: {
-                enabled: true,
+                enabled: false,
                 style: {
-                  fontSize: "13px",
+                  fontSize: "20px",
                   fontWeight: 900,
                 },
               },
@@ -205,6 +205,13 @@ export default defineComponent({
         xaxis: {
           type: "category",
           categories: [] as string[],
+          labels: {
+            style: {
+              fontSize: '16px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 400,
+            }
+          }
         },
         legend: {
           position: "right",
