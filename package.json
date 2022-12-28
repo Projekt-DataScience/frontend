@@ -9,11 +9,13 @@
     "preview": "vite preview --port 8000"
   },
   "dependencies": {
+    "apexcharts": "^3.36.3",
     "axios": "^1.2.0",
     "json-server": "^0.17.1",
     "pinia": "^2.0.23",
     "vue": "^3.2.41",
     "vue-router": "4",
+    "vue3-apexcharts": "^1.4.1",
     "yarn": "^1.22.19"
   },
   "devDependencies": {
