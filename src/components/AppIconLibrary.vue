@@ -703,6 +703,22 @@
       </g>
     </svg>
   </div>
+  <div v-if="icon === 'arrow'">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="14.515"
+      height="26.202"
+      viewBox="0 0 14.515 26.202"
+      :class="styling"
+    >
+      <path
+        id="AppArrow"
+        d="M0,0,12.394,12.394,24.788,0"
+        transform="translate(13.808 0.707) rotate(90)"
+        class="fill-none stroke-current stroke-2"
+      />
+    </svg>
+  </div>
   <div v-if="icon === 'history'">
     <svg
       xmlns="http://www.w3.org/2000/svg"

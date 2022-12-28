@@ -243,6 +243,31 @@ export const useAudit = defineStore('Audit', {
                 alert(error);
                 console.log(error);
             }
+        },
+        async createAdHocAudit(layerID: number, groupID: number, questionCount: number){
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+            var date = yyyy + "-" + mm + "-" + dd + "T00:00:00";
+
+            try {
+                const data = await axios.post(
+                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_audit/",
+                    {
+                        due_date: date,
+                        auditor: this.currentUser,
+                        assigned_group: groupID,
+                        assigned_layer: layerID,
+                        question_count: questionCount,
+                        algorithm: "weighted_sum"
+                    },
+                    authHeader()
+                );
+                console.log(data.data);
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 }

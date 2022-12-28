@@ -29,7 +29,7 @@
       rounded-md
       border-2 border-gray-300
       shadow-sm
-      focus:border-indigo-500 focus:ring-indigo-500
+      focus:border-primary-blue focus:ring-primary-blue
       sm:max-w-xs sm:text-sm
       mt-1
     ">
