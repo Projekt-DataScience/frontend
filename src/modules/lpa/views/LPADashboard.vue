@@ -57,7 +57,14 @@
         <div class="grid grid-cols-2 gap-6">
           <div class="col-span-1">
             <AppContainer containerName="Auditscore">
-              <template #content> Noch kein Inhalt </template>
+              <template #content>
+                <VueApexCharts
+                  height="300px"
+                  type="radialBar"
+                  :options="options"
+                  :series="series"
+                ></VueApexCharts>
+              </template>
             </AppContainer>
           </div>
           <div class="col-span-1">
@@ -234,6 +241,7 @@ import AppIconLibrary from "../../../components/AppIconLibrary.vue";
 import AppPopup from "../../../components/AppPopup.vue";
 import AppButtonSecondary from "../../../components/AppButtonSecondary.vue";
 import AppInputDropdown from "../../../components/AppInputDropdown.vue";
+import VueApexCharts from "vue3-apexcharts";
 
 import { useAudit } from "../store/audits";
 import { Audit } from "../interfaces/audit";
@@ -258,6 +266,7 @@ export default defineComponent({
     AppPopup,
     AppButtonSecondary,
     AppInputDropdown,
+    VueApexCharts,
   },
   async mounted() {
     this.enableScroll();
@@ -269,6 +278,10 @@ export default defineComponent({
     this.openAudits = store.openAudits;
     this.plannedAudits = store.plannedAudits;
     this.dataReady = true;
+
+    //fetch Audit Score
+    await store.fetchAuditScore();
+    this.series = store.series;
   },
   mixins: [concateStringMixin],
 
@@ -281,6 +294,27 @@ export default defineComponent({
       audited_user_id: 0,
       plannedAudits: [] as PlannedAudit[],
       visibleTest: false,
+      series: [] as number[],
+      options:{
+        plotOptions: {
+        radialBar: {
+          dataLabels: {
+            total: {
+              show: true,
+              label: "Total",
+              color: '#000000',
+              formatter: function (w) {
+                    return (w.globals.seriesTotals.reduce((a, b) => {
+                      return a + b
+                    }, 0) / w.globals.series.length).toFixed() + '%'
+                  }
+            },
+          },
+        },
+      },
+      labels: ["Grün", "Gelb", "Rot"],
+      colors: ["#1fd537", "#FFC537", "#E40010"],
+      }
     };
   },
   methods: {
@@ -333,11 +367,11 @@ export default defineComponent({
     },
     concateRhythm(type: string, values: string[]) {
       if (type === "weekly") {
-        return values.length + "x wöchentlich"
+        return values.length + "x wöchentlich";
       } else if (type === "monthly") {
-        return values.length + "x monatlich"
+        return values.length + "x monatlich";
       } else if (type === "yearly") {
-        return values.length + "x jährlich"
+        return values.length + "x jährlich";
       } else {
         return "unknown";
       }

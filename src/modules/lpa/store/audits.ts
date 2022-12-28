@@ -14,6 +14,17 @@ export interface PushAnswer {
     answer: number
 }
 
+export interface AuditScore {
+    month: number,
+    year: number,
+    num_green: number,
+    num_yellow: number,
+    num_red: number,
+    percent_green: number,
+    percent_yellow: number,
+    percent_red: number
+}
+
 export const useAudit = defineStore('Audit', {
     state: () => ({
         audit: {} as Audit,
@@ -27,9 +38,35 @@ export const useAudit = defineStore('Audit', {
         durations: [] as Duration[],
         employees: [] as User[],
         pushAnswer: [] as PushAnswer[],
-        plannedAudits: [] as PlannedAudit[]
+        plannedAudits: [] as PlannedAudit[],
+        series: [] as number[],
+        auditScore: [] as AuditScore[]
     }),
     actions: {
+        async fetchAuditScore() {
+            try {
+                const response = await axios.get(
+                    import.meta.env.VITE_GW_AUDIT_URL + "analytics/audits/" + this.currentUser,
+                    authHeader()
+                );
+                this.auditScore = response.data;
+
+                // calculate int percentage series
+                if(this.auditScore.length === 0){
+                    this.series = [0, 0, 0]
+                }else{
+                    var i = 0;
+                    var total = this.auditScore[i].num_green + this.auditScore[i].num_yellow + this.auditScore[i].num_red
+                    var green = Math.round(this.auditScore[i].num_green*100/total)
+                    var yellow = Math.round(this.auditScore[i].num_yellow*100/total)
+                    var red = Math.round(this.auditScore[i].num_red*100/total)
+                    this.series = [green, yellow, red ]
+                }
+            } catch (error) {
+                alert(error);
+                console.log(error);
+            }
+        },
         async fetchAudit() {
             try {
                 const response = await axios.get(
