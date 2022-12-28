@@ -4,12 +4,14 @@ import { Question } from "../interfaces/question";
 import authHeader from "../../../services/auth-header";
 import {QuestionAndAnswers} from "../interfaces/questionAndAnswers";
 import { AnswerByQuestion } from "../interfaces/answerByQuestion";
+import {QuestionCategory} from "../interfaces/questionCategory"
 
 export const useQuestions = defineStore('Questions', {
     state: () => ({
         questions: [] as Question[],
         questionsAndAnswers: [] as QuestionAndAnswers[],
-        numberOfAnswersLoaded: 5
+        numberOfAnswersLoaded: 5,
+        categorys: [] as QuestionCategory[]
     }),
     getters: {
         getQuestions(state) {
@@ -57,9 +59,36 @@ export const useQuestions = defineStore('Questions', {
                 )
             }
         },
-        setQuestions(questions: Question[]) {
-            this.questions = questions;
+        async fetchCategorys(){
+            try {
+                const response = await axios.get(
+                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_question_category/question_category/",
+                    authHeader()
+                );
+                this.categorys = response.data;
+            } catch (error) {
+                alert(error);
+                console.log(error);
+            }
         },
+        async createQuestion(layerID: number, groupID: number, categoryID: number, title: string, description: string){
+            try {
+                const response = await axios.post(
+                    import.meta.env.VITE_GW_AUDIT_URL + "lpa_question/",
+                    {
+                        group_id: groupID,
+                        layer_id: layerID,
+                        category_id: categoryID,
+                        question: title,
+                        description: description
+                    },
+                    authHeader()
+                );
+                console.log(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
     }
 }
 )
