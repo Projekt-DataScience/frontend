@@ -21,7 +21,7 @@
     <option value="Canada">Canada</option>
     <option value="Mexico">Mexico</option>
   </select>-->
-  <label class="block text-base text-gray-500">{{ headline }}</label>
+  <label v-if="headline" class="block text-base text-gray-500">{{ headline }}</label>
   <select @change="updateValue($event)" v-model="selectedOption" class="
       block
       w-full
@@ -51,7 +51,7 @@ export default defineComponent({
   props: {
     headline: {
       type: String,
-      required: true,
+      required: false,
     },
     name: {
       type: String,

@@ -1,7 +1,7 @@
 <template>
   <div class="mb-1">
     <router-link :to="{ name: routerName }">
-      <div class="flex rounded-md text-gray-400">
+      <div class="flex rounded-md text-gray-400 hover:text-gray-600">
         <div class="flex-none">
           <div class="inline-grid py-3 pl-3.5 pr-4">
             <AppIconLibrary :icon="iconName" styling="w-5! h-5!"></AppIconLibrary>

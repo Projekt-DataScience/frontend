@@ -2,7 +2,7 @@
   <div class="">
     <div class="grid grid-cols-2 border-b-2 border-gray-200 p-3">
       <div class="inline-grid">
-        <router-link :to="{ name: 'MainDashboard' }" class="flex text-gray-400">
+        <router-link :to="{ name: 'MainDashboard' }" class="flex text-gray-400 hover:text-gray-600">
           <AppIconLibrary icon="home"></AppIconLibrary>
           <div class="flex-initial text-sm font-semibold ml-2">Startseite</div>
         </router-link>
