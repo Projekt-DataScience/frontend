@@ -6,23 +6,13 @@ import { AnswerReason } from "../interfaces/answerReason"
 import { Duration } from "../interfaces/duration";
 import { PlannedAudit } from "../interfaces/plannedAudit";
 import authHeader from "../../../services/auth-header";
+import { AuditAnalytics } from "../interfaces/auditAnalytics";
 
 export interface PushAnswer {
     question_id: number,
     answer_reason_id: number | null,
     comment: string,
     answer: number
-}
-
-export interface AuditScore {
-    month: number,
-    year: number,
-    num_green: number,
-    num_yellow: number,
-    num_red: number,
-    percent_green: number,
-    percent_yellow: number,
-    percent_red: number
 }
 
 export const useAudit = defineStore('Audit', {
@@ -40,7 +30,7 @@ export const useAudit = defineStore('Audit', {
         pushAnswer: [] as PushAnswer[],
         plannedAudits: [] as PlannedAudit[],
         series: [] as number[],
-        auditScore: [] as AuditScore[]
+        auditScore: [] as AuditAnalytics[]
     }),
     actions: {
         async fetchAuditScore() {
