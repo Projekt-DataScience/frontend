@@ -106,7 +106,7 @@
         </AppSearchAndFilterBar>
       </template>
       <template #content>
-        <div class="grid grid-cols-2 gap-6 auto-rows-max">
+        <div class="grid grid-cols-3 gap-6 auto-rows-max">
           <div class="col-span-1">
             <AppContainer containerName="Auditscore">
               <template #content>
@@ -120,7 +120,7 @@
             </AppContainer>
           </div>
           <div
-            class="col-span-1 w-full rounded-xl border-2 border-gray-200 h-full"
+            class="col-span-2 w-full rounded-xl border-2 border-gray-200 h-full"
             id="newsBrick"
           >
             <!-- Temporäre Kachel - muss noch überarbeitet werden-->

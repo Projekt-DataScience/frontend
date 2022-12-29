@@ -35,12 +35,22 @@ class AuthService {
                 localStorage.setItem('user', JSON.stringify(response.data));
 
                 let cachedUser: CachedUser = response.data;
-                console.log("TestUserToken: " + cachedUser.token)
                 
 
                 // this.validateJWT(cachedUser);
+                try {
+                    const validate = await axios.get(
+                        API_URL + 'validateJWT/?jwt=' + cachedUser.token
+                    );
+                    this.validatedUser = validate.data;
+                    localStorage.setItem('userExpiration', JSON.stringify(response.data.payload.expires));
+                } catch (error) {
+                    alert(error);
+                    console.log(error);
+                }
 
-                 store.setLoggedIn(true);                
+
+                store.setLoggedIn(true);                
                 
                 // Ab Hier nur zum testen:
                 //this.checkIfLoggedIn()
