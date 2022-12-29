@@ -39,11 +39,11 @@ class AuthService {
 
                 // this.validateJWT(cachedUser);
                 try {
-                    const validate = await axios.get(
+                    const validate = await axios.post(
                         API_URL + 'validateJWT/?jwt=' + cachedUser.token
                     );
                     this.validatedUser = validate.data;
-                    localStorage.setItem('userExpiration', JSON.stringify(response.data.payload.expires));
+                    localStorage.setItem('userExpiration', JSON.stringify(this.validatedUser.payload.expires));
                 } catch (error) {
                     alert(error);
                     console.log(error);

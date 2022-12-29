@@ -22,10 +22,29 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   //const store = useUser();
   var cachedUser = JSON.parse(localStorage.getItem('user') || "{}") as CachedUser;
+
+  // check if token is expired
+  var expiration = JSON.parse(localStorage.getItem('userExpiration') || "{}") as string;
+  var isExpired = true;
+
+  if (!(JSON.stringify(expiration) === '{}')) {
+    // storage object exists
+    var today = new Date();
+    const timestampInSeconds = Math.floor(today.getTime() / 1000);
+
+    if (timestampInSeconds > parseInt(expiration)) {
+      //abgelaufen
+      isExpired = true;
+    } else {
+      //nicht abgelaufen
+      isExpired = false;
+    }
+  }
+
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    if (!(cachedUser.result === 1 )) {
+    if (!(cachedUser.result === 1) || isExpired === true) {
       next({ name: 'Login' })
     } else {
       next() // go to wherever I'm going
