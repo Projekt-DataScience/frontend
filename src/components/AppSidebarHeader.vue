@@ -1,8 +1,11 @@
 <template>
-  <div class="">
+  <div class="" v-if="isActive">
     <div class="grid grid-cols-2 border-b-2 border-gray-200 p-3">
       <div class="inline-grid">
-        <router-link :to="{ name: 'MainDashboard' }" class="flex text-gray-400 hover:text-gray-600">
+        <router-link
+          :to="{ name: 'MainDashboard' }"
+          class="flex text-gray-400 hover:text-gray-600"
+        >
           <AppIconLibrary icon="home"></AppIconLibrary>
           <div class="flex-initial text-sm font-semibold ml-2">Startseite</div>
         </router-link>
@@ -18,9 +21,12 @@
             px-1.5
             py-1
           "
-          @click="$emit('toggleSidebar')"
+          @click="toggleSidebar()"
         >
-          <AppIconLibrary icon="arrowsLeft" styling="text-gray-400 h-full w-full"></AppIconLibrary>
+          <AppIconLibrary
+            icon="arrowsLeft"
+            styling="text-gray-400 h-full w-full"
+          ></AppIconLibrary>
         </button>
       </div>
     </div>
@@ -48,6 +54,26 @@
       </div>
     </div>
   </div>
+  <div v-else class="">
+    <div class="border-b-2 border-gray-200 p-3 flex justify-center">
+      <button
+        class="inline-grid h-6 border-2 rounded-md border-gray-200 px-1.5 py-1"
+        @click="toggleSidebar()"
+      >
+        <AppIconLibrary
+          icon="arrowsLeft"
+          styling="text-gray-400 h-full w-full rotate-180"
+        ></AppIconLibrary>
+      </button>
+    </div>
+    <div class="flex justify-center p-3 border-b-2 border-gray-200">
+      <div class="bg-primary-blue rounded-md inline-grid">
+        <div class="text-white w-full h-full p-2">
+          <slot></slot>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -58,11 +84,10 @@ import AppIconLibrary from "./AppIconLibrary.vue";
 export default defineComponent({
   name: "LPASidebarHeader",
   components: {
-    AppIconLibrary
+    AppIconLibrary,
   },
   emits: {
     toggleSidebar: null,
-    toggleSidebarHeader: null,
   },
   mixins: [truncateStringMixin],
   props: {
@@ -77,8 +102,35 @@ export default defineComponent({
   },
   data() {
     return {
-      isActive: false,
+      isActive: true,
     };
+  },
+  mounted(){
+    var storageToggleSidebar = JSON.parse(
+        localStorage.getItem("toggleSidebarStatus") || "{}"
+      );
+
+    if(JSON.stringify(storageToggleSidebar) === '{}'){
+      // object is empty
+      console.log('is empty')
+      localStorage.setItem('toggleSidebarStatus', JSON.stringify(this.isActive));
+    }else{
+      // storage object exists
+      console.log(storageToggleSidebar)
+      this.isActive = storageToggleSidebar;
+    }
+  },
+  methods: {
+    async toggleSidebar() {
+      if (this.isActive === true) {
+        this.isActive = false;
+      } else {
+        this.isActive = true;
+      }
+      localStorage.setItem('toggleSidebarStatus', JSON.stringify(this.isActive));
+
+      this.$emit("toggleSidebar", this.isActive);
+    },
   },
 });
 </script>

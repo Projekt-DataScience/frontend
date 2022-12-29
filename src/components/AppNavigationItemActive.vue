@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-1">
+  <div class="mb-1" v-if="toggleIsActive">
       <div class="flex bg-cl-active rounded-md text-cl-black">
         <div class="flex-none">
           <div class="inline-grid py-3 pl-3.5 pr-4">
@@ -12,6 +12,13 @@
               {{ itemName }}
             </div>
           </div>
+        </div>
+      </div>
+  </div>
+  <div class="mb-1" v-else>
+      <div class="flex bg-cl-active rounded-md text-cl-black justify-center">
+        <div class="inline-grid py-3 pl-3.5 pr-4">
+          <AppIconLibrary :icon="iconName" styling="w-5! h-5!"></AppIconLibrary>
         </div>
       </div>
   </div>
@@ -38,6 +45,11 @@ export default defineComponent({
     iconName: {
       type: String,
       required: true
+    },
+    toggleIsActive: {
+      type: Boolean,
+      required: true,
+      default: true
     }
   },
 });
