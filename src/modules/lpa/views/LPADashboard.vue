@@ -169,7 +169,7 @@
                       ]"
                     ></AppListTextAndSubtext>
                   </div>
-                  <div class="p-6 flex gap-6">
+                  <div class="p-6 flex gap-6 items-center">
                     <!-- <div class="flex gap-4">
                       <div
                         class="
