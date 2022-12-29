@@ -126,12 +126,7 @@
             <!-- Temporäre Kachel - muss noch überarbeitet werden-->
             <div>
               <div class="border-b-2 border-gray-200 px-6 py-3 h-full">
-                <div
-                  class="
-                    flex
-                    items-center
-                  "
-                >
+                <div class="flex items-center">
                   <div class="text-md font-semibold">Neuigkeiten</div>
                   <div class="flex-auto">
                     <div class="flex justify-end items-center">
@@ -175,7 +170,7 @@
                     ></AppListTextAndSubtext>
                   </div>
                   <div class="p-6 flex gap-6">
-                    <div class="flex gap-4">
+                    <!-- <div class="flex gap-4">
                       <div
                         class="
                           border-4 border-cl-green
@@ -218,6 +213,14 @@
                       >
                         20%
                       </div>
+                    </div>-->
+                    <div>
+                      <VueApexCharts
+                        width="200px"
+                        type="radialBar"
+                        :options="testOptions"
+                        :series="testSeries"
+                      ></VueApexCharts>
                     </div>
                     <div>
                       <div class="pb-4 font-semibold text-base">
@@ -531,6 +534,34 @@ export default defineComponent({
         labels: ["Grün", "Gelb", "Rot"],
         colors: ["#1fd537", "#FFC537", "#E40010"],
       },
+      testOptions:{
+        chart: {
+              height: 100,
+              type: 'radialBar',
+            },
+            plotOptions: {
+              radialBar: {
+                hollow: {
+                  size: '50%',
+                  imageWidth: 150,
+                  imageHeight: 150
+                },
+                dataLabels:{
+                  show: true,
+                  name: {
+                    show: false
+                  },
+                  value: {
+                    offsetY: 5,
+                    fontSize: '16px'
+                  }
+              }
+              },
+            },
+            labels: ['Cricket'],
+            colors: ["#E40010"],
+      },
+      testSeries: [67],
     };
   },
   methods: {
