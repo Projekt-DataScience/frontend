@@ -15,7 +15,8 @@ export const useUser = defineStore('User', {
         validatedUser: {} as ValidatedUser,
         user: {} as User,
         layers: [] as Layer[],
-        groups: [] as Group[]
+        groups: [] as Group[],
+        toggleSidebarIsActive: true
     }),
     actions: {
         setLoggedIn(bool: boolean) {
@@ -63,6 +64,9 @@ export const useUser = defineStore('User', {
             }catch(error){
                 console.log(error);
             }
+        },
+        setToggleSidebarIsActive(status: boolean){
+            this.toggleSidebarIsActive = status;
         }
     },
     getters: {

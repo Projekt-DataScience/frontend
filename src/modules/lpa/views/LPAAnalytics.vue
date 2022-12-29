@@ -9,7 +9,7 @@
       <div class="flex items-center m-6">
         <div class="font-semibold text-lg">Auswertungen</div>
         <div class="flex-auto">
-          <div class="flex justify-end">
+          <div class="flex justify-end mr-6">
             <AppInputDropdown
               name="description"
               :options="options"

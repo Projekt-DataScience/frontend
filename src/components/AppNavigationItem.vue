@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-1">
+  <div class="mb-1" v-if="toggleIsActive">
     <router-link :to="{ name: routerName }">
       <div class="flex rounded-md text-gray-400 hover:text-gray-600">
         <div class="flex-none">
@@ -13,6 +13,15 @@
               {{ itemName }}
             </div>
           </div>
+        </div>
+      </div>
+    </router-link>
+  </div>
+  <div class="mb-1" v-else>
+    <router-link :to="{ name: routerName }">
+      <div class="flex rounded-md text-gray-400 hover:text-gray-600 justify-center">
+        <div class="inline-grid py-3 pl-3.5 pr-4">
+          <AppIconLibrary :icon="iconName" styling="w-5! h-5!"></AppIconLibrary>
         </div>
       </div>
     </router-link>
@@ -44,6 +53,11 @@ export default defineComponent({
     iconName: {
       type: String,
       required: true
+    },
+    toggleIsActive: {
+      type: Boolean,
+      required: true,
+      default: true
     }
   },
 });
