@@ -51,19 +51,41 @@
             <div v-for="(item, index) in layers" :key="index">
               <AppContainer containerName="Layer">
                 <template #content>
-                  <div class="flex">
-                    <AppListTextWithDividerLine
-                    :isLast="false"
-                    :boldText="item.layer_name"
-                  ></AppListTextWithDividerLine>
-                  <AppListTextWithDividerLine
-                    :isLast="false"
-                    :text="item.layer_name"
-                  ></AppListTextWithDividerLine>
-                  <AppListTextWithDividerLine
-                    :isLast="true"
-                    :text="item.layer_name"
-                  ></AppListTextWithDividerLine>
+                  <div
+                    v-for="(items, index2) in getPlannedByLayer(item.id)"
+                    :key="index2"
+                  >
+                    <AppListContainer
+                      :isLast="getIsLast(items, getPlannedByLayer(item.id))"
+                    >
+                      <template #wrapperContent>
+                        <div class="flex">
+                          <AppListTextWithDividerLine
+                            :isLast="false"
+                            :boldText="items.group.group_name"
+                          ></AppListTextWithDividerLine>
+                          <AppListTextWithDividerLine
+                            :isLast="false"
+                            :text="
+                              concateRhythm(items.recurrence_type, items.values)
+                            "
+                          ></AppListTextWithDividerLine>
+                          <AppListTextWithDividerLine
+                            :isLast="true"
+                            :text="
+                              concateStrings(
+                                items.question_count.toString(),
+                                ' Fragen'
+                              )
+                            "
+                          ></AppListTextWithDividerLine>
+                        </div>
+                      </template>
+                      <template #wrapperRight>
+                        <AppButtonOption v-bind:is-vertical="true">
+                        </AppButtonOption>
+                      </template>
+                    </AppListContainer>
                   </div>
                 </template>
                 <template #header>
@@ -71,10 +93,7 @@
                     <div class="text-md font-semibold flex">
                       <div class="text-primary-blue">
                         {{
-                          concateStrings(
-                            "Layer ",
-                            item.layer_number.toString()
-                          )
+                          concateStrings("Layer ", item.layer_number.toString())
                         }}
                       </div>
                       <div class="ml-4">{{ item.layer_name }}</div>
@@ -110,11 +129,13 @@ import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue
 import { Layer } from "../../../interfaces/layer";
 import { useUser } from "../../../store/user";
 import AppContainer from "../../../components/AppContainer.vue";
-import { concateStringMixin } from "../../../mixins/stringMixin";
+import { concateStringMixin, germanDateStrings } from "../../../mixins/stringMixin";
 import { getIsLast } from "../../../mixins/arrayMixin";
 import AppButtonAdd from "../../../components/AppButtonAdd.vue";
 import AppButtonOption from "../../../components/AppButtonOption.vue";
 import AppListTextWithDividerLine from "../../../components/AppListTextWithDividerLine.vue";
+import { useAudit } from "../store/audits";
+import AppListContainer from "../../../components/AppListContainer.vue";
 
 export default defineComponent({
   name: "LPAConfiguration",
@@ -125,14 +146,24 @@ export default defineComponent({
     AppContainer,
     AppButtonAdd,
     AppButtonOption,
-    AppListTextWithDividerLine
+    AppListTextWithDividerLine,
+    AppListContainer,
   },
-  mixins: [concateStringMixin, getIsLast],
+  mixins: [concateStringMixin, getIsLast, germanDateStrings],
+  setup() {
+    const auditStore = useAudit();
+
+    return { getPlannedByLayer: auditStore.getPlannedByLayer };
+  },
   async mounted() {
     //fetch Layers from User Store
     const userStore = useUser();
     await userStore.fetchLayers();
     this.layers = userStore.layers.reverse();
+
+    // fetch all planned audits
+    const auditStore = useAudit();
+    await auditStore.fetchAllPlannedAudits();
 
     // render page
     this.dataReady = true;
@@ -169,11 +200,32 @@ export default defineComponent({
     },
     concateRhythm(type: string, values: string[]) {
       if (type === "weekly") {
-        return values.length + "x wöchentlich";
+        var tmp = "";
+        for (let i = 0; i < values.length; i++) {
+          tmp = tmp + this.getGermanWeekdayValuesShort(values[i]);
+          if(i !== values.length-1){
+            tmp = tmp + ", "
+          }
+        }
+        return "wöchentlich: " + tmp;
       } else if (type === "monthly") {
-        return values.length + "x monatlich";
+        var tmp = "";
+        for (let i = 0; i < values.length; i++) {
+          tmp = tmp + values[i] + ".";
+          if(i !== values.length-1){
+            tmp = tmp + ", "
+          }
+        }
+        return "monatlich: " + tmp;
       } else if (type === "yearly") {
-        return values.length + "x jährlich";
+        var tmp = "";
+        for (let i = 0; i < values.length; i++) {
+          tmp = tmp + this.getGermanMonthValuesShort(values[i]);
+          if(i !== values.length-1){
+            tmp = tmp + ", "
+          }
+        }
+        return "jährlich: " + tmp;
       } else {
         return "unknown";
       }

@@ -85,6 +85,35 @@ export const germanDateStrings={
               return "unkown"
             }
           },
+          getGermanMonthValuesShort(month: string){
+            if(month === "january"){
+              return "Jan"
+            }else if(month === "february"){
+              return "Feb"
+            }else if(month === "march"){
+              return "Mär"
+            }else if(month === "april"){
+              return "Apr"
+            }else if(month === "may"){
+              return "Mai"
+            }else if(month === "june"){
+              return "Jun"
+            }else if(month === "july"){
+              return "Jul"
+            }else if(month === "august"){
+              return "Aug"
+            }else if(month === "september"){
+              return "Sep"
+            }else if(month === "october"){
+              return "Okt"
+            }else if(month === "november"){
+              return "Nov"
+            }else if(month === "december"){
+              return "Dez"
+            }else{
+              return "unkown"
+            }
+          },
           getGermanWeekdayValues(day: string){
             if(day === "monday"){
               return "Montag"
@@ -100,6 +129,25 @@ export const germanDateStrings={
               return "Samstag"
             }else if(day === "sunday"){
               return "Sonntag"
+            }else{
+              return "unkown"
+            }
+          },
+          getGermanWeekdayValuesShort(day: string){
+            if(day === "monday"){
+              return "Mo"
+            }else if(day === "tuesday"){
+              return "Di"
+            }else if(day === "wednesday"){
+              return "Mi"
+            }else if(day === "thursday"){
+              return "Do"
+            }else if(day === "friday"){
+              return "Fr"
+            }else if(day === "saturday"){
+              return "Sa"
+            }else if(day === "sunday"){
+              return "So"
             }else{
               return "unkown"
             }
