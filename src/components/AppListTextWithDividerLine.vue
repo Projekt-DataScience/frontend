@@ -11,7 +11,8 @@
         <div class="text-gray-400 text-sm text-semibold" v-if="subtext">
           {{ subtext }}
         </div>
-        <div class="text-base">{{ text }}</div>
+        <div class="font-base" v-if="text">{{ text }}</div>
+        <div class="font-semibold" v-if="boldText">{{ boldText }}</div>
       </div>
     </div>
 
@@ -40,7 +41,7 @@ export default defineComponent({
   props: {
     text: {
       type: String,
-      required: true,
+      required: false,
     },
     isLast: {
       type: Boolean,
@@ -58,6 +59,10 @@ export default defineComponent({
       type: String,
       required: false,
     },
+    boldText:{
+      type: String,
+      required: false
+    }
   },
   methods: {},
 });

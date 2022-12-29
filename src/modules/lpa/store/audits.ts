@@ -30,8 +30,14 @@ export const useAudit = defineStore('Audit', {
         pushAnswer: [] as PushAnswer[],
         plannedAudits: [] as PlannedAudit[],
         series: [] as number[],
-        auditScore: [] as AuditAnalytics[]
+        auditScore: [] as AuditAnalytics[],
+        allPlannedAudits: [] as PlannedAudit[]
     }),
+    getters:{
+        getPlannedByLayer(state){
+            return (layerID:number) => state.allPlannedAudits.filter(allPlannedAudits => allPlannedAudits.layer.id == layerID);
+        }
+    },
     actions: {
         async fetchAuditScore() {
             try {
@@ -141,18 +147,6 @@ export const useAudit = defineStore('Audit', {
                     authHeader()
                 );
                 this.openAudits = data.data;
-            } catch (error) {
-                alert(error);
-                console.log(error);
-            }
-        },
-        async fetchPlannedAudits() {
-            try {
-                const data = await axios.get(
-                    import.meta.env.VITE_GW_AUDIT_URL + "planned/user/" + this.currentUser,
-                    authHeader()
-                );
-                this.plannedAudits = data.data;
             } catch (error) {
                 alert(error);
                 console.log(error);
@@ -268,7 +262,31 @@ export const useAudit = defineStore('Audit', {
             } catch (error) {
                 console.log(error);
             }
-        }
+        },
+        async fetchAllPlannedAudits(){
+            try {
+                const data = await axios.get(
+                    import.meta.env.VITE_GW_AUDIT_URL + "planned/",
+                    authHeader()
+                );
+                this.allPlannedAudits = data.data;
+            } catch (error) {
+                alert(error);
+                console.log(error);
+            }
+        },
+        async fetchPlannedAudits() {
+            try {
+                const data = await axios.get(
+                    import.meta.env.VITE_GW_AUDIT_URL + "planned/user/" + this.currentUser,
+                    authHeader()
+                );
+                this.plannedAudits = data.data;
+            } catch (error) {
+                alert(error);
+                console.log(error);
+            }
+        },
     }
 }
 )
