@@ -43,6 +43,7 @@ class AuthService {
                         API_URL + 'validateJWT/?jwt=' + cachedUser.token
                     );
                     this.validatedUser = validate.data;
+                    localStorage.setItem('toggleSidebarStatus', JSON.stringify(true));
                     localStorage.setItem('userExpiration', JSON.stringify(this.validatedUser.payload.expires));
                 } catch (error) {
                     alert(error);
