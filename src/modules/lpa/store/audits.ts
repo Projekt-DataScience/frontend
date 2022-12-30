@@ -263,6 +263,26 @@ export const useAudit = defineStore('Audit', {
                 console.log(error);
             }
         },
+        async createPlannedAudit(){
+            try {
+                const data = await axios.post(
+                    import.meta.env.VITE_GW_AUDIT_URL + "planned/",
+                    {
+                        id: 200,
+                        auditor_id: 3,
+                        group_id: 1,
+                        layer_id: 1,
+                        question_count: 5,
+                        recurrence_type: "weekly",
+                        values: ["monday", "wednesday"]
+                    },
+                    authHeader()
+                );
+                console.log(data.data);
+            } catch (error) {
+                console.log(error);
+            }
+        },
         async fetchAllPlannedAudits(){
             try {
                 const data = await axios.get(

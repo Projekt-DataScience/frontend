@@ -504,6 +504,7 @@ export default defineComponent({
       visibleStartAudit: false,
       visibleCreateAudit: false,
       series: [] as number[],
+      tmpSeries: [70, 40, 30] as number[],
       createAuditLayer: [] as AnswerReason[],
       createAuditCurrentLayer: "",
       createAuditGroup: [] as AnswerReason[],
