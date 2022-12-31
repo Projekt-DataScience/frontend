@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import { AppIconLibrary } from "../components"; 
+import AppIconLibrary from "./AppIconLibrary.vue";
 
 export default defineComponent({
   name: "AppButtonAdd",

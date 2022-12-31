@@ -75,19 +75,19 @@
   
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import { AppIconLibrary } from "../components";
-import { useTasks } from "../stores";
-import { Task } from "../interfaces";
+import AppIconLibrary from "./AppIconLibrary.vue";
+import { useTasks } from "../stores/tasks"; 
+import { Task } from "../interfaces/task";
 
-import { stringMixin } from "../mixins";
-import { AppTaskList } from "../components";
-import { AppListContainer } from "../components";
-import { AppButtonOption } from "../components";
-import { AppButtonTertiary } from "../components";
+import { concateStringMixin, changeAppName } from "../mixins/stringMixin";
+import AppTaskList from "./AppTaskList.vue";
+import AppListContainer from "./AppListContainer.vue";
+import AppButtonOption from "./AppButtonOption.vue";
+import AppButtonTertiary from "./AppButtonTertiary.vue";
 
 export default defineComponent({
   name: "AppButtonNotification",
-  mixins: [stringMixin.concateStringMixin, stringMixin.changeAppName],
+  mixins: [concateStringMixin, changeAppName],
   components: {
     AppIconLibrary,
     AppTaskList,

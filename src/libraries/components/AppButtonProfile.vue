@@ -87,11 +87,11 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import { authService } from "../services";
-import { AppButtonThemeToggle } from "../components";
-import { AppIconLibrary } from "../components";
-import { User } from "../interfaces";
-import { useUser } from "../stores";
+import authService from "../services/authService";
+import AppButtonThemeToggle from "./AppButtonThemeToggle.vue";
+import AppIconLibrary from "./AppIconLibrary.vue";
+import { User } from "../interfaces/user";
+import { useUser } from "../stores/user";
 
 export default defineComponent({
   name: "AppButtonProfile",

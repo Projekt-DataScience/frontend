@@ -58,7 +58,7 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
  
-import { stringMixin } from "../mixins";
+import { truncateStringMixin } from "../mixins/stringMixin";
 import AppIconLibrary from "./AppIconLibrary.vue";
 
 export default defineComponent({
@@ -71,7 +71,7 @@ export default defineComponent({
     toggleSidebarHeader: null
   },
   mixins: [
-    stringMixin.truncateStringMixin
+    truncateStringMixin
   ],
   props: {
     brandingName: {
