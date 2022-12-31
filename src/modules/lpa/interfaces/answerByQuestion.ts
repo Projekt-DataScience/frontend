@@ -1,6 +1,3 @@
-import { Layer } from "../../../interfaces/layer"
-import { Group } from "../../../interfaces/group"
-
 export interface AnswerByQuestion {
     green: [
         {

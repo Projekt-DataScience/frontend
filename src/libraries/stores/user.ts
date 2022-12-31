@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
-import AuthService from "../services/auth.service";
-import { CachedUser, ValidatedUser } from "../services/types";
-import { User } from "../interfaces/user";
-import { Layer } from "../interfaces/layer";
+import authService from "../services/authService"; 
+import { CachedUser, ValidatedUser } from "../services/types"; 
+import { User } from "../interfaces/user"; 
+import { Layer } from "../interfaces/layer"; 
 import axios from 'axios';
-import authHeader from "../services/auth-header";
-import { Group } from "../interfaces/group";
+import authHeader from "../services/authHeader"; 
+import { Group } from "../interfaces/group"; 
 
 const API_URL = import.meta.env.VITE_GW_USERMANAGEMENT_URL;
 
@@ -72,7 +72,7 @@ export const useUser = defineStore('User', {
     getters: {
         getIsLoggedIn(state) {
             var cachedUser: CachedUser = (JSON.parse(localStorage.getItem('user') || '{}'));
-            AuthService.validateJWT(cachedUser);
+            authService.validateJWT(cachedUser);
             if (state.validatedUser.result === 1) {
                 state.loggedIn = true;
             }

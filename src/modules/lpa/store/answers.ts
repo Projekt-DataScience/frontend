@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import axios from 'axios';
 import { Answer } from "../interfaces/answer";
 import { Question } from "../interfaces/question";
-import authHeader from "../../../services/auth-header";
+import { authHeader } from "../../../libraries/services";
 
 export const useAnswers = defineStore('Answers', {
     state: () => ({

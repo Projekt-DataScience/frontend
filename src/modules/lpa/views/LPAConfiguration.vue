@@ -21,22 +21,13 @@
                 <nav class="-mb-px flex space-x-8" aria-label="Tabs">
                   <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
 
-                  <button
-                    href="#"
-                    class="whitespace-nowrap py-4 px-1 text-sm"
-                    :class="getActiveTab('planned')"
-                    @click="setActiveTab('planned')"
-                    aria-current="page"
-                  >
+                  <button href="#" class="whitespace-nowrap py-4 px-1 text-sm" :class="getActiveTab('planned')"
+                    @click="setActiveTab('planned')" aria-current="page">
                     Geplante Audits
                   </button>
 
-                  <button
-                    href="#"
-                    class="whitespace-nowrap py-4 px-1 text-sm"
-                    :class="getActiveTab('settings')"
-                    @click="setActiveTab('settings')"
-                  >
+                  <button href="#" class="whitespace-nowrap py-4 px-1 text-sm" :class="getActiveTab('settings')"
+                    @click="setActiveTab('settings')">
                     Einstellungen
                   </button>
                 </nav>
@@ -51,34 +42,21 @@
             <div v-for="(item, index) in layers" :key="index">
               <AppContainer containerName="Layer">
                 <template #content>
-                  <div
-                    v-for="(items, index2) in getPlannedByLayer(item.id)"
-                    :key="index2"
-                  >
-                    <AppListContainer
-                      :isLast="getIsLast(items, getPlannedByLayer(item.id))"
-                    >
+                  <div v-for="(items, index2) in getPlannedByLayer(item.id)" :key="index2">
+                    <AppListContainer :isLast="getIsLast(items, getPlannedByLayer(item.id))">
                       <template #wrapperContent>
                         <div class="flex">
-                          <AppListTextWithDividerLine
-                            :isLast="false"
-                            :boldText="items.group.group_name"
-                          ></AppListTextWithDividerLine>
-                          <AppListTextWithDividerLine
-                            :isLast="false"
-                            :text="
-                              concateRhythm(items.recurrence_type, items.values)
-                            "
-                          ></AppListTextWithDividerLine>
-                          <AppListTextWithDividerLine
-                            :isLast="true"
-                            :text="
-                              concateStrings(
-                                items.question_count.toString(),
-                                ' Fragen'
-                              )
-                            "
-                          ></AppListTextWithDividerLine>
+                          <AppListTextWithDividerLines :isLast="false" :boldText="items.group.group_name">
+                          </AppListTextWithDividerLines>
+                          <AppListTextWithDividerLines :isLast="false" :text="
+  concateRhythm(items.recurrence_type, items.values)
+"></AppListTextWithDividerLines>
+                          <AppListTextWithDividerLines :isLast="true" :text="
+  concateStrings(
+    items.question_count.toString(),
+    ' Fragen'
+  )
+"></AppListTextWithDividerLines>
                         </div>
                       </template>
                       <template #wrapperRight>
@@ -93,8 +71,8 @@
                     <div class="text-md font-semibold flex">
                       <div class="text-primary-blue">
                         {{
-                          concateStrings("Layer ", item.layer_number.toString())
-                        }}
+    concateStrings("Layer ", item.layer_number.toString())
+}}
                       </div>
                       <div class="ml-4">{{ item.layer_name }}</div>
                     </div>
@@ -124,18 +102,17 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import LPASidebar from "../components/LPASidebar.vue";
-import AppPageLayout from "../../../components/AppPageLayout.vue";
-import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
-import { Layer } from "../../../interfaces/layer";
-import { useUser } from "../../../store/user";
-import AppContainer from "../../../components/AppContainer.vue";
-import { concateStringMixin, germanDateStrings } from "../../../mixins/stringMixin";
-import { getIsLast } from "../../../mixins/arrayMixin";
-import AppButtonAdd from "../../../components/AppButtonAdd.vue";
-import AppButtonOption from "../../../components/AppButtonOption.vue";
-import AppListTextWithDividerLine from "../../../components/AppListTextWithDividerLine.vue";
+import {
+  AppPageLayout, AppSearchAndFilterBar, AppContainer, AppButtonAdd,
+  AppButtonOption, AppListTextWithDividerLines, AppListContainer
+}
+  from "../../../libraries/components";
+import { Layer } from "../../../libraries/interfaces";
+import { useUser } from "../../../libraries/stores";
+import { stringMixin } from "../../../libraries/mixins";
+import { arrayMixin } from "../../../libraries/mixins";
 import { useAudit } from "../store/audits";
-import AppListContainer from "../../../components/AppListContainer.vue";
+
 
 export default defineComponent({
   name: "LPAConfiguration",
@@ -146,10 +123,10 @@ export default defineComponent({
     AppContainer,
     AppButtonAdd,
     AppButtonOption,
-    AppListTextWithDividerLine,
+    AppListTextWithDividerLines,
     AppListContainer,
   },
-  mixins: [concateStringMixin, getIsLast, germanDateStrings],
+  mixins: [stringMixin.concateStringMixin, arrayMixin.getIsLast, stringMixin.germanDateStrings],
   setup() {
     const auditStore = useAudit();
 
@@ -203,7 +180,7 @@ export default defineComponent({
         var tmp = "";
         for (let i = 0; i < values.length; i++) {
           tmp = tmp + this.getGermanWeekdayValuesShort(values[i]);
-          if(i !== values.length-1){
+          if (i !== values.length - 1) {
             tmp = tmp + ", "
           }
         }
@@ -212,7 +189,7 @@ export default defineComponent({
         var tmp = "";
         for (let i = 0; i < values.length; i++) {
           tmp = tmp + values[i] + ".";
-          if(i !== values.length-1){
+          if (i !== values.length - 1) {
             tmp = tmp + ", "
           }
         }
@@ -221,7 +198,7 @@ export default defineComponent({
         var tmp = "";
         for (let i = 0; i < values.length; i++) {
           tmp = tmp + this.getGermanMonthValuesShort(values[i]);
-          if(i !== values.length-1){
+          if (i !== values.length - 1) {
             tmp = tmp + ", "
           }
         }

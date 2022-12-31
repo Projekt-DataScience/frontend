@@ -1,5 +1,4 @@
-import { Layer } from "../../../interfaces/layer"
-import { Group } from "../../../interfaces/group"
+import {Layer, Group} from "../../../libraries/interfaces"
 import { QuestionCategory } from "./questionCategory"
 import { AnswerByQuestion } from "./answerByQuestion"
 

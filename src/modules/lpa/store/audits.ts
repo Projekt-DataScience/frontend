@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 import axios from 'axios';
 import { Audit } from "../interfaces/audit";
-import { User } from "../../../interfaces/user";
+import { User } from "../../../libraries/interfaces/user";
 import { AnswerReason } from "../interfaces/answerReason"
 import { Duration } from "../interfaces/duration";
 import { PlannedAudit } from "../interfaces/plannedAudit";
-import authHeader from "../../../services/auth-header";
+import { authHeader } from "../../../libraries/services";
 import { AuditAnalytics } from "../interfaces/auditAnalytics";
 
 export interface PushAnswer {

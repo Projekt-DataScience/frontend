@@ -289,10 +289,10 @@
 import { ref, defineComponent } from "vue";
 import AppIconLibrary from "../components/AppIconLibrary.vue";
 import { User } from "../interfaces/user";
-import { useUser } from "../store/user";
+import { useUser } from "../stores";
 import AppButtonThemeToggle from "../components/AppButtonThemeToggle.vue";
-import authService from "../services/auth.service";
-import { useTasks } from "../store/tasks";
+import authService from "../services/authService";
+import { useTasks } from "../stores";
 import { Task } from "../interfaces/task";
 
 import { concateStringMixin, changeAppName } from "../mixins/stringMixin";

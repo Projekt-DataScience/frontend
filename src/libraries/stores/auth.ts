@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import AuthService from "../services/auth.service";
-import { CachedUser } from "../services/types";
+import AuthService from "../services/authService";
+import { CachedUser } from "../services/types"; 
 import { User } from "../interfaces/user";
 
 export const useAuth = defineStore('Auth', {

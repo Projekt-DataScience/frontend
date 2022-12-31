@@ -55,14 +55,14 @@
         </button>
       </div>
       <div class="p-7 border-b-2 border-gray-200" v-if="statusIsRed()">
-        <AppInputDropdown
+        <AppInputDropDown
           headline="Abweichungsgrund"
           name="description"
           :options="options"
           initialOption="-- Grund auswählen --"
           :currentValue="currentAnswer.description"
           v-on:input="setReasonByDropdown($event)"
-        ></AppInputDropdown>
+        ></AppInputDropDown>
         <div class="pt-6">
           <AppInputBigTextField
             headline="Beschreibung der Abweichung"
@@ -115,25 +115,25 @@
         </div>
         <div class="flex items-center m-6">
           <!--Auditor-->
-          <AppListTextWithDividerLine
+          <AppListTextWithDividerLines
             :text="
               concateStrings(audit.auditor.first_name, audit.auditor.last_name)
             "
             subtext="Auditor"
             :imgPath="audit.auditor.profile_picture_url"
             v-bind:isLast="false"
-          ></AppListTextWithDividerLine>
+          ></AppListTextWithDividerLines>
           <!--Befragter-->
-          <AppListTextWithDividerLine
+          <AppListTextWithDividerLines
             :text="
               concateStrings(audited_user.first_name, audited_user.last_name)
             "
             subtext="Befragter"
             :imgPath="audited_user.profile_picture_url"
             v-bind:isLast="false"
-          ></AppListTextWithDividerLine>
+          ></AppListTextWithDividerLines>
           <!--Layer-->
-          <AppListTextWithDividerLine
+          <AppListTextWithDividerLines
             :text="
               concateStrings(
                 'Layer',
@@ -142,19 +142,19 @@
             "
             subtext="Layer"
             v-bind:isLast="false"
-          ></AppListTextWithDividerLine>
+          ></AppListTextWithDividerLines>
           <!--Gruppe-->
-          <AppListTextWithDividerLine
+          <AppListTextWithDividerLines
             :text="audit.assigned_group.group_name"
             subtext="Gruppe"
             v-bind:isLast="false"
-          ></AppListTextWithDividerLine>
+          ></AppListTextWithDividerLines>
           <!--Fälligkeit-->
-          <AppListTextWithDividerLine
+          <AppListTextWithDividerLines
             :text="stringToDateLongWeekday(audit.due_date)"
             subtext="Fälligkeit"
             v-bind:isLast="true"
-          ></AppListTextWithDividerLine>
+          ></AppListTextWithDividerLines>
         </div>
       </template>
       <template #content>
@@ -168,14 +168,14 @@
               ></AppIconLibrary>
             </template>
             <template #wrapperContent>
-              <AppListTextAndSubtext
+              <AppListTextAndSubText
                 :text="items.question"
                 :subtext="[
                   {
                     text: items.category.category_name,
                   },
                 ]"
-              ></AppListTextAndSubtext>
+              ></AppListTextAndSubText>
             </template>
             <template #wrapperRight>
               <AppButtonTertiary
@@ -204,28 +204,20 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import AppPageLayout from "../../../components/AppPageLayout.vue";
+import { AppPageLayout, AppButtonPrimary, AppButtonSecondary, AppListTextWithDividerLines, 
+  AppListContainer, AppIconLibrary, AppListTextAndSubText, AppButtonTertiary, AppPopup, 
+  AppInputBigTextField, AppInputDropDown } from "../../../libraries/components";
 import LPASidebar from "../components/LPASidebar.vue";
 import LPAAuditHeader from "../../../components/AppSearchAndFilterBar.vue";
-import AppButtonPrimary from "../../../components/AppButtonPrimary.vue";
-import AppButtonSecondary from "../../../components/AppButtonSecondary.vue";
-import AppListTextWithDividerLine from "../../../components/AppListTextWithDividerLine.vue";
-import { getIsLast } from "../../../mixins/arrayMixin";
-import {
-  concateStringMixin,
-  stringToDateMixin,
-} from "../../../mixins/stringMixin";
-import AppListContainer from "../../../components/AppListContainer.vue";
-import AppIconLibrary from "../../../components/AppIconLibrary.vue";
-import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
-import AppButtonTertiary from "../../../components/AppButtonTertiary.vue";
-import AppPopup from "../../../components/AppPopup.vue";
-import AppInputBigTextField from "../../../components/AppInputBigTextField.vue";
-import AppInputDropdown from "../../../components/AppInputDropdown.vue";
+
+import { arrayMixin } from "../../../libraries/mixins";
+import { stringMixin } from "../../../libraries/mixins";
+
+
 
 import { useAudit } from "../store/audits";
 import { Audit } from "../interfaces/audit";
-import { User } from "../../../interfaces/user";
+import { User } from "../../../libraries/interfaces";
 import { Question } from "../interfaces/question";
 import { AnswerReason } from "../interfaces/answerReason";
 import { Answer } from "../interfaces/answer";
@@ -238,14 +230,14 @@ export default defineComponent({
     LPASidebar,
     AppButtonPrimary,
     AppButtonSecondary,
-    AppListTextWithDividerLine,
+    AppListTextWithDividerLines,
     AppListContainer,
     AppIconLibrary,
-    AppListTextAndSubtext,
+    AppListTextAndSubText,
     AppButtonTertiary,
     AppPopup,
     AppInputBigTextField,
-    AppInputDropdown,
+    AppInputDropDown,
   },
   async mounted() {
     // enable scroll if disabled from page before
@@ -271,7 +263,7 @@ export default defineComponent({
     // set first timer with context overview
     this.startTimer("overview");
   },
-  mixins: [getIsLast, stringToDateMixin, concateStringMixin],
+  mixins: [arrayMixin.getIsLast, stringMixin.stringToDateMixin, stringMixin.concateStringMixin],
   data() {
     return {
       audit: {} as Audit,

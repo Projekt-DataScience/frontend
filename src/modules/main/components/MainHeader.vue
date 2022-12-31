@@ -19,9 +19,7 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 
-import AppButtonProfile from "./AppButtonProfile.vue";
-import AppButtonNotification from "./AppButtonNotification.vue";
-
+import { AppButtonProfile, AppButtonNotification } from "../../../libraries/components";
 
 export default defineComponent({
     name: "MainHeader",

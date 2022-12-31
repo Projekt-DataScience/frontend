@@ -14,7 +14,7 @@
             <AppIconLibrary icon="lpaStatus" :type="getAuditStatus(item)" styling="h-10"></AppIconLibrary>
           </template>
           <template #wrapperContent>
-            <AppListTextAndSubtext :text="getAuditText(item)" :subtext="[
+            <AppListTextAndSubText :text="getAuditText(item)" :subtext="[
               {
                 text: item.assigned_layer.layer_name
               },
@@ -27,7 +27,7 @@
               {
                 text: seconds2time(item.duration)
               }
-            ]"></AppListTextAndSubtext>
+            ]"></AppListTextAndSubText>
           </template>
           <template #wrapperRight>
             <LPAHistoryBar :answers="item.answers"></LPAHistoryBar>
@@ -42,14 +42,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import LPASidebar from "../components/LPASidebar.vue";
-import AppPageLayout from "../../../components/AppPageLayout.vue";
-import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
-import AppButtonOption from "../../../components/AppButtonOption.vue";
-import AppListContainer from "../../../components/AppListContainer.vue";
-import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
-import AppIconLibrary from "../../../components/AppIconLibrary.vue";
+import { AppPageLayout, AppSearchAndFilterBar, AppButtonOption, AppListContainer, AppListTextAndSubText, AppIconLibrary } from "../../../libraries/components";
 import LPAHistoryBar from "../components/LPAHistoryBar.vue";
-import { getIsLast } from "../../../mixins/arrayMixin";
+import { arrayMixin } from "../../../libraries/mixins"; 
 import { useAuditHistory } from "../store/auditHistory";
 import { Audit } from "../interfaces/audit"
 import { Question } from "../interfaces/question";
@@ -62,12 +57,12 @@ export default defineComponent({
     AppPageLayout,
     AppButtonOption,
     AppListContainer,
-    AppListTextAndSubtext,
+    AppListTextAndSubText,
     AppIconLibrary,
     LPAHistoryBar
   },
 
-  mixins: [getIsLast],
+  mixins: [arrayMixin.getIsLast],
 
   async mounted() {
     const store = useAuditHistory();

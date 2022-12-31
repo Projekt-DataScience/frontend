@@ -1,9 +1,7 @@
-
-
 import { defineStore } from "pinia";
 import axios from "axios";
 import { Task } from "../interfaces/task";
-import authHeader from "../services/auth-header";
+import authHeader from "../services/authHeader";
 
 export const useTasks = defineStore('Tasks', {
     state: () => ({
@@ -18,8 +16,8 @@ export const useTasks = defineStore('Tasks', {
         async fetchTasks() {
             try {
                 const response = await axios.post(
-                    import.meta.env.VITE_GW_TASKS_URL + "get-tasks/", 
-                    {} ,
+                    import.meta.env.VITE_GW_TASKS_URL + "get-tasks/",
+                    {},
                     authHeader()
                 );
                 this.tasks = response.data.tasks;
