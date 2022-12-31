@@ -6,8 +6,8 @@
         <router-link to="/lpa" tag="button"><div>{{ text }}</div></router-link>
         <div class="flex text-gray-400 text-sm font-base mt-1">
             <div v-for="(item, index) in subtext " :key="index">
-                <AppListTextWithDividerLine :text="item.text" :isLast="getStatus(item, subtext)">
-                </AppListTextWithDividerLine>
+                <AppListTextWithDividerLines :text="item.text" :isLast="getStatus(item, subtext)">
+                </AppListTextWithDividerLines>
             </div>
         </div>
     </div>
@@ -19,13 +19,13 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 import AppButtonTertiary from "./AppButtonTertiary.vue";
-import AppListTextWithDividerLine from "./AppListTextWithDividerLine.vue";
+import AppListTextWithDividerLines from "./AppListTextWithDividerLines.vue";
 
 
 export default defineComponent({
     name: "AppTaskList",
     components: {
-        AppListTextWithDividerLine,
+        AppListTextWithDividerLines,
         AppButtonTertiary
     },
     props: {

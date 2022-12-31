@@ -34,8 +34,7 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import AppButtonPrimary from "../components/AppButtonPrimary.vue";
-import AppInputTextField from "../components/AppInputTextField.vue";
+import { AppButtonPrimary, AppInputTextField } from "../../../libraries/components";
 import { LoginUser } from "../../../libraries/services/types";
 import { useAuth } from "../../../libraries/stores";
 

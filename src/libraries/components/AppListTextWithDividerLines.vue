@@ -30,7 +30,7 @@ import { ref, defineComponent } from "vue";
 import AppIconLibrary from "./AppIconLibrary.vue";
 
 export default defineComponent({
-  name: "AppListTextWithDividerLine",
+  name: "AppListTextWithDividerLines",
   components: {
     AppIconLibrary,
   },

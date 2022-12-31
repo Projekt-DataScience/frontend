@@ -5,7 +5,7 @@
         <button class="h-16 flex" @click="$emit('toggleSidebarHeader')">
           <div class="flex-none inline-grid w-16 p-2">
             <div class="bg-primary-blue rounded-md">
-              <LPAIcon class="text-white w-full h-full p-2"></LPAIcon>
+              <AppIconLibrary icon="lpa" class="text-white w-full h-full p-2"></AppIconLibrary>
             </div>
           </div>
           <div class="flex-initial">
@@ -44,9 +44,9 @@
               "
               @click="$emit('toggleSidebar')"
             >
-              <AppArrowsLeft
+              <AppIconLibrary icon="ArrowsLeft"
                 class="text-gray-400 h-full w-full"
-              ></AppArrowsLeft>
+              ></AppIconLibrary>
             </button>
           </div>
         </div>
@@ -57,16 +57,13 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import LPAIcon from "../assets/Icons/LPAIcon.vue";
-import AppArrowsLeft from "../assets/Icons/AppArrowsLeft.vue";
-import {truncateStringMixin} from "../mixins/truncateStringMixin"
+ 
+import { stringMixin } from "../mixins";
 import AppIconLibrary from "./AppIconLibrary.vue";
 
 export default defineComponent({
   name: "LPASidebarHeaderSmall",
   components: {
-    LPAIcon,
-    AppArrowsLeft,
     AppIconLibrary
   },
   emits: {
@@ -74,7 +71,7 @@ export default defineComponent({
     toggleSidebarHeader: null
   },
   mixins: [
-    truncateStringMixin
+    stringMixin.truncateStringMixin
   ],
   props: {
     brandingName: {

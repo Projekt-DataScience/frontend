@@ -208,7 +208,7 @@ import { AppPageLayout, AppButtonPrimary, AppButtonSecondary, AppListTextWithDiv
   AppListContainer, AppIconLibrary, AppListTextAndSubText, AppButtonTertiary, AppPopup, 
   AppInputBigTextField, AppInputDropDown } from "../../../libraries/components";
 import LPASidebar from "../components/LPASidebar.vue";
-import LPAAuditHeader from "../../../components/AppSearchAndFilterBar.vue";
+
 
 import { arrayMixin } from "../../../libraries/mixins";
 import { stringMixin } from "../../../libraries/mixins";
@@ -226,7 +226,6 @@ export default defineComponent({
   name: "LPAAudit",
   components: {
     AppPageLayout,
-    LPAAuditHeader,
     LPASidebar,
     AppButtonPrimary,
     AppButtonSecondary,

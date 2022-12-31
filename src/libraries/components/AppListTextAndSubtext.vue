@@ -2,16 +2,16 @@
   <AppListText :text="text"></AppListText>
   <div class="flex items-center text-gray-400 pt-1 font-base">
     <div v-for="(item, index) in subtext" :key="index">
-      <AppListTextWithDividerLine
+      <AppListTextWithDividerLines
         v-bind:isLast="true"
         :text="item.text"
         v-if="getStatus(item, subtext)"
-      ></AppListTextWithDividerLine>
-      <AppListTextWithDividerLine
+      ></AppListTextWithDividerLines>
+      <AppListTextWithDividerLines
         v-bind:isLast="false"
         :text="item.text"
         v-else
-      ></AppListTextWithDividerLine>
+      ></AppListTextWithDividerLines>
     </div>
   </div>
 </template>
@@ -19,13 +19,13 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 import AppListText from "./AppListText.vue";
-import AppListTextWithDividerLine from "./AppListTextWithDividerLine.vue";
+import AppListTextWithDividerLines from "./AppListTextWithDividerLines.vue";
 
 export default defineComponent({
   name: "AppListTextAndSubtext",
   components: {
     AppListText,
-    AppListTextWithDividerLine
+    AppListTextWithDividerLines
   },
   props: {
     subtext: {

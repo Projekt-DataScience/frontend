@@ -108,7 +108,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import MainHeader from "../modules/main/components/MainHeader.vue";
+import MainHeader from "../components/MainHeader.vue";
 import {
   AppContainer, AppListContainer, AppButtonOption, AppButtonSecondary, AppIconLibrary,
   AppButtonPrimary, AppTaskList, AppButtonTertiary
