@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { CachedUser, LoginUser, RegisterUser, ValidatedUser } from './types';
-import { useUser } from '../store/user';
+import { useUser } from '../stores/user';
 
 const API_URL = import.meta.env.VITE_GW_USERMANAGEMENT_URL;
 

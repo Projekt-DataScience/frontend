@@ -1,6 +1,4 @@
-import { User } from "../../../interfaces/user"
-import { Group } from "../../../interfaces/group"
-import { Layer } from "../../../interfaces/layer"
+import {User, Layer, Group} from "../../../libraries/interfaces"
 import { Question } from "./question"
 import { Answer } from "./answer"
 

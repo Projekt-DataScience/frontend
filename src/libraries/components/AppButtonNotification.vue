@@ -1,8 +1,6 @@
 <template>
   <div class="relative group">
-    <button
-      type="button"
-      class="
+    <button type="button" class="
         rounded-full
         p-1
         text-gray-400
@@ -12,20 +10,14 @@
         focus:ring-primary-blue
         focus:ring-offset-2
         my-2
-      "
-      id="user-notification-button"
-      aria-expanded="false"
-      aria-haspopup="true"
-      @click="handleNotificationToggle()"
-    >
+      " id="user-notification-button" aria-expanded="false" aria-haspopup="true" @click="handleNotificationToggle()">
       <span class="sr-only">View notifications</span>
       <div class="flex items-center">
         <AppIconLibrary icon="bell" styling="h-7 text-gray-400"></AppIconLibrary>
         <div class="text-lg font-semibold ml-2 text-primary-blue">{{ allTasks.length }}</div>
       </div>
     </button>
-    <div
-      class="
+    <div class="
         absolute
         right-0
         block
@@ -39,13 +31,8 @@
         ring-1 ring-black ring-opacity-5
         focus:outline-none
         pb-6
-      "
-      role="menu"
-      aria-orientation="vertical"
-      aria-labelledby="user-menu-button"
-      tabindex="-1"
-      :class="getActiveStatus(buttonIsActive)"
-    >
+      " role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"
+      :class="getActiveStatus(buttonIsActive)">
       <div class="flex items-center border-b-2 border-gray-200 px-6 py-4 mb-4">
         <div class="text-md font-semibold">Aktuelle Aufgaben</div>
         <div class="flex-auto">
@@ -58,39 +45,27 @@
         <AppListContainer alignement="start" :isLast="getStatus(item, tasks)">
           <template #wrapperLeft>
             <div>
-              <AppIconLibrary
-                styling="h-10 w-10 text-primary-blue mr-2 mt-2 ml-6"
-                :icon="item.icon"
-              ></AppIconLibrary>
+              <AppIconLibrary styling="h-10 w-10 text-primary-blue mr-2 mt-2 ml-6" :icon="item.icon"></AppIconLibrary>
             </div>
           </template>
           <template #wrapperContent>
-            <AppTaskList
-              :title="getLongNameForApp(item.app_name)"
-              :text="item.title"
-              :showButton="false"
-              :subtext="[
-                {
-                  text: concateStrings('Layer', item.parameter),
-                },
-                {
-                  text: new Date(item.date).toLocaleDateString('de-DE', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                  }),
-                },
-              ]"
-              :action="item.parameter"
-            >
+            <AppTaskList :title="getLongNameForApp(item.app_name)" :text="item.title" :showButton="false" :subtext="[
+  {
+    text: concateStrings('Layer', item.parameter),
+  },
+  {
+    text: new Date(item.date).toLocaleDateString('de-DE', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }),
+  },
+]" :action="item.parameter">
             </AppTaskList>
           </template>
           <template #wrapperRight>
             <!-- <LPAQuestionBar :green="22" :orange="22" :red="22"></LPAQuestionBar> -->
-            <AppButtonOption
-              class="mt-2 mr-6"
-              v-bind:isVertical="false"
-            ></AppButtonOption>
+            <AppButtonOption class="mt-2 mr-6" v-bind:isVertical="false"></AppButtonOption>
           </template>
         </AppListContainer>
       </div>
@@ -98,10 +73,10 @@
   </div>
 </template>
   
-  <script lang="ts">
+<script lang="ts">
 import { ref, defineComponent } from "vue";
 import AppIconLibrary from "./AppIconLibrary.vue";
-import { useTasks } from "../store/tasks";
+import { useTasks } from "../stores/tasks"; 
 import { Task } from "../interfaces/task";
 
 import { concateStringMixin, changeAppName } from "../mixins/stringMixin";

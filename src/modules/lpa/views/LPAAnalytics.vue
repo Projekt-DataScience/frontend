@@ -1,108 +1,86 @@
 <template>
   <div v-if="dataReady">
-  <AppPageLayout>
-    <template #sidebar>
-      <!-- content for the sidebar slot -->
-      <LPASidebar currentPage="LPAAnalytics"></LPASidebar>
-    </template>
-    <template #header>
-      <div class="flex items-center m-6">
-        <div class="font-semibold text-lg">Auswertungen</div>
-        <div class="flex-auto">
-          <div class="flex justify-end mr-6">
-            <AppInputDropdown
-              name="description"
-              :options="options"
-              initialOption="--Zeitraum wählen--"
-              :currentValue="currentAnswer.id.toString()"
-              v-on:input="setReasonsByDropdown($event)"
-            ></AppInputDropdown>
-          </div>
-        </div>
-      </div>
-      <div class="flex items-center mx-6 mt-6">
-        <div>
-          <div class="hidden sm:block">
-            <div class="">
-              <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
-
-                <button
-                  href="#"
-                  class="whitespace-nowrap py-4 px-1 text-sm"
-                  :class="getActiveTab('audit')"
-                  @click="setActiveTab('audit')"
-                  aria-current="page"
-                >
-                  Auditanalyse
-                </button>
-
-                <button
-                  href="#"
-                  class="whitespace-nowrap py-4 px-1 text-sm"
-                  :class="getActiveTab('question')"
-                  @click="setActiveTab('question')"
-                >
-                  Fragenanalyse
-                </button>
-              </nav>
+    <AppPageLayout>
+      <template #sidebar>
+        <!-- content for the sidebar slot -->
+        <LPASidebar currentPage="LPAAnalytics"></LPASidebar>
+      </template>
+      <template #header>
+        <div class="flex items-center m-6">
+          <div class="font-semibold text-lg">Auswertungen</div>
+          <div class="flex-auto">
+            <div class="flex justify-end mr-6">
+              <AppInputDropdown name="description" :options="options" initialOption="--Zeitraum wählen--"
+                :currentValue="currentAnswer.id.toString()" v-on:input="setReasonsByDropdown($event)">
+              </AppInputDropdown>
             </div>
           </div>
         </div>
-      </div>
-    </template>
-    <template #content>
-      <div v-if="currentTab === 'audit'">
-        <div class="grid grid-cols-1 gap-6">
-          <div class="col-span-1">
-            <AppContainer containerName="Auditergebnisse">
-              <template #content>
-                <VueApexCharts
-                  height="350px"
-                  type="bar"
-                  :options="auditLast6MonthsOptions"
-                  :series="auditLast6MonthsSeries"
-                ></VueApexCharts>
-              </template>
-            </AppContainer>
-          </div>
-          <div class="col-span-1">
-            <AppContainer containerName="Gruppenergebnisse">
-              <template #content>
-                <VueApexCharts
-                  height="350px"
-                  type="bar"
-                  :options="auditPerGroupLast6MonthsOptions"
-                  :series="auditPerGroupLast6MonthsSeries"
-                ></VueApexCharts>
-              </template>
-            </AppContainer>
-          </div>
-          <div class="col-span-1">
-            <AppContainer containerName="Auditauswertung">
-              <template #content>
-                Weitere Auswertungen zu Audits
-              </template>
-            </AppContainer>
+        <div class="flex items-center mx-6 mt-6">
+          <div>
+            <div class="hidden sm:block">
+              <div class="">
+                <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                  <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
+
+                  <button href="#" class="whitespace-nowrap py-4 px-1 text-sm" :class="getActiveTab('audit')"
+                    @click="setActiveTab('audit')" aria-current="page">
+                    Auditanalyse
+                  </button>
+
+                  <button href="#" class="whitespace-nowrap py-4 px-1 text-sm" :class="getActiveTab('question')"
+                    @click="setActiveTab('question')">
+                    Fragenanalyse
+                  </button>
+                </nav>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div v-if="currentTab === 'question'">Fragenauswertung</div>
-    </template>
-  </AppPageLayout>
-</div>
+      </template>
+      <template #content>
+        <div v-if="currentTab === 'audit'">
+          <div class="grid grid-cols-1 gap-6">
+            <div class="col-span-1">
+              <AppContainer containerName="Auditergebnisse">
+                <template #content>
+                  <VueApexCharts height="350px" type="bar" :options="auditLast6MonthsOptions"
+                    :series="auditLast6MonthsSeries"></VueApexCharts>
+                </template>
+              </AppContainer>
+            </div>
+            <div class="col-span-1">
+              <AppContainer containerName="Gruppenergebnisse">
+                <template #content>
+                  <VueApexCharts height="350px" type="bar" :options="auditPerGroupLast6MonthsOptions"
+                    :series="auditPerGroupLast6MonthsSeries"></VueApexCharts>
+                </template>
+              </AppContainer>
+            </div>
+            <div class="col-span-1">
+              <AppContainer containerName="Auditauswertung">
+                <template #content>
+                  Weitere Auswertungen zu Audits
+                </template>
+              </AppContainer>
+            </div>
+          </div>
+        </div>
+        <div v-if="currentTab === 'question'">Fragenauswertung</div>
+      </template>
+    </AppPageLayout>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import LPASidebar from "../components/LPASidebar.vue";
-import AppPageLayout from "../../../components/AppPageLayout.vue";
-import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
+import { AppPageLayout, AppSearchAndFilterBar, AppContainer, AppInputDropDown } from "../../../libraries/components";
+
 import { AnswerReason } from "../interfaces/answerReason";
-import AppInputDropdown from "../../../components/AppInputDropdown.vue";
 import { useAnalytics } from "../store/analytics";
 import { AuditAnalytics } from "../interfaces/auditAnalytics";
-import AppContainer from "../../../components/AppContainer.vue";
+
 import VueApexCharts from "vue3-apexcharts";
 
 export interface ApexBarChart {
@@ -116,7 +94,7 @@ export default defineComponent({
     LPASidebar,
     AppSearchAndFilterBar,
     AppPageLayout,
-    AppInputDropdown,
+    AppInputDropDown,
     AppContainer,
     VueApexCharts,
   },
@@ -351,7 +329,7 @@ export default defineComponent({
           data: [1, 0, 1, 0, 0, 3],
         },
       ] as ApexBarChart[],
-      auditLast6MonthsSeries:[] as ApexBarChart[]
+      auditLast6MonthsSeries: [] as ApexBarChart[]
     };
   },
   methods: {

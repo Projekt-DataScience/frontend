@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
 import axios from 'axios';
 import { Question } from "../interfaces/question";
-import authHeader from "../../../services/auth-header";
-import {QuestionAndAnswers} from "../interfaces/questionAndAnswers";
+import { authHeader } from "../../../libraries/services";
+import { QuestionAndAnswers } from "../interfaces/questionAndAnswers";
 import { AnswerByQuestion } from "../interfaces/answerByQuestion";
-import {QuestionCategory} from "../interfaces/questionCategory"
+import { QuestionCategory } from "../interfaces/questionCategory"
 
 export const useQuestions = defineStore('Questions', {
     state: () => ({
@@ -36,7 +36,7 @@ export const useQuestions = defineStore('Questions', {
                 var answerByQuestion = {} as AnswerByQuestion;
                 try {
                     const response = await axios.get(
-                        import.meta.env.VITE_GW_AUDIT_URL + "lpa_question/answers/"+ this.questions[i].id +"?last="+this.numberOfAnswersLoaded,
+                        import.meta.env.VITE_GW_AUDIT_URL + "lpa_question/answers/" + this.questions[i].id + "?last=" + this.numberOfAnswersLoaded,
                         authHeader()
                     );
                     answerByQuestion = response.data;
@@ -59,7 +59,7 @@ export const useQuestions = defineStore('Questions', {
                 )
             }
         },
-        async fetchCategorys(){
+        async fetchCategorys() {
             try {
                 const response = await axios.get(
                     import.meta.env.VITE_GW_AUDIT_URL + "lpa_question_category/question_category/",
@@ -71,7 +71,7 @@ export const useQuestions = defineStore('Questions', {
                 console.log(error);
             }
         },
-        async createQuestion(layerID: number, groupID: number, categoryID: number, title: string, description: string){
+        async createQuestion(layerID: number, groupID: number, categoryID: number, title: string, description: string) {
             try {
                 const response = await axios.post(
                     import.meta.env.VITE_GW_AUDIT_URL + "lpa_question/",

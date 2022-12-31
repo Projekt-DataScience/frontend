@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { mainRoutes } from "./mainRoutes";
+import { mainRoutes } from "../modules/main/router/mainRoutes";
 import { lpaRoutes } from "../modules/lpa/router/index";
-import { CachedUser } from '../services/types';
+import { CachedUser } from '../libraries/services/types'; 
 
 const routes: any[] = [
   // {

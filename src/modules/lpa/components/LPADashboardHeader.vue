@@ -6,8 +6,7 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
-
+import { AppSearchAndFilterBar } from "../../../libraries/components"; 
 
 export default defineComponent({
   name: "LPASidebar",

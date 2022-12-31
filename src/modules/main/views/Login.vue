@@ -34,12 +34,9 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import AppButtonPrimary from "../components/AppButtonPrimary.vue";
-import AppInputTextField from "../components/AppInputTextField.vue";
-import { LoginUser } from "../services/types";
-import { useAuth } from "../store/auth";
-import AuthService from "../services/auth.service"
-import router from "../router";
+import { AppButtonPrimary, AppInputTextField } from "../../../libraries/components";
+import { LoginUser } from "../../../libraries/services/types";
+import { useAuth } from "../../../libraries/stores";
 
 
 

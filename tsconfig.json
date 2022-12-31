@@ -33,7 +33,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue"
-  ],
+, "src/libraries/pdslib/stores/tasks.ts", "src/libraries/pdslib/stores/auth.ts", "src/libraries/pdslib/stores/auth.ts", "src/router/index.ts", "src/router/index.ts", "src/libraries/pdslib/stores/user.ts", "src/libraries/pdslib/stores/user.ts"  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

@@ -7,34 +7,34 @@
       <div class="p-7 border-b-2 border-gray-200">
         <div class="grid grid-cols-3 gap-6">
           <div>
-            <AppInputDropdown
+            <AppInputDropDown
               headline="Layer"
               name="description"
               :options="createQuestionLayer"
               initialOption="Layer wählen..."
               :currentValue="createQuestionCurrentLayer"
               v-on:input="setCreateQuestionLayerByDropdown($event)"
-            ></AppInputDropdown>
+            ></AppInputDropDown>
           </div>
           <div>
-            <AppInputDropdown
+            <AppInputDropDown
               headline="Gruppe"
               name="description"
               :options="createQuestionGroup"
               initialOption="Gruppe wählen..."
               :currentValue="createQuestionCurrentGroup"
               v-on:input="setCreateQuestionGroupByDropdown($event)"
-            ></AppInputDropdown>
+            ></AppInputDropDown>
           </div>
           <div>
-            <AppInputDropdown
+            <AppInputDropDown
               headline="Kategorie"
               name="description"
               :options="createQuestionCategory"
               initialOption="Kategorie wählen..."
               :currentValue="createQuestionCurrentCategory"
               v-on:input="setCreateQuestionCategoryByDropdown($event)"
-            ></AppInputDropdown>
+            ></AppInputDropDown>
           </div>
         </div>
         <div class="pt-6">
@@ -108,7 +108,7 @@
               </div>
             </template>
             <template #wrapperContent>
-              <AppListTextAndSubtext
+              <AppListTextAndSubText
                 :text="item.question"
                 :subtext="[
                   {
@@ -118,7 +118,7 @@
                     text: item.group.group_name,
                   },
                 ]"
-              ></AppListTextAndSubtext>
+              ></AppListTextAndSubText>
             </template>
             <template #wrapperRight>
               <!-- <LPAHistoryBar :answers="answers[index]"></LPAHistoryBar> -->
@@ -143,28 +143,16 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
 import LPASidebar from "../components/LPASidebar.vue";
-import AppPageLayout from "../../../components/AppPageLayout.vue";
-import AppSearchAndFilterBar from "../../../components/AppSearchAndFilterBar.vue";
-import AppListContainer from "../../../components/AppListContainer.vue";
-import AppButtonOption from "../../../components/AppButtonOption.vue";
+import { AppPageLayout, AppSearchAndFilterBar, AppListContainer, AppButtonOption, AppListTextAndSubText,
+AppIconLibrary, AppButtonPrimary, AppButtonSecondary, AppButtonTertiary, AppInputDropDown, AppPopup,
+AppInputBigTextField, AppInputTextField } from "../../../libraries/components";
 import LPAQuestionBar from "../components/LPAQuestionBar.vue";
-import AppListTextAndSubtext from "../../../components/AppListTextAndSubtext.vue";
-import AppIconLibrary from "../../../components/AppIconLibrary.vue";
-import AppButtonPrimary from "../../../components/AppButtonPrimary.vue";
-import AppButtonSecondary from "../../../components/AppButtonSecondary.vue";
-import AppButtonTertiary from "../../../components/AppButtonTertiary.vue";
-import AppInputDropdown from "../../../components/AppInputDropdown.vue";
-import AppPopup from "../../../components/AppPopup.vue";
-
 import { useQuestions } from "../store/questions";
-import { useAnswers } from "../store/answers";
-import { Question } from "../interfaces/question";
 import { Answer } from "../interfaces/answer";
 import { QuestionAndAnswers } from "../interfaces/questionAndAnswers";
 import { AnswerReason } from "../interfaces/answerReason";
-import { useUser } from "../../../store/user";
-import AppInputTextField from "../../../components/AppInputTextField.vue";
-import AppInputBigTextField from "../../../components/AppInputBigTextField.vue";
+import { useUser } from "../../../libraries/stores";
+
 
 export default defineComponent({
   name: "LPAQuestions",
@@ -175,10 +163,10 @@ export default defineComponent({
     AppListContainer,
     AppButtonOption,
     LPAQuestionBar,
-    AppListTextAndSubtext,
+    AppListTextAndSubText,
     AppIconLibrary,
     AppButtonPrimary,
-    AppInputDropdown,
+    AppInputDropDown,
     AppPopup,
     AppButtonSecondary,
     AppButtonTertiary,

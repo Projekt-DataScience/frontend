@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios from 'axios';
 import { Audit } from '../interfaces/audit'
-import authHeader from "../../../services/auth-header";
+import { authHeader } from "../../../libraries/services";
 
 
 export const useAuditHistory = defineStore('AuditHistory', {
