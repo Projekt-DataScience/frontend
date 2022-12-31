@@ -6,22 +6,8 @@ const API_URL = import.meta.env.VITE_GW_USERMANAGEMENT_URL;
 
 class AuthService {
     validatedUser = {} as ValidatedUser;
-    //store = useUser();
-    //loggedIn = false;
-    async login(user: LoginUser) {
-        // return axios
-        //   .post(API_URL + 'login', {
-        //     email: user.email,
-        //     password: user.password_hash
-        //   })
-        //   .then(response => {
-        //     if (response.data.token) {
-        //       localStorage.setItem('user', JSON.stringify(response.data));
-        //     }
-        //     return response.data
-        //     ;
-        //   });
 
+    async login(user: LoginUser) {
         const store = useUser();
 
         try {
@@ -33,6 +19,7 @@ class AuthService {
 
             if (response.data.token) {
                 localStorage.setItem('user', JSON.stringify(response.data));
+                localStorage.setItem('toggleSidebarStatus', JSON.stringify(true));
 
                 let cachedUser: CachedUser = response.data;
                 
