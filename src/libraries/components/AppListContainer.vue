@@ -21,10 +21,6 @@ import { ref, defineComponent } from "vue";
 export default defineComponent({
   name: "AppListContainer",
   components: {},
-  emits: {
-    toggleSidebar: null,
-    toggleSidebarHeader: null,
-  },
   props: {
     isLast: {
         type: Boolean,
