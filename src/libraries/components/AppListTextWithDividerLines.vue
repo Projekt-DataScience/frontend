@@ -47,10 +47,6 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
-    type: {
-      type: String,
-      required: false,
-    },
     imgPath: {
       type: String,
       required: false,

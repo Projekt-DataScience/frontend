@@ -37,10 +37,6 @@ export default defineComponent({
   components: {
     AppIconLibrary
   },
-  emits: {
-    toggleSidebar: null,
-    toggleSidebarHeader: null,
-  },
   props: {
     itemName: {
       type: String,
