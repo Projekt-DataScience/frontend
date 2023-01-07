@@ -44,15 +44,16 @@
             <div class="col-span-1">
               <AppContainer containerName="Auditergebnisse">
                 <template #content>
-                  <VueApexCharts height="350px" type="bar" :options="auditLast6MonthsOptions"
-                    :series="auditLast6MonthsSeries"></VueApexCharts>
+                  <VueApexCharts height="350px" width="98%" type="bar" :options="auditLast6MonthsOptions"
+                    :series="auditLast6MonthsSeries">
+                  </VueApexCharts>
                 </template>
               </AppContainer>
             </div>
             <div class="col-span-1">
               <AppContainer containerName="Gruppenergebnisse">
                 <template #content>
-                  <VueApexCharts height="350px" type="bar" :options="auditPerGroupLast6MonthsOptions"
+                  <VueApexCharts height="350px" width="98%" type="bar" :options="auditPerGroupLast6MonthsOptions"
                     :series="auditPerGroupLast6MonthsSeries"></VueApexCharts>
                 </template>
               </AppContainer>
@@ -66,7 +67,33 @@
             </div>
           </div>
         </div>
-        <div v-if="currentTab === 'question'">Fragenauswertung</div>
+        <div v-if="currentTab === 'question'">
+          <div>Hier könnten Fragenauswertungen stehen</div>
+          <!--<div v-for="(item, index) in questions" :key="index">
+             <AppListContainer :isLast="getStatus(item, questions)">
+              <template #wrapperLeft>
+                <div class="mr-4">
+                  <AppIconLibrary icon="checkbox" type="active" styling="h-5 w-full text-gray-400"></AppIconLibrary>
+                </div>
+              </template>
+              <template #wrapperContent>
+                <AppListTextAndSubText :text="item.question" :subtext="[
+                  {
+                    text: item.question.layer.layer_name,
+                  },
+                  {
+                    text: item.question.group.group_name,
+                  },
+                ]"></AppListTextAndSubText>
+              </template>
+              <template #wrapperRight>
+                <LPAQuestionBar :green="item.num_green" :yellow="item.num_yellow"
+                  :red="item.num_red"></LPAQuestionBar>
+                <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
+              </template>
+            </AppListContainer>
+          </div> -->
+        </div>
       </template>
     </AppPageLayout>
   </div>
@@ -79,9 +106,12 @@ import { AppPageLayout, AppSearchAndFilterBar, AppContainer, AppInputDropDown } 
 
 import { AnswerReason } from "../interfaces/answerReason";
 import { useAnalytics } from "../store/analytics";
+import { useQuestions } from "../store/questions";
 import { AuditAnalytics } from "../interfaces/auditAnalytics";
 
 import VueApexCharts from "vue3-apexcharts";
+import { Question } from "../interfaces/question";
+import { QuestionAndAnalytics } from "../interfaces/questionAndAnalytics";
 
 export interface ApexBarChart {
   name: string;
@@ -102,12 +132,24 @@ export default defineComponent({
     const store = useAnalytics();
 
     // AuditLast6Months
-    await store.fetchAuditLast6Months();
+    /*await store.fetchAuditLast6Months();
     this.auditLast6MonthsSeries = store.auditLast6MonthsSeries;
 
     for (let i = 0; i < store.auditLast6Months.length; i++) {
       var year = store.auditLast6Months[i].year;
       var month = store.auditLast6Months[i].month;
+      this.auditLast6MonthsOptions.xaxis.categories.push(
+        month + "/01/" + year + " GMT"
+      );
+    }*/
+
+    // Test AuditLast6Months
+    await store.fetchTestAuditLast6Months();
+    this.auditLast6MonthsSeries = store.testAuditLast6MonthsSeries;
+
+    for (let i = 0; i < store.testAuditLast6Months.length; i++) {
+      var year = store.testAuditLast6Months[i].year;
+      var month = store.testAuditLast6Months[i].month;
       this.auditLast6MonthsOptions.xaxis.categories.push(
         month + "/01/" + year + " GMT"
       );
@@ -123,12 +165,18 @@ export default defineComponent({
       );
     }
 
+    // QuestionAnalysis
+    /*const questionStore = useQuestions();
+    await questionStore.fetchQuestionsWithAnalytics();
+    this.questions = questionStore.questionsAndAnalytics;*/
+
     // data is ready -> render page
     this.dataReady = true;
   },
   data() {
     return {
       dataReady: false,
+      questions: [] as QuestionAndAnalytics[],
       options: [
         {
           id: 0,
@@ -144,13 +192,14 @@ export default defineComponent({
         chart: {
           type: "bar",
           height: 350,
+          width: '95%',
           stacked: true,
           stackType: '100%',
           toolbar: {
-            show: true,
+            show: false,
           },
           zoom: {
-            enabled: true,
+            enabled: false,
           },
         },
         responsive: [
@@ -178,7 +227,7 @@ export default defineComponent({
                 },
               },
             },
-          },
+          }
         },
         xaxis: {
           type: "category",
@@ -194,11 +243,12 @@ export default defineComponent({
         legend: {
           position: "right",
           offsetY: 40,
+          offsetX: -20,
         },
         fill: {
           opacity: 1,
         },
-        colors: ["#1fd537", "#FFC537", "#E40010"],
+        colors: ["#1fd537", "#FFC537", "#E40010"]
       },
       auditPerGroupLast6MonthsSeries: [] as ApexBarChart[],
       auditLast6MonthsOptions: {
@@ -207,10 +257,10 @@ export default defineComponent({
           height: 350,
           stacked: true,
           toolbar: {
-            show: true,
+            show: false,
           },
           zoom: {
-            enabled: true,
+            enabled: false,
           },
         },
         responsive: [
@@ -247,74 +297,13 @@ export default defineComponent({
         legend: {
           position: "right",
           offsetY: 40,
+          offsetX: -20,
         },
         fill: {
           opacity: 1,
         },
         colors: ["#1fd537", "#FFC537", "#E40010"],
       },
-      testAudit: [
-        {
-          month: 12,
-          year: 2022,
-          num_green: 6,
-          num_yellow: 4,
-          num_red: 3,
-          percent_green: 0.46153846153846156,
-          percent_yellow: 0.3076923076923077,
-          percent_red: 0.23076923076923078,
-        },
-        {
-          month: 11,
-          year: 2022,
-          num_green: 6,
-          num_yellow: 4,
-          num_red: 3,
-          percent_green: 0.46153846153846156,
-          percent_yellow: 0.3076923076923077,
-          percent_red: 0.23076923076923078,
-        },
-        {
-          month: 10,
-          year: 2022,
-          num_green: 6,
-          num_yellow: 4,
-          num_red: 3,
-          percent_green: 0.46153846153846156,
-          percent_yellow: 0.3076923076923077,
-          percent_red: 0.23076923076923078,
-        },
-        {
-          month: 9,
-          year: 2022,
-          num_green: 6,
-          num_yellow: 4,
-          num_red: 3,
-          percent_green: 0.46153846153846156,
-          percent_yellow: 0.3076923076923077,
-          percent_red: 0.23076923076923078,
-        },
-        {
-          month: 8,
-          year: 2022,
-          num_green: 6,
-          num_yellow: 4,
-          num_red: 3,
-          percent_green: 0.46153846153846156,
-          percent_yellow: 0.3076923076923077,
-          percent_red: 0.23076923076923078,
-        },
-        {
-          month: 7,
-          year: 2022,
-          num_green: 6,
-          num_yellow: 4,
-          num_red: 3,
-          percent_green: 0.46153846153846156,
-          percent_yellow: 0.3076923076923077,
-          percent_red: 0.23076923076923078,
-        },
-      ] as AuditAnalytics[],
       testSeries: [
         {
           name: "Grün",
@@ -329,8 +318,8 @@ export default defineComponent({
           data: [1, 0, 1, 0, 0, 3],
         },
       ] as ApexBarChart[],
-      auditLast6MonthsSeries: [] as ApexBarChart[]
-    };
+      auditLast6MonthsSeries: [] as ApexBarChart[],
+    }
   },
   methods: {
     setReasonsByDropdown(event: any) {
@@ -357,6 +346,13 @@ export default defineComponent({
     },
     setActiveTab(tab: string) {
       this.currentTab = tab;
+    },
+    getStatus(item: any, array: any) {
+      if (item === array[array.length - 1]) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 });
