@@ -109,13 +109,13 @@
             </template>
             <template #wrapperContent>
               <AppListTextAndSubText
-                :text="item.question"
+                :text="item.question.question"
                 :subtext="[
                   {
-                    text: item.layer.layer_name,
+                    text: item.question.layer.layer_name,
                   },
                   {
-                    text: item.group.group_name,
+                    text: item.question.group.group_name,
                   },
                 ]"
               ></AppListTextAndSubText>
@@ -127,9 +127,9 @@
                
             -->
               <LPAQuestionBar
-                :green="item.answers.green.length"
-                :yellow="item.answers.yellow.length"
-                :red="item.answers.red.length"
+                :green="item.num_green"
+                :yellow="item.num_yellow"
+                :red="item.num_red"
               ></LPAQuestionBar>
               <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
             </template>
@@ -152,6 +152,7 @@ import { Answer } from "../interfaces/answer";
 import { QuestionAndAnswers } from "../interfaces/questionAndAnswers";
 import { AnswerReason } from "../interfaces/answerReason";
 import { useUser } from "../../../libraries/stores";
+import { QuestionAndAnalytics } from "../interfaces/questionsWithAnalytics";
 
 
 export default defineComponent({
@@ -176,9 +177,8 @@ export default defineComponent({
   async mounted() {
     this.enableScroll();
     const questionStore = useQuestions();
-    await questionStore.fetchQuestions();
-    await questionStore.fetchAnswersPerQuestion();
-    this.questions = questionStore.questionsAndAnswers;
+    await questionStore.fetchQuestionsAndAnalytics();
+    this.questions = questionStore.questionsWithAnalytics;
 
     //fetch Layers from User Store for create question dropdown
     const userStore = useUser();
@@ -217,7 +217,7 @@ export default defineComponent({
   data() {
     return {
       dataReady: false,
-      questions: [] as QuestionAndAnswers[],
+      questions: [] as QuestionAndAnalytics[],
       answers: [] as Answer[],
       visibleCreateQuestion: false,
       createQuestionLayer: [] as AnswerReason[],

@@ -5,12 +5,12 @@ import { authHeader } from "../../../libraries/services";
 import { QuestionAndAnswers } from "../interfaces/questionAndAnswers";
 import { AnswerByQuestion } from "../interfaces/answerByQuestion";
 import { QuestionCategory } from "../interfaces/questionCategory"
-import { QuestionAndAnalytics } from "../interfaces/questionAndAnalytics";
+import { QuestionAndAnalytics } from "../interfaces/questionsWithAnalytics";
 
 export const useQuestions = defineStore('Questions', {
     state: () => ({
         questions: [] as Question[],
-        questionsAndAnalytics: [] as QuestionAndAnalytics[],
+        questionsWithAnalytics: [] as QuestionAndAnalytics[],
         questionsAndAnswers: [] as QuestionAndAnswers[],
         numberOfAnswersLoaded: 5,
         categorys: [] as QuestionCategory[]
@@ -21,6 +21,17 @@ export const useQuestions = defineStore('Questions', {
         },
     },
     actions: {
+        async fetchQuestionsAndAnalytics(){
+            try {
+                const response = await axios.get(
+                    import.meta.env.VITE_GW_AUDIT_URL + "analytics/questions",
+                    authHeader()
+                );
+                this.questionsWithAnalytics = response.data;
+            } catch (error) {
+                console.log(error);
+            }
+        },
         async fetchQuestions() {
             try {
                 const response = await axios.get(
@@ -39,7 +50,7 @@ export const useQuestions = defineStore('Questions', {
                     import.meta.env.VITE_GW_AUDIT_URL + "analytics/questions",
                     authHeader()
                 );
-                this.questionsAndAnalytics = response.data;
+                this.questionsWithAnalytics = response.data;
             } catch (error) {
                 alert(error);
                 console.log(error);

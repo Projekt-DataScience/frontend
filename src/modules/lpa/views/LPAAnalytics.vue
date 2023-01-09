@@ -44,16 +44,15 @@
             <div class="col-span-1">
               <AppContainer containerName="Auditergebnisse">
                 <template #content>
-                  <VueApexCharts height="350px" width="98%" type="bar" :options="auditLast6MonthsOptions"
-                    :series="auditLast6MonthsSeries">
-                  </VueApexCharts>
+                  <VueApexCharts height="350px" width="99%" type="bar" :options="auditLast6MonthsOptions"
+                    :series="auditLast6MonthsSeries"></VueApexCharts>
                 </template>
               </AppContainer>
             </div>
             <div class="col-span-1">
               <AppContainer containerName="Gruppenergebnisse">
                 <template #content>
-                  <VueApexCharts height="350px" width="98%" type="bar" :options="auditPerGroupLast6MonthsOptions"
+                  <VueApexCharts height="350px" width="99%" type="bar" :options="auditPerGroupLast6MonthsOptions"
                     :series="auditPerGroupLast6MonthsSeries"></VueApexCharts>
                 </template>
               </AppContainer>
@@ -132,16 +131,28 @@ export default defineComponent({
     const store = useAnalytics();
 
     // AuditLast6Months
-    /*await store.fetchAuditLast6Months();
-    this.auditLast6MonthsSeries = store.auditLast6MonthsSeries;
+    // await store.fetchAuditLast6Months();
+    // this.auditLast6MonthsSeries = store.auditLast6MonthsSeries;
 
-    for (let i = 0; i < store.auditLast6Months.length; i++) {
-      var year = store.auditLast6Months[i].year;
-      var month = store.auditLast6Months[i].month;
+    // for (let i = 0; i < store.auditLast6Months.length; i++) {
+    //   var year = store.auditLast6Months[i].year;
+    //   var month = store.auditLast6Months[i].month;
+    //   this.auditLast6MonthsOptions.xaxis.categories.push(
+    //     month + "/01/" + year + " GMT"
+    //   );
+    // }
+
+    // test AuditLast6Months with sample Data (currently we have no data stored in the database)
+    await store.fetchTestAuditLast6Months();
+    this.auditLast6MonthsSeries = store.testAuditLast6MonthsSeries;
+
+    for (let i = 0; i < store.testAuditLast6Months.length; i++) {
+      var year = store.testAuditLast6Months[i].year;
+      var month = store.testAuditLast6Months[i].month;
       this.auditLast6MonthsOptions.xaxis.categories.push(
         month + "/01/" + year + " GMT"
       );
-    }*/
+    }
 
     // Test AuditLast6Months
     await store.fetchTestAuditLast6Months();

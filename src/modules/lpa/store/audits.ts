@@ -229,12 +229,11 @@ export const useAudit = defineStore('Audit', {
         async fetchEmployees(group_id: number, layer_id: number){
             try {
                 const data = await axios.get(
-                    import.meta.env.VITE_GW_USERMANAGEMENT_URL + "groups/employee/" + group_id + "/" + layer_id,
+                    import.meta.env.VITE_GW_USERMANAGEMENT_URL + "groups/employee/" + 1 + "/" + 1,
                     authHeader()
                 );
                 this.employees = data.data.data;
             } catch (error) {
-                alert(error);
                 console.log(error);
             }
         },

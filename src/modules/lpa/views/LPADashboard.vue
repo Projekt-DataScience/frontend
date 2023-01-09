@@ -2,32 +2,85 @@
   <div v-if="dataReady">
     <AppPopup v-if="visibleStartAudit">
       <div class="p-7 border-b-2 border-gray-200">
-        <!--<AppListTextAndSubtext
-          :text="openAudits[0].name"
-          :subtext="openAudits[0].listItems"
-        ></AppListTextAndSubtext>-->
+        <AppListTextAndSubText v-if="openAudits[currentOpenAuditIndex].recurrent_audit === true" :text="
+          concateStrings(
+            'Geplanter Audit für die Gruppe ',
+            openAudits[currentOpenAuditIndex].assigned_group.group_name
+          )
+        " :subtext="[
+  {
+    text: concateStrings(
+      'Layer ',
+      openAudits[currentOpenAuditIndex].assigned_layer.layer_number.toString()
+    ),
+  },
+  {
+    text: concateStrings(
+      'Fälligkeit: ',
+      new Date(openAudits[currentOpenAuditIndex].due_date).toLocaleDateString(
+        'de-DE',
+        {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        }
+      )
+    ),
+  },
+  {
+    text: concateStrings(
+      'Ersteller: ',
+      openAudits[currentOpenAuditIndex].created_by_user.first_name,
+      ' ',
+      openAudits[currentOpenAuditIndex].created_by_user.last_name
+    ),
+  },
+]"></AppListTextAndSubText>
+<AppListTextAndSubText v-else :text="
+          concateStrings(
+            'Spontaner Audit für die Gruppe ',
+            openAudits[currentOpenAuditIndex].assigned_group.group_name
+          )
+        " :subtext="[
+  {
+    text: concateStrings(
+      'Layer ',
+      openAudits[currentOpenAuditIndex].assigned_layer.layer_number.toString()
+    ),
+  },
+  {
+    text: concateStrings(
+      'Fälligkeit: ',
+      new Date(openAudits[currentOpenAuditIndex].due_date).toLocaleDateString(
+        'de-DE',
+        {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        }
+      )
+    ),
+  },
+  {
+    text: concateStrings(
+      'Ersteller: ',
+      openAudits[currentOpenAuditIndex].created_by_user.first_name,
+      ' ',
+      openAudits[currentOpenAuditIndex].created_by_user.last_name
+    ),
+  },
+]"></AppListTextAndSubText>
       </div>
       <div class="p-7 border-b-2 border-gray-200">
-        <AppInputDropDown
-          headline="Abweichungsgrund"
-          name="description"
-          :options="employees"
-          initialOption="-- Grund auswählen --"
-          :currentValue="audited_user_id.toString()"
-          v-on:input="setAuditedUser($event)"
-        ></AppInputDropDown>
+        <AppInputDropDown headline="Befragter" name="description" :options="currentEmployees"
+          initialOption="-- Person auswählen --" :currentValue="audited_user_id"
+          v-on:input="setAuditedUser($event)"></AppInputDropDown>
       </div>
       <div class="p-7 flex items-center">
-        <AppButtonPrimary
-          name="Audit starten"
-          v-bind:isActive="true"
-          v-on:buttonClick="startNewAudit(3, currentOpenAuditID)"
-        ></AppButtonPrimary>
-        <AppButtonSecondary
-          class="ml-5"
-          name="Abbrechen"
-          v-on:buttonClick="closePopupStartAudit()"
-        ></AppButtonSecondary>
+        <AppButtonPrimary name="Audit starten" v-bind:isActive="checkIfUserIsAssigned()"
+          v-on:buttonClick="startNewAudit(parseInt(audited_user_id), currentOpenAuditID)"></AppButtonPrimary>
+        <AppButtonSecondary class="ml-5" name="Abbrechen" v-on:buttonClick="closePopupStartAudit()">
+        </AppButtonSecondary>
       </div>
     </AppPopup>
     <AppPopup v-if="visibleCreateAudit">
@@ -37,48 +90,27 @@
       <div class="p-7 border-b-2 border-gray-200">
         <div class="grid grid-cols-3 gap-6">
           <div>
-            <AppInputDropDown
-              headline="Layer"
-              name="description"
-              :options="createAuditLayer"
-              initialOption="Layer wählen..."
-              :currentValue="createAuditCurrentLayer"
-              v-on:input="setCreateAuditLayerByDropdown($event)"
-            ></AppInputDropDown>
+            <AppInputDropDown headline="Layer" name="description" :options="createAuditLayer"
+              initialOption="Layer wählen..." :currentValue="createAuditCurrentLayer"
+              v-on:input="setCreateAuditLayerByDropdown($event)"></AppInputDropDown>
           </div>
           <div>
-            <AppInputDropDown
-              headline="Gruppe"
-              name="description"
-              :options="createAuditGroup"
-              initialOption="Gruppe wählen..."
-              :currentValue="createAuditCurrentGroup"
-              v-on:input="setCreateAuditGroupByDropdown($event)"
-            ></AppInputDropDown>
+            <AppInputDropDown headline="Gruppe" name="description" :options="createAuditGroup"
+              initialOption="Gruppe wählen..." :currentValue="createAuditCurrentGroup"
+              v-on:input="setCreateAuditGroupByDropdown($event)"></AppInputDropDown>
           </div>
           <div>
-            <AppInputDropDown
-              headline="Fragen"
-              name="description"
-              :options="createAuditNumber"
-              initialOption="Anzahl wählen..."
-              :currentValue="createAuditCurrentNumber"
-              v-on:input="setCreateAuditNumberByDropdown($event)"
-            ></AppInputDropDown>
+            <AppInputDropDown headline="Fragen" name="description" :options="createAuditNumber"
+              initialOption="Anzahl wählen..." :currentValue="createAuditCurrentNumber"
+              v-on:input="setCreateAuditNumberByDropdown($event)"></AppInputDropDown>
           </div>
         </div>
       </div>
       <div class="p-7 flex items-center">
-        <AppButtonPrimary
-          name="Audit erstellen"
-          v-bind:isActive="getCreateAuditIsActive()"
-          v-on:buttonClick="createNewAudit()"
-        ></AppButtonPrimary>
-        <AppButtonSecondary
-          class="ml-5"
-          name="Abbrechen"
-          v-on:buttonClick="closePopupCreateAudit()"
-        ></AppButtonSecondary>
+        <AppButtonPrimary name="Audit erstellen" v-bind:isActive="getCreateAuditIsActive()"
+          v-on:buttonClick="createNewAudit()"></AppButtonPrimary>
+        <AppButtonSecondary class="ml-5" name="Abbrechen" v-on:buttonClick="closePopupCreateAudit()">
+        </AppButtonSecondary>
       </div>
     </AppPopup>
     <AppPageLayout>
@@ -89,17 +121,10 @@
       <template #header>
         <AppSearchAndFilterBar>
           <template #wrapperRight>
-            <AppButtonPrimary
-              class="mr-6"
-              name="Audit erstellen"
-              v-bind:isActive="true"
-              v-on:buttonClick="openPopupCreateAudit($event)"
-            >
+            <AppButtonPrimary class="mr-6" name="Audit erstellen" v-bind:isActive="true"
+              v-on:buttonClick="openPopupCreateAudit($event)">
               <template #icon>
-                <AppIconLibrary
-                  icon="plus"
-                  styling="mr-2 pr-0.5 py-0.5"
-                ></AppIconLibrary>
+                <AppIconLibrary icon="plus" styling="mr-2 pr-0.5 py-0.5"></AppIconLibrary>
               </template>
             </AppButtonPrimary>
           </template>
@@ -110,19 +135,11 @@
           <div class="col-span-1">
             <AppContainer containerName="Auditscore">
               <template #content>
-                <VueApexCharts
-                  height="300px"
-                  type="radialBar"
-                  :options="options"
-                  :series="series"
-                ></VueApexCharts>
+                <VueApexCharts height="300px" type="radialBar" :options="options" :series="series"></VueApexCharts>
               </template>
             </AppContainer>
           </div>
-          <div
-            class="col-span-2 w-full rounded-xl border-2 border-gray-200 h-full"
-            id="newsBrick"
-          >
+          <div class="col-span-2 w-full rounded-xl border-2 border-gray-200 h-full" id="newsBrick">
             <!-- Temporäre Kachel - muss noch überarbeitet werden-->
             <div>
               <div class="border-b-2 border-gray-200 px-6 py-3 h-full">
@@ -130,44 +147,31 @@
                   <div class="text-md font-semibold">Neuigkeiten</div>
                   <div class="flex-auto">
                     <div class="flex justify-end items-center">
-                      <AppButtonTertiary
-                        name="Alle anzeigen"
-                      ></AppButtonTertiary>
+                      <AppButtonTertiary name="Alle anzeigen"></AppButtonTertiary>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="grid grid-cols-12 h-full">
                 <div class="col-span-1">
-                  <div
-                    class="flex justify-center items-center"
-                    :style="`height: ${305}px !important;`"
-                  >
-                    <AppIconLibrary
-                      icon="arrow"
-                      styling="text-gray-400"
-                    ></AppIconLibrary>
+                  <div class="flex justify-center items-center" :style="`height: ${305}px !important;`">
+                    <AppIconLibrary icon="arrow" styling="text-gray-400"></AppIconLibrary>
                   </div>
                 </div>
-                <div
-                  class="
+                <div class="
                     col-span-10
                     border-l-2 border-r-2 border-gray-200
                     h-full
-                  "
-                >
+                  ">
                   <div class="p-6 border-b-2 border-gray-200">
-                    <AppListTextAndSubText
-                      text="Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?"
-                      :subtext="[
-                        {
-                          text: 'Layer 1',
-                        },
-                        {
-                          text: 'C-Gruppe',
-                        },
-                      ]"
-                    ></AppListTextAndSubText>
+                    <AppListTextAndSubText text="Haben alle ausgewiesenen Messmittel eine aktuelle Prüfkette?" :subtext="[
+                      {
+                        text: 'Layer 1',
+                      },
+                      {
+                        text: 'C-Gruppe',
+                      },
+                    ]"></AppListTextAndSubText>
                   </div>
                   <div class="p-6 flex gap-6 items-center">
                     <!-- <div class="flex gap-4">
@@ -215,12 +219,8 @@
                       </div>
                     </div>-->
                     <div>
-                      <VueApexCharts
-                        width="200px"
-                        type="radialBar"
-                        :options="testOptions"
-                        :series="testSeries"
-                      ></VueApexCharts>
+                      <VueApexCharts width="200px" type="radialBar" :options="testOptions" :series="testSeries">
+                      </VueApexCharts>
                     </div>
                     <div>
                       <div class="pb-4 font-semibold text-base">
@@ -230,18 +230,13 @@
                         Deshalb wird als Lösung für dieses Problem empfohlen,
                         die Frage zu überprüfen.
                       </div>
-                      <AppButtonTertiary
-                        name="Als gelesen markieren"
-                      ></AppButtonTertiary>
+                      <AppButtonTertiary name="Als gelesen markieren"></AppButtonTertiary>
                     </div>
                   </div>
                 </div>
                 <div class="col-span-1">
                   <div class="flex justify-center items-center h-full">
-                    <AppIconLibrary
-                      icon="arrow"
-                      styling="text-gray-400 rotate-180"
-                    ></AppIconLibrary>
+                    <AppIconLibrary icon="arrow" styling="text-gray-400 rotate-180"></AppIconLibrary>
                   </div>
                 </div>
               </div>
@@ -254,93 +249,79 @@
               <div v-for="(item, index) in openAudits" :key="index">
                 <AppListContainer :isLast="getStatus(item, openAudits)">
                   <template #wrapperRight>
-                    <AppButtonTertiary
-                      class="mr-4 ml-4"
-                      name="Audit starten"
-                      :id="index"
-                      v-on:buttonClick="openPopupStartAudit($event)"
-                    ></AppButtonTertiary>
-                    <AppButtonOption
-                      v-bind:isVertical="false"
-                    ></AppButtonOption>
+                    <AppButtonTertiary class="mr-4 ml-4" name="Audit starten" :id="index"
+                      v-on:buttonClick="openPopupStartAudit($event)"></AppButtonTertiary>
+                    <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                   </template>
                   <template #wrapperContent>
-                    <AppListTextAndSubText
-                      v-if="item.recurrent_audit === true"
-                      :text="
-                        concateStrings(
-                          'Geplanter Audit für die Gruppe ',
-                          item.assigned_group.group_name
-                        )
-                      "
-                      :subtext="[
-                        {
-                          text: concateStrings(
-                            'Layer ',
-                            item.assigned_layer.layer_number.toString()
-                          ),
-                        },
-                        {
-                          text: concateStrings(
-                            'Fälligkeit: ',
-                            new Date(item.due_date).toLocaleDateString(
-                              'de-DE',
-                              {
-                                year: 'numeric',
-                                month: 'short',
-                                day: 'numeric',
-                              }
-                            )
-                          ),
-                        },
-                        {
-                          text: concateStrings(
-                            'Ersteller: ',
-                            item.created_by_user.first_name,
-                            ' ',
-                            item.created_by_user.last_name
-                          ),
-                        },
-                      ]"
-                    ></AppListTextAndSubText>
-                    <AppListTextAndSubText
-                      v-else
-                      :text="
-                        concateStrings(
-                          'Spontaner Audit für die Gruppe ',
-                          item.assigned_group.group_name
-                        )
-                      "
-                      :subtext="[
-                        {
-                          text: concateStrings(
-                            'Layer ',
-                            item.assigned_layer.layer_number.toString()
-                          ),
-                        },
-                        {
-                          text: concateStrings(
-                            'Fälligkeit: ',
-                            new Date(item.due_date).toLocaleDateString(
-                              'de-DE',
-                              {
-                                year: 'numeric',
-                                month: 'short',
-                                day: 'numeric',
-                              }
-                            )
-                          ),
-                        },
-                        {
-                          text: concateStrings(
-                            'Ersteller: ',
-                            item.created_by_user.first_name,
-                            ' ',
-                            item.created_by_user.last_name
-                          ),
-                        },
-                      ]"
-                    ></AppListTextAndSubText>
+                    <AppListTextAndSubText v-if="item.recurrent_audit === true" :text="
+                      concateStrings(
+                        'Geplanter Audit für die Gruppe ',
+                        item.assigned_group.group_name
+                      )
+                    " :subtext="[
+  {
+    text: concateStrings(
+      'Layer ',
+      item.assigned_layer.layer_number.toString()
+    ),
+  },
+  {
+    text: concateStrings(
+      'Fälligkeit: ',
+      new Date(item.due_date).toLocaleDateString(
+        'de-DE',
+        {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        }
+      )
+    ),
+  },
+  {
+    text: concateStrings(
+      'Ersteller: ',
+      item.created_by_user.first_name,
+      ' ',
+      item.created_by_user.last_name
+    ),
+  },
+]"></AppListTextAndSubText>
+                    <AppListTextAndSubText v-else :text="
+                      concateStrings(
+                        'Spontaner Audit für die Gruppe ',
+                        item.assigned_group.group_name
+                      )
+                    " :subtext="[
+  {
+    text: concateStrings(
+      'Layer ',
+      item.assigned_layer.layer_number.toString()
+    ),
+  },
+  {
+    text: concateStrings(
+      'Fälligkeit: ',
+      new Date(item.due_date).toLocaleDateString(
+        'de-DE',
+        {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        }
+      )
+    ),
+  },
+  {
+    text: concateStrings(
+      'Ersteller: ',
+      item.created_by_user.first_name,
+      ' ',
+      item.created_by_user.last_name
+    ),
+  },
+]"></AppListTextAndSubText>
                   </template>
                 </AppListContainer>
               </div>
@@ -353,43 +334,38 @@
               <div v-for="item in plannedAudits" :key="item.id">
                 <AppListContainer :isLast="getStatus(item, plannedAudits)">
                   <template #wrapperRight>
-                    <AppButtonOption
-                      v-bind:isVertical="false"
-                    ></AppButtonOption>
+                    <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
                   </template>
                   <template #wrapperContent>
-                    <AppListTextAndSubText
-                      :text="
-                        concateStrings(
-                          'Audit für die Gruppe ',
-                          item.group.group_name,
-                          ' durch ',
-                          item.auditor.first_name,
-                          ' ',
-                          item.auditor.last_name
-                        )
-                      "
-                      :subtext="[
-                        {
-                          text: concateStrings(
-                            'Layer ',
-                            item.layer.layer_number.toString()
-                          ),
-                        },
-                        {
-                          text: concateRhythm(
-                            item.recurrence_type,
-                            item.values
-                          ),
-                        },
-                        {
-                          text: concateStrings(
-                            item.question_count.toString(),
-                            ' Fragen'
-                          ),
-                        },
-                      ]"
-                    ></AppListTextAndSubText>
+                    <AppListTextAndSubText :text="
+                      concateStrings(
+                        'Audit für die Gruppe ',
+                        item.group.group_name,
+                        ' durch ',
+                        item.auditor.first_name,
+                        ' ',
+                        item.auditor.last_name
+                      )
+                    " :subtext="[
+  {
+    text: concateStrings(
+      'Layer ',
+      item.layer.layer_number.toString()
+    ),
+  },
+  {
+    text: concateRhythm(
+      item.recurrence_type,
+      item.values
+    ),
+  },
+  {
+    text: concateStrings(
+      item.question_count.toString(),
+      ' Fragen'
+    ),
+  },
+]"></AppListTextAndSubText>
                   </template>
                 </AppListContainer>
               </div>
@@ -404,9 +380,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import LPASidebar from "../components/LPASidebar.vue";
-import { AppPageLayout, AppSearchAndFilterBar, AppContainer, AppListContainer,AppButtonOption, 
-  AppButtonTertiary, AppListTextAndSubText, AppButtonPrimary, AppIconLibrary, AppPopup, 
-AppButtonSecondary, AppInputDropDown } from "../../../libraries/components";
+import {
+  AppPageLayout, AppSearchAndFilterBar, AppContainer, AppListContainer, AppButtonOption,
+  AppButtonTertiary, AppListTextAndSubText, AppButtonPrimary, AppIconLibrary, AppPopup,
+  AppButtonSecondary, AppInputDropDown
+} from "../../../libraries/components";
 
 import VueApexCharts from "vue3-apexcharts";
 
@@ -418,6 +396,8 @@ import { authService } from "../../../libraries/services";
 import { stringMixin } from "../../../libraries/mixins";
 import { PlannedAudit } from "../interfaces/plannedAudit";
 import { AnswerReason } from "../interfaces/answerReason";
+import { Answer } from "../interfaces/answer";
+import { Store } from "pinia";
 
 export default defineComponent({
   name: "LPADashboard",
@@ -490,8 +470,10 @@ export default defineComponent({
       dataReady: false,
       openAudits: [] as Audit[],
       currentOpenAuditID: 0,
+      currentOpenAuditIndex: 0,
       employees: [] as User[],
-      audited_user_id: 0,
+      currentEmployees: [] as AnswerReason[],
+      audited_user_id: 'null',
       plannedAudits: [] as PlannedAudit[],
       visibleStartAudit: false,
       visibleCreateAudit: false,
@@ -527,47 +509,57 @@ export default defineComponent({
         labels: ["Grün", "Gelb", "Rot"],
         colors: ["#1fd537", "#FFC537", "#E40010"],
       },
-      testOptions:{
+      testOptions: {
         chart: {
-              height: 100,
-              type: 'radialBar',
+          height: 100,
+          type: 'radialBar',
+        },
+        plotOptions: {
+          radialBar: {
+            hollow: {
+              size: '50%',
+              imageWidth: 150,
+              imageHeight: 150
             },
-            plotOptions: {
-              radialBar: {
-                hollow: {
-                  size: '50%',
-                  imageWidth: 150,
-                  imageHeight: 150
-                },
-                dataLabels:{
-                  show: true,
-                  name: {
-                    show: false
-                  },
-                  value: {
-                    offsetY: 5,
-                    fontSize: '16px'
-                  }
-              }
+            dataLabels: {
+              show: true,
+              name: {
+                show: false
               },
-            },
-            labels: ['Cricket'],
-            colors: ["#E40010"],
+              value: {
+                offsetY: 5,
+                fontSize: '16px'
+              }
+            }
+          },
+        },
+        labels: ['Cricket'],
+        colors: ["#E40010"],
       },
       testSeries: [67],
     };
   },
   methods: {
     async openPopupStartAudit(event: any) {
-      this.disableScroll();
-      this.visibleStartAudit = true;
+      this.currentOpenAuditIndex = event;
       this.setCurrentOpenAuditID(event);
       const store = useAudit();
       await store.fetchEmployees(
-        this.openAudits[this.currentOpenAuditID].assigned_layer_id,
-        this.openAudits[this.currentOpenAuditID].assigned_group_id
+        this.openAudits[event].assigned_group.id,
+        this.openAudits[event].assigned_layer.id
       );
-      this.employees = store.employees;
+
+      // the dropdown needs a Answer (id , description)
+      this.currentEmployees = [];
+      for( let i = 0; i < store.employees.length; i++){
+        this.currentEmployees.push({
+          id: store.employees[i].id,
+          description: this.concateStrings(store.employees[i].first_name, ' ', store.employees[i].last_name)
+        })
+      }
+
+      this.disableScroll();
+      this.visibleStartAudit = true;
     },
     async openPopupCreateAudit(event: any) {
       this.disableScroll();
@@ -596,7 +588,7 @@ export default defineComponent({
       };
     },
     enableScroll() {
-      window.onscroll = function () {};
+      window.onscroll = function () { };
     },
     getStatus(item: any, array: any) {
       if (item === array[array.length - 1]) {
@@ -611,7 +603,7 @@ export default defineComponent({
       this.$router.push("/lpa/audit");
     },
     setAuditedUser(event: any) {
-      this.audited_user_id = event;
+      this.audited_user_id = event.toString();
     },
     concateRhythm(type: string, values: string[]) {
       if (type === "weekly") {
@@ -653,6 +645,11 @@ export default defineComponent({
       );
       this.closePopupCreateAudit();
     },
+    checkIfUserIsAssigned(){
+      if(this.audited_user_id === 'null'){
+        return false
+      } return true
+    }
   },
 });
 </script>
