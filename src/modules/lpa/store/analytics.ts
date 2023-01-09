@@ -81,6 +81,7 @@ export const useAnalytics = defineStore('Analytics', {
     }),
     actions: {
         async fetchTestAuditLast6Months(){
+            this.testAuditLast6MonthsSeries = [];
             // append green values
             var tmp = [] as number[];
             for (let i = 0; i < this.testAuditLast6Months.length; i++){
