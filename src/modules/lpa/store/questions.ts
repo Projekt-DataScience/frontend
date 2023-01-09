@@ -44,6 +44,18 @@ export const useQuestions = defineStore('Questions', {
                 console.log(error);
             }
         },
+        async fetchQuestionsWithAnalytics(){
+            try {
+                const response = await axios.get(
+                    import.meta.env.VITE_GW_AUDIT_URL + "analytics/questions",
+                    authHeader()
+                );
+                this.questionsWithAnalytics = response.data;
+            } catch (error) {
+                alert(error);
+                console.log(error);
+            }
+        },
         async fetchAnswersPerQuestion() {
             for (let i = 0; i < this.questions.length; i++) {
                 var answerByQuestion = {} as AnswerByQuestion;

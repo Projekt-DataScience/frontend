@@ -66,7 +66,33 @@
             </div>
           </div>
         </div>
-        <div v-if="currentTab === 'question'">Hier könnten weitere Auswertungen zu Fragen stehen</div>
+        <div v-if="currentTab === 'question'">
+          <div>Hier könnten Fragenauswertungen stehen</div>
+          <!--<div v-for="(item, index) in questions" :key="index">
+             <AppListContainer :isLast="getStatus(item, questions)">
+              <template #wrapperLeft>
+                <div class="mr-4">
+                  <AppIconLibrary icon="checkbox" type="active" styling="h-5 w-full text-gray-400"></AppIconLibrary>
+                </div>
+              </template>
+              <template #wrapperContent>
+                <AppListTextAndSubText :text="item.question" :subtext="[
+                  {
+                    text: item.question.layer.layer_name,
+                  },
+                  {
+                    text: item.question.group.group_name,
+                  },
+                ]"></AppListTextAndSubText>
+              </template>
+              <template #wrapperRight>
+                <LPAQuestionBar :green="item.num_green" :yellow="item.num_yellow"
+                  :red="item.num_red"></LPAQuestionBar>
+                <AppButtonOption v-bind:isVertical="false"></AppButtonOption>
+              </template>
+            </AppListContainer>
+          </div> -->
+        </div>
       </template>
     </AppPageLayout>
   </div>
@@ -79,9 +105,12 @@ import { AppPageLayout, AppSearchAndFilterBar, AppContainer, AppInputDropDown } 
 
 import { AnswerReason } from "../interfaces/answerReason";
 import { useAnalytics } from "../store/analytics";
+import { useQuestions } from "../store/questions";
 import { AuditAnalytics } from "../interfaces/auditAnalytics";
 
 import VueApexCharts from "vue3-apexcharts";
+import { Question } from "../interfaces/question";
+import { QuestionAndAnalytics } from "../interfaces/questionAndAnalytics";
 
 export interface ApexBarChart {
   name: string;
@@ -125,6 +154,18 @@ export default defineComponent({
       );
     }
 
+    // Test AuditLast6Months
+    await store.fetchTestAuditLast6Months();
+    this.auditLast6MonthsSeries = store.testAuditLast6MonthsSeries;
+
+    for (let i = 0; i < store.testAuditLast6Months.length; i++) {
+      var year = store.testAuditLast6Months[i].year;
+      var month = store.testAuditLast6Months[i].month;
+      this.auditLast6MonthsOptions.xaxis.categories.push(
+        month + "/01/" + year + " GMT"
+      );
+    }
+
     // AuditPerGroupLast6Months
     await store.fetchAuditPerGroupLast6Months();
     this.auditPerGroupLast6MonthsSeries = store.auditPerGroupLast6MonthsSeries;
@@ -135,12 +176,18 @@ export default defineComponent({
       );
     }
 
+    // QuestionAnalysis
+    /*const questionStore = useQuestions();
+    await questionStore.fetchQuestionsWithAnalytics();
+    this.questions = questionStore.questionsAndAnalytics;*/
+
     // data is ready -> render page
     this.dataReady = true;
   },
   data() {
     return {
       dataReady: false,
+      questions: [] as QuestionAndAnalytics[],
       options: [
         {
           id: 0,
@@ -156,13 +203,14 @@ export default defineComponent({
         chart: {
           type: "bar",
           height: 350,
+          width: '95%',
           stacked: true,
           stackType: '100%',
           toolbar: {
-            show: true,
+            show: false,
           },
           zoom: {
-            enabled: true,
+            enabled: false,
           },
         },
         responsive: [
@@ -190,7 +238,7 @@ export default defineComponent({
                 },
               },
             },
-          },
+          }
         },
         xaxis: {
           type: "category",
@@ -206,11 +254,12 @@ export default defineComponent({
         legend: {
           position: "right",
           offsetY: 40,
+          offsetX: -20,
         },
         fill: {
           opacity: 1,
         },
-        colors: ["#1fd537", "#FFC537", "#E40010"],
+        colors: ["#1fd537", "#FFC537", "#E40010"]
       },
       auditPerGroupLast6MonthsSeries: [] as ApexBarChart[],
       auditLast6MonthsOptions: {
@@ -219,10 +268,10 @@ export default defineComponent({
           height: 350,
           stacked: true,
           toolbar: {
-            show: true,
+            show: false,
           },
           zoom: {
-            enabled: true,
+            enabled: false,
           },
         },
         responsive: [
@@ -259,6 +308,7 @@ export default defineComponent({
         legend: {
           position: "right",
           offsetY: 40,
+          offsetX: -20,
         },
         fill: {
           opacity: 1,
@@ -279,8 +329,8 @@ export default defineComponent({
           data: [1, 0, 1, 0, 0, 3],
         },
       ] as ApexBarChart[],
-      auditLast6MonthsSeries: [] as ApexBarChart[]
-    };
+      auditLast6MonthsSeries: [] as ApexBarChart[],
+    }
   },
   methods: {
     setReasonsByDropdown(event: any) {
@@ -307,6 +357,13 @@ export default defineComponent({
     },
     setActiveTab(tab: string) {
       this.currentTab = tab;
+    },
+    getStatus(item: any, array: any) {
+      if (item === array[array.length - 1]) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 });

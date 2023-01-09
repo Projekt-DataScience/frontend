@@ -125,7 +125,7 @@ export const useAnalytics = defineStore('Analytics', {
 
                 // fill auditLast6MonthsSeries Array
                 this.auditLast6MonthsSeries = []
-                if(this.auditLast6Months.length === 0){
+                if (this.auditLast6Months.length === 0) {
                     this.auditLast6MonthsSeries = [
                         {
                             name: 'Grün',
@@ -140,10 +140,10 @@ export const useAnalytics = defineStore('Analytics', {
                             data: [0, 0, 0, 0, 0, 0,]
                         }
                     ]
-                }else{
+                } else {
                     // append green values
                     var tmp = [] as number[];
-                    for (let i = 0; i < this.auditLast6Months.length; i++){
+                    for (let i = 0; i < this.auditLast6Months.length; i++) {
                         tmp.push(this.auditLast6Months[i].num_green);
                     }
                     this.auditLast6MonthsSeries.push(
@@ -154,7 +154,7 @@ export const useAnalytics = defineStore('Analytics', {
                     );
                     // append yellow values
                     var tmp = [] as number[];
-                    for (let i = 0; i < this.auditLast6Months.length; i++){
+                    for (let i = 0; i < this.auditLast6Months.length; i++) {
                         tmp.push(this.auditLast6Months[i].num_yellow);
                     }
                     this.auditLast6MonthsSeries.push(
@@ -165,7 +165,7 @@ export const useAnalytics = defineStore('Analytics', {
                     );
                     // append red values
                     var tmp = [] as number[];
-                    for (let i = 0; i < this.auditLast6Months.length; i++){
+                    for (let i = 0; i < this.auditLast6Months.length; i++) {
                         tmp.push(this.auditLast6Months[i].num_red);
                     }
                     this.auditLast6MonthsSeries.push(
@@ -189,7 +189,7 @@ export const useAnalytics = defineStore('Analytics', {
 
                 // fill auditLast6MonthsSeries Array
                 this.auditPerGroupLast6MonthsSeries = []
-                if(this.auditPerGroupLast6Months.length === 0){
+                if (this.auditPerGroupLast6Months.length === 0) {
                     this.auditPerGroupLast6MonthsSeries = [
                         {
                             name: 'Grün',
@@ -204,10 +204,10 @@ export const useAnalytics = defineStore('Analytics', {
                             data: [0, 0, 0, 0, 0, 0,]
                         }
                     ]
-                }else{
+                } else {
                     // append green values
                     var tmp = [] as number[];
-                    for (let i = 0; i < this.auditPerGroupLast6Months.length; i++){
+                    for (let i = 0; i < this.auditPerGroupLast6Months.length; i++) {
                         tmp.push(Math.round(this.auditPerGroupLast6Months[i].percent_green * 100));
                     }
                     this.auditPerGroupLast6MonthsSeries.push(
@@ -218,7 +218,7 @@ export const useAnalytics = defineStore('Analytics', {
                     );
                     // append yellow values
                     var tmp = [] as number[];
-                    for (let i = 0; i < this.auditPerGroupLast6Months.length; i++){
+                    for (let i = 0; i < this.auditPerGroupLast6Months.length; i++) {
                         tmp.push(Math.round(this.auditPerGroupLast6Months[i].percent_yellow * 100));
                     }
                     this.auditPerGroupLast6MonthsSeries.push(
@@ -229,7 +229,7 @@ export const useAnalytics = defineStore('Analytics', {
                     );
                     // append red values
                     var tmp = [] as number[];
-                    for (let i = 0; i < this.auditPerGroupLast6Months.length; i++){
+                    for (let i = 0; i < this.auditPerGroupLast6Months.length; i++) {
                         tmp.push(Math.round(this.auditPerGroupLast6Months[i].percent_red * 100));
                     }
                     this.auditPerGroupLast6MonthsSeries.push(
