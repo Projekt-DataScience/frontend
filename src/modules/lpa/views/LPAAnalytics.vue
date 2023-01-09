@@ -44,7 +44,7 @@
             <div class="col-span-1">
               <AppContainer containerName="Auditergebnisse">
                 <template #content>
-                  <VueApexCharts height="350px" type="bar" :options="auditLast6MonthsOptions"
+                  <VueApexCharts height="350px" width="99%" type="bar" :options="auditLast6MonthsOptions"
                     :series="auditLast6MonthsSeries"></VueApexCharts>
                 </template>
               </AppContainer>
@@ -52,7 +52,7 @@
             <div class="col-span-1">
               <AppContainer containerName="Gruppenergebnisse">
                 <template #content>
-                  <VueApexCharts height="350px" type="bar" :options="auditPerGroupLast6MonthsOptions"
+                  <VueApexCharts height="350px" width="99%" type="bar" :options="auditPerGroupLast6MonthsOptions"
                     :series="auditPerGroupLast6MonthsSeries"></VueApexCharts>
                 </template>
               </AppContainer>
@@ -66,7 +66,7 @@
             </div>
           </div>
         </div>
-        <div v-if="currentTab === 'question'">Fragenauswertung</div>
+        <div v-if="currentTab === 'question'">Hier könnten weitere Auswertungen zu Fragen stehen</div>
       </template>
     </AppPageLayout>
   </div>
@@ -102,12 +102,24 @@ export default defineComponent({
     const store = useAnalytics();
 
     // AuditLast6Months
-    await store.fetchAuditLast6Months();
-    this.auditLast6MonthsSeries = store.auditLast6MonthsSeries;
+    // await store.fetchAuditLast6Months();
+    // this.auditLast6MonthsSeries = store.auditLast6MonthsSeries;
 
-    for (let i = 0; i < store.auditLast6Months.length; i++) {
-      var year = store.auditLast6Months[i].year;
-      var month = store.auditLast6Months[i].month;
+    // for (let i = 0; i < store.auditLast6Months.length; i++) {
+    //   var year = store.auditLast6Months[i].year;
+    //   var month = store.auditLast6Months[i].month;
+    //   this.auditLast6MonthsOptions.xaxis.categories.push(
+    //     month + "/01/" + year + " GMT"
+    //   );
+    // }
+
+    // test AuditLast6Months with sample Data (currently we have no data stored in the database)
+    await store.fetchTestAuditLast6Months();
+    this.auditLast6MonthsSeries = store.testAuditLast6MonthsSeries;
+
+    for (let i = 0; i < store.testAuditLast6Months.length; i++) {
+      var year = store.testAuditLast6Months[i].year;
+      var month = store.testAuditLast6Months[i].month;
       this.auditLast6MonthsOptions.xaxis.categories.push(
         month + "/01/" + year + " GMT"
       );
@@ -253,68 +265,6 @@ export default defineComponent({
         },
         colors: ["#1fd537", "#FFC537", "#E40010"],
       },
-      testAudit: [
-        {
-          month: 12,
-          year: 2022,
-          num_green: 6,
-          num_yellow: 4,
-          num_red: 3,
-          percent_green: 0.46153846153846156,
-          percent_yellow: 0.3076923076923077,
-          percent_red: 0.23076923076923078,
-        },
-        {
-          month: 11,
-          year: 2022,
-          num_green: 6,
-          num_yellow: 4,
-          num_red: 3,
-          percent_green: 0.46153846153846156,
-          percent_yellow: 0.3076923076923077,
-          percent_red: 0.23076923076923078,
-        },
-        {
-          month: 10,
-          year: 2022,
-          num_green: 6,
-          num_yellow: 4,
-          num_red: 3,
-          percent_green: 0.46153846153846156,
-          percent_yellow: 0.3076923076923077,
-          percent_red: 0.23076923076923078,
-        },
-        {
-          month: 9,
-          year: 2022,
-          num_green: 6,
-          num_yellow: 4,
-          num_red: 3,
-          percent_green: 0.46153846153846156,
-          percent_yellow: 0.3076923076923077,
-          percent_red: 0.23076923076923078,
-        },
-        {
-          month: 8,
-          year: 2022,
-          num_green: 6,
-          num_yellow: 4,
-          num_red: 3,
-          percent_green: 0.46153846153846156,
-          percent_yellow: 0.3076923076923077,
-          percent_red: 0.23076923076923078,
-        },
-        {
-          month: 7,
-          year: 2022,
-          num_green: 6,
-          num_yellow: 4,
-          num_red: 3,
-          percent_green: 0.46153846153846156,
-          percent_yellow: 0.3076923076923077,
-          percent_red: 0.23076923076923078,
-        },
-      ] as AuditAnalytics[],
       testSeries: [
         {
           name: "Grün",
